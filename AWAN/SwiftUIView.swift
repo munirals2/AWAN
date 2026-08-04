@@ -14,22 +14,53 @@ struct SwiftUIView: View {
                             .resizable()
                             .scaledToFill()
                             .ignoresSafeArea()
-            VStack(spacing: 2) {
+            VStack(spacing: 1) {
 
                 Text("أوَانْ")
                     .font(.system(size: 70))
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(
+                        Color(
+                            red: 96/255,
+                            green: 157/255,
+                            blue: 220/255
+                        )
+                    )
                     .bold()
-
                 Image("OLD")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 420, height: 420)
+                Button(action:{}){
+                    Text("Next")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(
+                            Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            )
+                        )
+                        .cornerRadius(15)
+                }
+                .padding(.horizontal, 30)
+                .padding(.top, 20)
+
 
                 Text("Never Miss\nYour Medication")
                     .font(.system(size: 36))
                     .fontWeight(.bold)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(
+                        Color(
+                            red: 96/255,
+                            green: 157/255,
+                            blue: 220/255
+
+                        )
+                    )
                     .multilineTextAlignment(.center)
 
                 Text("We'll remind you at the right time so you never forget your medicine.")
@@ -48,13 +79,16 @@ struct SwiftUIView: View {
                         .fill(Color.blue.opacity(0.3))
                         .frame(width: 10, height: 10)
                 }
-
+                
+                }
+                
                 
             }
             .padding(.top, 60)
+            .offset(y: -50)
         }
     }
-}
+
 
 #Preview {
     SwiftUIView()
