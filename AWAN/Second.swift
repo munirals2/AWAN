@@ -1,13 +1,13 @@
 //
-//  SwiftUIView.swift
+//  Second.swift
 //  AWAN
 //
-//  Created by munirah alsubaie on 20/02/1448 AH.
+//  Created by Norah Yasser Almulhim on 21/02/1448 AH.
 //
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct Second: View {
     var body: some View {
         ZStack{
             Image("back")
@@ -15,7 +15,6 @@ struct SwiftUIView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             VStack(spacing: 1) {
-                
                 
                 Text("أوَانْ")
                     .font(.system(size: 70))
@@ -27,10 +26,12 @@ struct SwiftUIView: View {
                         )
                     )
                     .bold()
-                Image("OLD")
+                
+                Image("OLD2")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 420, height: 420)
+                
                 Button(action:{}){
                     Text("Next")
                         .font(.title)
@@ -51,7 +52,7 @@ struct SwiftUIView: View {
                 .padding(.top, 20)
                 
                 
-                Text("Never Miss\nYour Medication")
+                Text("Organize Your\nMedical Appointments")
                     .font(.system(size: 36))
                     .fontWeight(.bold)
                     .foregroundStyle(
@@ -64,7 +65,7 @@ struct SwiftUIView: View {
                     )
                     .multilineTextAlignment(.center)
                 
-                Text("We'll remind you at the right time so you never forget your medicine.")
+                Text("Keep all your medical appointments in one place for easy tracking.")
                     .font(.system(size: 16))
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
@@ -72,46 +73,46 @@ struct SwiftUIView: View {
                 
                 HStack(spacing: 10){
                     Circle()
+                        .fill(Color.blue.opacity(0.3))
+                        .frame(width: 10, height: 10)
+                    Circle()
                         .fill(Color.blue)
                         .frame(width: 10, height: 10)
                     Circle()
                         .fill(Color.blue.opacity(0.3))
                         .frame(width: 10, height: 10)
-                    Circle()
-                        .fill(Color.blue.opacity(0.3))
-                        .frame(width: 10, height: 10)
                 }
                 
             }
+            
             .padding(.top, 60)
             .offset(y: -50)
-            VStack{
-                HStack{
-                    Spacer()
-                    
-                    Button(action: {
-                        
-                    }){
-                        Text("Skip")
-                            .font(.headline)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding(.horizontal, 25)
-                .padding(.top, 10)
-                
+        
+            
+        VStack{
+            HStack{
                 Spacer()
                 
+                Button(action: {
+                    
+                }){
+                    Text("Skip")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                }
             }
-           
+            .padding(.horizontal, 25)
+            .padding(.top, 10)
             
-            
+            Spacer()
             
         }
+        }
     }
-    
+
 }
 
+
 #Preview {
-    SwiftUIView()
+    Second()
 }
