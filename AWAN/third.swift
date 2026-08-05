@@ -76,7 +76,7 @@ struct swiftUIView: View {
                         .fill(Color.blue.opacity(0.3))
                         .frame(width: 10, height: 10)
                     Circle()
-                        .fill(Color.blue)  
+                        .fill(Color.blue)
                         .frame(width: 10, height: 10)
                 }
                 
