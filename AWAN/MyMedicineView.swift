@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MedicineView: View {
+struct MyMedicineView: View {
     var body: some View {
 
         ZStack {
@@ -313,82 +313,25 @@ struct MedicineView: View {
                 
             }
             .offset(y: 200) //المسافة بين المستطيلات
-        
-        
             
-            
-            // البار اللي تحت
-            VStack {
-                Spacer()
+            Button {
                 
-                HStack {
-                    
-                   
-                    VStack(spacing: 5) {
-                        Image(systemName: "square.stack.3d.up")
-                            .font(.system(size: 25))
-                            .foregroundColor(.blue)
-                        
-                        Text("List")
-                            .font(.caption)
-                            .foregroundColor(.blue)
-                            
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 5) {
-                         Image(systemName: "calendar")
-                             .font(.system(size: 25))
-                             .foregroundColor(.blue)
-                         
-                         Text("Appointments")
-                             .font(.caption)
-                             .foregroundColor(.blue)
-                             
-                     }
-                     
-                     Spacer()
-                     
-                     VStack(spacing: 5) {
-                         Image(systemName: "pill")
-                             .font(.system(size: 25))
-                             .foregroundColor(.blue)
-                            
-                         
-                         Text("Medications")
-                             .font(.caption)
-                             .foregroundColor(.blue)
-                         
-                         
-                             }
-                     
-                     .padding(.horizontal, 18)
-                     .padding(.vertical, 12)
-                     .background(
-                         RoundedRectangle(cornerRadius: 22)
-                             .fill(Color.blue.opacity(0.12))
-                     )
-                }
-                
-                
-                
-                .padding(.horizontal, 40)
-                .padding(.vertical, 15)
-                .background(
-                    RoundedRectangle(cornerRadius: 35) // white menu bar
-                        .fill(Color.white)
-                        .shadow(radius: 5)
-                )
-                .padding(.horizontal, 4)
-                .padding(.bottom, 20)
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 30, weight: .medium))
+                    .foregroundColor(.white)
+                    .frame(width: 65, height: 65)
+                    .background(Color.blue)
+                    .clipShape(Circle())
+                    .shadow(radius: 5)
             }
-            }
+            .offset(x: -140, y: 300)
+        }
+        
             
         }
     }
 
 
 #Preview {
-    MedicineView()
-}
+    MyMedicineView() }
