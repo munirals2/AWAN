@@ -87,39 +87,7 @@ struct SchedulePage: View {
         }
     }
 
-    // TABVIEW HERE
     var body: some View {
-        TabView {
-            listTab
-                .tabItem {
-                    Label("List", systemImage: "square.stack.3d.up")
-                }
-
-            appointmentTab
-                .tabItem {
-                    Label("Appointments", systemImage: "calendar")
-                }
-
-            medicineTab
-                .tabItem {
-                    Label("Medicine", systemImage: "pills.fill")
-                }
-        }
-        .tint(accentColor)
-    }
-
-    // Placeholder tab 1
-    private var listTab: some View {
-        Text("List Page")
-    }
-
-    // Placeholder tab 3
-    private var medicineTab: some View {
-        Text("Medicine Page")
-    }
-
-    // The actual appointment screen — everything we built so far
-    private var appointmentTab: some View {
         ZStack {
             Image("back").resizable().scaledToFill().ignoresSafeArea()
 
@@ -354,5 +322,7 @@ struct SchedulePage: View {
 }
 
 #Preview {
-    SchedulePage()
+    NavigationStack {
+        SchedulePage()
+    }
 }
