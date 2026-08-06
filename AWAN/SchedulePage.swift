@@ -9,7 +9,7 @@ struct SchedulePage: View {
     @State private var hospitalName: String = ""
     @State private var visitReason: String = ""
     @State private var reminderOn: Bool = true
-    @State private var selectedDay: Int = 20
+    @State private var selectedDate: Date? = nil
     @State private var selectedTime: Date = {
         var comps = DateComponents()
         comps.hour = 10
@@ -18,8 +18,21 @@ struct SchedulePage: View {
     }()
     @State private var showTimePicker: Bool = false
 
+    @State private var currentMonth: Date = {
+        var comps = DateComponents()
+        comps.year = 2026
+        comps.month = 5
+        comps.day = 1
+        return Calendar.current.date(from: comps) ?? Date()
+    }()
+
+    @State private var showMonthPicker: Bool = false
+    @State private var pickerMonth: Int = 5
+    @State private var pickerYear: Int = 2026
+
     let accentColor = Color(red: 0.38, green: 0.62, blue: 0.86)
     let fieldBackground = Color(red: 0.90, green: 0.93, blue: 0.98)
+    private let calendar = Calendar.current
 
     private var formattedTime: String {
         let formatter = DateFormatter()
@@ -27,191 +40,311 @@ struct SchedulePage: View {
         return formatter.string(from: selectedTime)
     }
 
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                Image("back").resizable().scaledToFill().ignoresSafeArea()
+    private var monthTitle: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        return formatter.string(from: currentMonth)
+    }
 
-                ScrollView {
-                    VStack {
-                        HStack {
-                            Image(systemName: "chevron.backward")
-                                .padding(.top, 20).padding()
-                                .foregroundStyle(accentColor).bold()
-                            Spacer()
-                        }
+    private var gridDays: [(date: Date, inCurrentMonth: Bool)] {
+        guard let monthRange = calendar.range(of: .day, in: .month, for: currentMonth),
+              let firstOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: currentMonth))
+        else { return [] }
 
-                        HStack {
-                            Image("schedulee").resizable().scaledToFit().frame(width: 50, height: 50).padding()
+        let firstWeekday = calendar.component(.weekday, from: firstOfMonth)
+        let leadingBlanks = firstWeekday - 1
 
-                            VStack(alignment: .leading) {
-                                Text("Add an appointment")
-                                    .padding(.trailing)
-                                    .foregroundStyle(accentColor).bold()
-                                Text("Add your appointment details to remind you at the right time.")
-                                    .padding(.trailing).foregroundStyle(.gray).font(.caption)
-                            }
-                            Spacer()
-                        }
+        var days: [(Date, Bool)] = []
 
-                        // Calendar card
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(fieldBackground)
-                            .frame(height: 380)
-                            .padding(.horizontal)
-                            .shadow(color: Color.black.opacity(0.11), radius: 8, x: 0, y: 4)
-                            .overlay(
-                                VStack(spacing: 14) {
-                                    HStack {
-                                        Image(systemName: "chevron.backward").foregroundStyle(accentColor).bold()
-                                        Spacer()
-                                        Text("May 2026").foregroundStyle(accentColor).bold()
-                                        Spacer()
-                                        Image(systemName: "chevron.forward").foregroundStyle(accentColor).bold()
-                                    }
-
-                                    HStack {
-                                        ForEach(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], id: \.self) { day in
-                                            Text(day).frame(maxWidth: .infinity).foregroundStyle(accentColor)
-                                        }
-                                    }
-                                    .font(.caption)
-
-                                    dayRow([27,28,29,30,1,2,3], grayedOut: [27,28,29,30])
-                                    dayRow([4,5,6,7,8,9,10])
-                                    dayRow([11,12,13,14,15,16,17])
-                                    dayRow([18,19,20,21,22,23,24])
-                                    dayRow([25,26,27,28,29,30,31])
-                                }
-                                .padding(),
-                                alignment: .top
-                            )
-
-                        // Hospital name field
-                        appointmentField(placeholder: "Enter hospital name", label: "Hospital name", icon: "building.2.fill", text: $hospitalName)
-
-                        // Time field — now tappable
-                        HStack {
-                            Text(formattedTime)
-                                .padding(.horizontal, 14).padding(.vertical, 8)
-                                .background(accentColor)
-                                .foregroundStyle(.white)
-                                .clipShape(Capsule())
-                            Spacer()
-                            Text("Time").foregroundStyle(accentColor).bold()
-                            Image(systemName: "clock.fill")
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(Circle().fill(accentColor))
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 16).fill(fieldBackground))
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                        .onTapGesture {
-                            showTimePicker = true
-                        }
-
-                        // Reason field
-                        appointmentField(placeholder: "Enter visit reason", label: "Visit reason", icon: "clipboard.fill", text: $visitReason)
-
-                        // Reminder toggle
-                        HStack {
-                            Toggle("", isOn: $reminderOn)
-                                .labelsHidden()
-                                .tint(accentColor)
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text("Enable appointment reminder").foregroundStyle(accentColor).bold()
-                                Text("We'll remind you 15 minutes before your appointment").font(.caption).foregroundStyle(.gray)
-                            }
-                            Image(systemName: "bell.fill")
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .background(Circle().fill(accentColor))
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 16).fill(fieldBackground))
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-
-                        // Save button
-                        Button {
-                            // save action
-                        } label: {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                Text("Save appointment").bold()
-                            }
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 16).fill(accentColor))
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 16)
-                        .padding(.bottom, 24)
-                    }
+        if leadingBlanks > 0,
+           let prevMonth = calendar.date(byAdding: .month, value: -1, to: firstOfMonth),
+           let prevMonthRange = calendar.range(of: .day, in: .month, for: prevMonth) {
+            let prevMonthDayCount = prevMonthRange.count
+            for i in stride(from: leadingBlanks, to: 0, by: -1) {
+                let day = prevMonthDayCount - i + 1
+                var comps = calendar.dateComponents([.year, .month], from: prevMonth)
+                comps.day = day
+                if let date = calendar.date(from: comps) {
+                    days.append((date, false))
                 }
             }
-            .sheet(isPresented: $showTimePicker) {
+        }
+
+        for day in monthRange {
+            var comps = calendar.dateComponents([.year, .month], from: firstOfMonth)
+            comps.day = day
+            if let date = calendar.date(from: comps) {
+                days.append((date, true))
+            }
+        }
+
+        return days
+    }
+
+    private func changeMonth(by value: Int) {
+        if let newMonth = calendar.date(byAdding: .month, value: value, to: currentMonth) {
+            currentMonth = newMonth
+        }
+    }
+
+    // TABVIEW HERE
+    var body: some View {
+        TabView {
+            listTab
+                .tabItem {
+                    Label("List", systemImage: "square.stack.3d.up")
+                }
+
+            appointmentTab
+                .tabItem {
+                    Label("Appointments", systemImage: "calendar")
+                }
+
+            medicineTab
+                .tabItem {
+                    Label("Medicine", systemImage: "pills.fill")
+                }
+        }
+        .tint(accentColor)
+    }
+
+    // Placeholder tab 1
+    private var listTab: some View {
+        Text("List Page")
+    }
+
+    // Placeholder tab 3
+    private var medicineTab: some View {
+        Text("Medicine Page")
+    }
+
+    // The actual appointment screen — everything we built so far
+    private var appointmentTab: some View {
+        ZStack {
+            Image("back").resizable().scaledToFill().ignoresSafeArea()
+
+            ScrollView {
                 VStack {
                     HStack {
+                        Image(systemName: "chevron.backward")
+                            .padding(.top, 20).padding()
+                            .foregroundStyle(accentColor).bold()
                         Spacer()
-                        Button("Done") {
-                            showTimePicker = false
-                        }
-                        .bold()
-                        .foregroundStyle(accentColor)
-                        .padding()
                     }
-                    DatePicker("Select time", selection: $selectedTime, displayedComponents: .hourAndMinute)
-                        .datePickerStyle(.wheel)
-                        .labelsHidden()
-                    Spacer()
-                }
-                .presentationDetents([.height(300)])
-            }
-        }
-    }
 
-    // Reusable day row builder
-    @ViewBuilder
-    private func dayRow(_ numbers: [Int], grayedOut: [Int] = []) -> some View {
-        HStack {
-            ForEach(numbers, id: \.self) { number in
-                Text("\(number)")
-                    .frame(width: 32, height: 32)
-                    .foregroundStyle(
-                        selectedDay == number && !grayedOut.contains(number) ? .white :
-                        (grayedOut.contains(number) ? .gray.opacity(0.4) : .black)
-                    )
-                    .background(
-                        Circle().fill(
-                            selectedDay == number && !grayedOut.contains(number) ? accentColor : Color.clear
+                    HStack {
+                        Image("schedulee").resizable().scaledToFit().frame(width: 50, height: 50).padding()
+
+                        VStack(alignment: .leading) {
+                            Text("Add an appointment")
+                                .padding(.trailing)
+                                .foregroundStyle(accentColor).bold()
+                            Text("Add your appointment details to remind you at the right time.")
+                                .padding(.trailing).foregroundStyle(.gray).font(.caption)
+                        }
+                        Spacer()
+                    }
+
+                    // Calendar card
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(fieldBackground)
+                        .frame(height: 380)
+                        .padding(.horizontal)
+                        .shadow(color: Color.black.opacity(0.11), radius: 8, x: 0, y: 4)
+                        .overlay(
+                            VStack(spacing: 14) {
+                                HStack {
+                                    Button {
+                                        changeMonth(by: -1)
+                                    } label: {
+                                        Image(systemName: "chevron.backward").foregroundStyle(accentColor).bold()
+                                    }
+                                    Spacer()
+                                    Text(monthTitle)
+                                        .foregroundStyle(accentColor).bold()
+                                        .onTapGesture {
+                                            pickerMonth = calendar.component(.month, from: currentMonth)
+                                            pickerYear = calendar.component(.year, from: currentMonth)
+                                            showMonthPicker = true
+                                        }
+                                    Spacer()
+                                    Button {
+                                        changeMonth(by: 1)
+                                    } label: {
+                                        Image(systemName: "chevron.forward").foregroundStyle(accentColor).bold()
+                                    }
+                                }
+
+                                HStack {
+                                    ForEach(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], id: \.self) { day in
+                                        Text(day).frame(maxWidth: .infinity).foregroundStyle(accentColor)
+                                    }
+                                }
+                                .font(.caption)
+
+                                let columns = Array(repeating: GridItem(.flexible()), count: 7)
+                                LazyVGrid(columns: columns, spacing: 12) {
+                                    ForEach(gridDays, id: \.date) { item in
+                                        let dayNumber = calendar.component(.day, from: item.date)
+                                        let isSelected = selectedDate != nil && calendar.isDate(item.date, inSameDayAs: selectedDate!)
+
+                                        Text("\(dayNumber)")
+                                            .frame(width: 32, height: 32)
+                                            .foregroundStyle(
+                                                isSelected ? .white :
+                                                (item.inCurrentMonth ? .black : .gray.opacity(0.4))
+                                            )
+                                            .background(
+                                                Circle().fill(isSelected ? accentColor : Color.clear)
+                                            )
+                                            .onTapGesture {
+                                                if item.inCurrentMonth {
+                                                    selectedDate = item.date
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                            .padding(),
+                            alignment: .top
                         )
-                    )
-                    .frame(maxWidth: .infinity)
+
+                    // Hospital name field
+                    appointmentField(placeholder: "Enter hospital name", label: "Hospital name", icon: "building.2.fill", text: $hospitalName)
+
+                    // Time field
+                    HStack {
+                        Image(systemName: "clock.fill")
+                            .foregroundStyle(.white)
+                            .padding(8)
+                            .background(Circle().fill(accentColor))
+                        Text("Time").foregroundStyle(accentColor).bold()
+                        Spacer()
+                        Text(formattedTime)
+                            .padding(.horizontal, 14).padding(.vertical, 8)
+                            .background(accentColor)
+                            .foregroundStyle(.white)
+                            .clipShape(Capsule())
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 16).fill(fieldBackground))
+                    .padding(.horizontal)
+                    .padding(.top, 8)
                     .onTapGesture {
-                        if !grayedOut.contains(number) {
-                            selectedDay = number
+                        showTimePicker = true
+                    }
+
+                    // Reason field
+                    appointmentField(placeholder: "Enter visit reason", label: "Visit reason", icon: "clipboard.fill", text: $visitReason)
+
+                    // Reminder toggle
+                    HStack {
+                        Image(systemName: "bell.fill")
+                            .foregroundStyle(.white)
+                            .padding(8)
+                            .background(Circle().fill(accentColor))
+                        VStack(alignment: .leading) {
+                            Text("Enable appointment reminder").foregroundStyle(accentColor).bold()
+                            Text("We'll remind you 15 minutes before your appointment")
+                                .font(.caption).foregroundStyle(.gray)
+                        }
+                        Spacer()
+                        Toggle("", isOn: $reminderOn)
+                            .labelsHidden()
+                            .tint(accentColor)
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 16).fill(fieldBackground))
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+
+                    // Save button
+                    Button {
+                        // save action
+                    } label: {
+                        HStack {
+                            Image(systemName: "checkmark")
+                            Text("Save appointment").bold()
+                        }
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 16).fill(accentColor))
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 16)
+                    .padding(.bottom, 24)
+                }
+            }
+        }
+        .sheet(isPresented: $showTimePicker) {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("Done") {
+                        showTimePicker = false
+                    }
+                    .bold()
+                    .foregroundStyle(accentColor)
+                    .padding()
+                }
+                DatePicker("Select time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                Spacer()
+            }
+            .presentationDetents([.height(300)])
+        }
+        .sheet(isPresented: $showMonthPicker) {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("Done") {
+                        var comps = DateComponents()
+                        comps.year = pickerYear
+                        comps.month = pickerMonth
+                        comps.day = 1
+                        if let newDate = calendar.date(from: comps) {
+                            currentMonth = newDate
+                        }
+                        showMonthPicker = false
+                    }
+                    .bold()
+                    .foregroundStyle(accentColor)
+                    .padding()
+                }
+                HStack {
+                    Picker("Month", selection: $pickerMonth) {
+                        ForEach(1...12, id: \.self) { month in
+                            Text(calendar.monthSymbols[month - 1]).tag(month)
                         }
                     }
+                    .pickerStyle(.wheel)
+
+                    Picker("Year", selection: $pickerYear) {
+                        ForEach(2020...2035, id: \.self) { year in
+                            Text(String(year)).tag(year)
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                }
+                Spacer()
             }
+            .presentationDetents([.height(300)])
         }
     }
 
-    // Reusable field builder (hospital name / visit reason)
     @ViewBuilder
     private func appointmentField(placeholder: String, label: String, icon: String, text: Binding<String>) -> some View {
         HStack {
-            TextField(placeholder, text: text)
-            Spacer()
-            Text(label).foregroundStyle(accentColor).bold()
             Image(systemName: icon)
                 .foregroundStyle(.white)
                 .padding(8)
                 .background(Circle().fill(accentColor))
+            Text(label).foregroundStyle(accentColor).bold()
+            TextField(placeholder, text: text)
+                .padding(.leading, 8)
+            Spacer()
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 16).fill(fieldBackground))
