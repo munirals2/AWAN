@@ -34,7 +34,11 @@ struct MyMedicineView: View {
                         Text("My Medicines")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            ))
                         
                         Text("1 of 4 taken today")
                             .font(.system(size: 14))
@@ -79,7 +83,11 @@ struct MyMedicineView: View {
                 VStack(spacing: 95) {
                     
                     Circle()
-                        .fill(Color.green)
+                        .fill(Color(
+                            red: 120/255,
+                            green: 200/255,
+                            blue: 130/255
+                        ))
                         .frame(width: 35, height: 35)
                         .overlay(
                             Image(systemName: "checkmark")
@@ -88,7 +96,11 @@ struct MyMedicineView: View {
                         )
                     
                     Circle()
-                        .fill(Color.blue)
+                        .fill(Color(
+                            red: 96/255,
+                            green: 157/255,
+                            blue: 220/255
+                        ))
                         .frame(width: 35, height: 35)
                         .overlay(
                             Circle()
@@ -139,7 +151,11 @@ struct MyMedicineView: View {
                         Text("Metformin | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            ))
                     }
                     
                     Spacer()
@@ -151,7 +167,11 @@ struct MyMedicineView: View {
                         .padding(.vertical, 6)
                         .background(
                             Capsule()
-                                .fill(Color.green)
+                                .fill(Color(
+                                    red: 120/255,
+                                    green: 200/255,
+                                    blue: 130/255
+                                ))
                         )
                 }
                 .padding()
@@ -187,7 +207,11 @@ struct MyMedicineView: View {
                         Text("Lisinopril | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            ))
                     }
                     
                     Spacer()
@@ -199,7 +223,11 @@ struct MyMedicineView: View {
                         .padding(.vertical, 6)
                         .background(
                             Capsule()
-                                .fill(Color.blue)
+                                .fill(Color(
+                                    red: 96/255,
+                                    green: 157/255,
+                                    blue: 220/255
+                                ))
                         )
                 }
                 .padding()
@@ -235,7 +263,11 @@ struct MyMedicineView: View {
                         Text("Vitamin D | 2 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            ))
                     }
                     
                     Spacer()
@@ -247,7 +279,11 @@ struct MyMedicineView: View {
                         .padding(.vertical, 6)
                         .background(
                             Capsule()
-                                .fill(Color.orange)
+                                .fill(Color(
+                                    red: 255/255,
+                                    green: 180/255,
+                                    blue: 90/255
+                                ))
                             
                         )
                 }
@@ -284,7 +320,11 @@ struct MyMedicineView: View {
                         Text("Atorvastatin | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            ))
                     }
                     
                     Spacer()
@@ -321,7 +361,11 @@ struct MyMedicineView: View {
                     .font(.system(size: 30, weight: .medium))
                     .foregroundColor(.white)
                     .frame(width: 65, height: 65)
-                    .background(Color.blue)
+                    .background(Color(
+                        red: 96/255,
+                        green: 157/255,
+                        blue: 220/255
+                    ))
                     .clipShape(Circle())
                     .shadow(radius: 5)
             }
@@ -331,6 +375,32 @@ struct MyMedicineView: View {
             
         }
     }
+struct CustomProgressViewStyle: ProgressViewStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        
+        GeometryReader { geometry in
+            
+            ZStack(alignment: .leading) {
+                
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(red: 190/255,
+                                green: 215/255,
+                                blue: 240/255))
+                
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(
+                        red: 120/255,
+                        green: 175/255,
+                        blue: 225/255
+                    ))
+                    .frame(
+                        width: geometry.size.width *
+                        CGFloat(configuration.fractionCompleted ?? 0)
+                    )
+            }
+        }
+    }
+}
 
 
 #Preview {
