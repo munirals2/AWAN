@@ -60,6 +60,12 @@ struct AddMed: View {
                 .padding(.top, 4)
                 .padding(.bottom, 30)
             }
+            // makes the ScrollView take all the remaining height,
+            // otherwise it shrinks to its content and never scrolls
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden)
+            // tap or scroll anywhere to close the keyboard
+            .scrollDismissesKeyboard(.interactively)
         }
         // IMPORTANT: the background goes here, not as a ZStack layer.
         //
@@ -73,6 +79,8 @@ struct AddMed: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
+                // the background must not steal taps from the buttons above it
+                .allowsHitTesting(false)
         )
         .alert("Tablets per dose", isPresented: $showCustomAlert){
             TextField("e.g. 4", text: $customDose)
@@ -108,13 +116,17 @@ struct AddMed: View {
                 Spacer()
 
                 Button(action: {
-
+                    print("back tapped")
                 }){
                     Image(systemName: "chevron.right")
                         .font(.system(size: 18))
                         .fontWeight(.semibold)
                         .foregroundColor(mainBlue)
+                        // enlarges the tap area — an icon alone is too small to hit
+                        .frame(width: 40, height: 40)
+                        .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
             }
 
             Text("Add your medicine and set the dose and times that suit you.")
@@ -181,7 +193,10 @@ struct AddMed: View {
             .padding(.vertical, 14)
             .background(cardBlue)
             .cornerRadius(18)
+            .contentShape(Rectangle())
         }
+        // keeps the card looking like a card instead of turning blue like a link
+        .buttonStyle(.plain)
     }
 
     var doseCard: some View {
@@ -205,7 +220,10 @@ struct AddMed: View {
                             .frame(height: 38)
                             .background(doseIndex == i ? mainBlue : Color.white.opacity(0.7))
                             .cornerRadius(10)
+                            // the whole rectangle is tappable, not just the number
+                            .contentShape(Rectangle())
                     }
+                    .buttonStyle(.plain)
                 }
             }
         }
@@ -243,7 +261,10 @@ struct AddMed: View {
                 Image(systemName: "minus.circle")
                     .font(.system(size: 28))
                     .foregroundColor(mainBlue)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
 
             Spacer()
 
@@ -260,7 +281,10 @@ struct AddMed: View {
                 Image(systemName: "plus.circle")
                     .font(.system(size: 28))
                     .foregroundColor(mainBlue)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
@@ -305,7 +329,9 @@ struct AddMed: View {
             .frame(height: 52)
             .background(mainBlue)
             .cornerRadius(15)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
         .padding(.top, 6)
         .disabled(medName.isEmpty)
         .opacity(medName.isEmpty ? 0.5 : 1)
