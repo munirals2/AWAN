@@ -3,39 +3,35 @@ import SwiftUI
 struct MyMedicineView: View {
     var body: some View {
         ZStack {
-            // Background
             Image("background")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
 
-            // Header Card
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color(red: 228/255, green: 238/255, blue: 248/255))
                     .frame(height: 140)
                     .padding(3)
-                
+
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("My Medicines")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                        
+
                         Text("1 of 4 taken today")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
-                        
+
                         ProgressView(value: 1, total: 4)
                             .progressViewStyle(LinearProgressViewStyle())
                             .frame(height: 6)
                             .background(Color.blue.opacity(0.15))
                             .cornerRadius(3)
                     }
-                    
                     Spacer()
-                    
                     Image("CALENDER")
                         .resizable()
                         .scaledToFit()
@@ -43,16 +39,13 @@ struct MyMedicineView: View {
                 }
                 .padding(10)
             }
-            .padding(.top, -375)
+            .padding(.top, -345)
 
-            // TIMELINE
             ZStack {
-                // Line
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .frame(width: 2, height: 450)
-                
-                // Circles
+
                 VStack(spacing: 95) {
                     Circle()
                         .fill(Color(red: 120/255, green: 200/255, blue: 130/255))
@@ -62,7 +55,6 @@ struct MyMedicineView: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         )
-                    
                     Circle()
                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                         .frame(width: 35, height: 35)
@@ -71,7 +63,6 @@ struct MyMedicineView: View {
                                 .fill(Color.white)
                                 .frame(width: 10, height: 10)
                         )
-                    
                     Circle()
                         .fill(Color.white)
                         .overlay(
@@ -79,7 +70,6 @@ struct MyMedicineView: View {
                                 .stroke(Color.gray, lineWidth: 2)
                         )
                         .frame(width: 35, height: 35)
-                    
                     Circle()
                         .fill(Color.white)
                         .overlay(
@@ -90,10 +80,8 @@ struct MyMedicineView: View {
                 }
             }
             .frame(width: 35, height: 450)
-            .offset(x: -170, y: 25)
+            .offset(x: -170, y: 55)
 
-            // Medicine Cards
-            // 8:00 AM
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
@@ -125,7 +113,6 @@ struct MyMedicineView: View {
             }
             .offset(y: -160)
 
-            // 10:00 AM
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
@@ -157,7 +144,6 @@ struct MyMedicineView: View {
             }
             .offset(y: -40)
 
-            // 6:00 PM
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
@@ -189,7 +175,6 @@ struct MyMedicineView: View {
             }
             .offset(y: 80)
 
-            // 9:00 PM
             VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
@@ -221,8 +206,8 @@ struct MyMedicineView: View {
             }
             .offset(y: 200)
         }
-        // FLOATING PLUS BUTTON - RIGHT SIDE
-        // NOW NAVIGATES TO AddMed
+        .navigationTitle("Medications")
+        .navigationBarTitleDisplayMode(.inline)
         .overlay(
             NavigationLink(
                 destination: AddMed()
@@ -238,7 +223,7 @@ struct MyMedicineView: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 20)
-            .padding(.bottom, 60),
+            .padding(.bottom, 80),
             alignment: .bottomTrailing
         )
     }
@@ -250,7 +235,6 @@ struct CustomProgressViewStyle: ProgressViewStyle {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(red: 190/255, green: 215/255, blue: 240/255))
-                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(red: 120/255, green: 175/255, blue: 225/255))
                     .frame(width: geometry.size.width * CGFloat(configuration.fractionCompleted ?? 0))
@@ -259,8 +243,48 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     }
 }
 
+// Preview with full tab bar – all 3 tabs, medications selected
 #Preview {
-    NavigationView {
-        MyMedicineView()
+    MedicinePreviewWrapper()
+}
+
+struct MedicinePreviewWrapper: View {
+    @State private var selectedTab = 2 // 2 = Medications
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            NavigationView {
+                HomeView()
+                    .navigationTitle("Home")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "square.stack.3d.up")
+                Text("List")
+            }
+            .tag(0)
+
+            NavigationView {
+                myapp()
+                    .navigationTitle("Appointments")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "calendar")
+                Text("Appointments")
+            }
+            .tag(1)
+
+            NavigationView {
+                MyMedicineView()
+                    .navigationTitle("Medications")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "pill")
+                Text("Medications")
+            }
+            .tag(2)
+        }
+        .accentColor(Color(red: 96/255, green: 157/255, blue: 220/255))
     }
 }
