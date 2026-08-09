@@ -91,12 +91,26 @@ struct AddMed: View {
     }
 
 
-    // ──────────── Header (back button navigates to MyMedicineView) ────────────
+    // ──────────── Header ────────────
+    // The back button uses dismiss() — NOT NavigationLink.
+    // dismiss() just closes AddMed and returns to whichever screen
+    // was already on the stack (e.g. the MyMedicineView you opened
+    // AddMed from). It does not create anything new.
+    //
+    // Using NavigationLink(destination: MyMedicineView()) here was
+    // the bug: it PUSHES a brand new MyMedicineView onto the stack
+    // every time you tap the back arrow. That new pushed screen has
+    // no idea it's a "duplicate" — SwiftUI automatically gives every
+    // pushed screen its own system back button, which is why a round
+    // "<" button was appearing on MyMedicineView even though you
+    // never added one there yourself.
 
     var header: some View {
         VStack(alignment: .leading, spacing: 4){
             HStack {
-                NavigationLink(destination: MyMedicineView()){
+                Button(action: {
+                    dismiss()
+                }){
                     Image(systemName: "chevron.backward")
                         .foregroundStyle(mainBlue).bold()
                 }
