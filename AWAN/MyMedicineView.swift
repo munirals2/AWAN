@@ -1,44 +1,27 @@
-//
-//  SwiftUIView2.swift
-//  AWAN
-//
-//  Created by Tumadhir Alyahya on 21/02/1448 AH.
-//
-
 import SwiftUI
 
 struct MyMedicineView: View {
     var body: some View {
-
         ZStack {
-
-            // الخلفية
+            // Background
             Image("background")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
 
+            // Header Card
             ZStack {
-                // المستطيل السماوي
                 RoundedRectangle(cornerRadius: 25)
-                    .fill(Color(red: 228/255,
-                                green: 238/255,
-                                blue: 248/255))
+                    .fill(Color(red: 228/255, green: 238/255, blue: 248/255))
                     .frame(height: 140)
-                    .padding(3) //يسار يمين
+                    .padding(3)
                 
                 HStack {
-                    
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         Text("My Medicines")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(
-                                red: 96/255,
-                                green: 157/255,
-                                blue: 220/255
-                            ))
+                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                         
                         Text("1 of 4 taken today")
                             .font(.system(size: 14))
@@ -46,12 +29,9 @@ struct MyMedicineView: View {
                         
                         ProgressView(value: 1, total: 4)
                             .progressViewStyle(LinearProgressViewStyle())
-                        
                             .frame(height: 6)
                             .background(Color.blue.opacity(0.15))
                             .cornerRadius(3)
-                        
-                        
                     }
                     
                     Spacer()
@@ -60,34 +40,22 @@ struct MyMedicineView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 100)
-                    
                 }
                 .padding(10)
-                
-                
-                
-                
             }
-            .padding(.top, -375)   // رفع للادوية
-            //////////////////////////////////////// TIMELINE
-            
+            .padding(.top, -375)
+
+            // TIMELINE
             ZStack {
-                
-                // الخط
+                // Line
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .frame(width: 2, height: 450)
                 
-                
-                // الدوائر
+                // Circles
                 VStack(spacing: 95) {
-                    
                     Circle()
-                        .fill(Color(
-                            red: 120/255,
-                            green: 200/255,
-                            blue: 130/255
-                        ))
+                        .fill(Color(red: 120/255, green: 200/255, blue: 130/255))
                         .frame(width: 35, height: 35)
                         .overlay(
                             Image(systemName: "checkmark")
@@ -96,18 +64,13 @@ struct MyMedicineView: View {
                         )
                     
                     Circle()
-                        .fill(Color(
-                            red: 96/255,
-                            green: 157/255,
-                            blue: 220/255
-                        ))
+                        .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                         .frame(width: 35, height: 35)
                         .overlay(
                             Circle()
                                 .fill(Color.white)
                                 .frame(width: 10, height: 10)
                         )
-
                     
                     Circle()
                         .fill(Color.white)
@@ -128,280 +91,176 @@ struct MyMedicineView: View {
             }
             .frame(width: 35, height: 450)
             .offset(x: -170, y: 25)
-            
-            ////////////////////////////////////////////////////
-            
-            
-            
-            VStack { // المستطيلات
-                
+
+            // Medicine Cards
+            // 8:00 AM
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         HStack(spacing: 5) {
-                            Image(systemName: "clock") //1
+                            Image(systemName: "clock")
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
-                            
                             Text("8:00 AM")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
                         Text("Metformin | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(
-                                red: 96/255,
-                                green: 157/255,
-                                blue: 220/255
-                            ))
+                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                     }
-                    
                     Spacer()
-                    
                     Text("Taken")
                         .font(.caption)
                         .foregroundColor(.white)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color(
-                                    red: 120/255,
-                                    green: 200/255,
-                                    blue: 130/255
-                                ))
-                        )
+                        .background(Capsule().fill(Color(red: 120/255, green: 200/255, blue: 130/255)))
                 }
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            Color(red: 228/255,
-                                  green: 238/255,
-                                  blue: 248/255)
-                        )
-                )
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
-                
             }
-            .offset(y: -160) //المسافة بين المستطيلات
-            
-            VStack { // المستطيلات
-                
+            .offset(y: -160)
+
+            // 10:00 AM
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         HStack(spacing: 5) {
-                            Image(systemName: "clock") //1
+                            Image(systemName: "clock")
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
-                            
                             Text("10:00 AM")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
                         Text("Lisinopril | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(
-                                red: 96/255,
-                                green: 157/255,
-                                blue: 220/255
-                            ))
+                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                     }
-                    
                     Spacer()
-                    
                     Text("Now")
                         .font(.caption)
                         .foregroundColor(.white)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color(
-                                    red: 96/255,
-                                    green: 157/255,
-                                    blue: 220/255
-                                ))
-                        )
+                        .background(Capsule().fill(Color(red: 96/255, green: 157/255, blue: 220/255)))
                 }
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            Color(red: 228/255,
-                                  green: 238/255,
-                                  blue: 248/255)
-                        )
-                )
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
-                
             }
-            .offset(y: -40) //المسافة بين المستطيلات
-            
-            VStack { // المستطيلات
-                
+            .offset(y: -40)
+
+            // 6:00 PM
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         HStack(spacing: 5) {
-                            Image(systemName: "clock") //3
+                            Image(systemName: "clock")
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
-                            
                             Text("6:00 PM")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
                         Text("Vitamin D | 2 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(
-                                red: 96/255,
-                                green: 157/255,
-                                blue: 220/255
-                            ))
+                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                     }
-                    
                     Spacer()
-                    
                     Text("Soon")
                         .font(.caption)
                         .foregroundColor(.white)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color(
-                                    red: 255/255,
-                                    green: 180/255,
-                                    blue: 90/255
-                                ))
-                            
-                        )
+                        .background(Capsule().fill(Color(red: 255/255, green: 180/255, blue: 90/255)))
                 }
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            Color(red: 228/255,
-                                  green: 238/255,
-                                  blue: 248/255)
-                        )
-                )
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
-                
             }
-            .offset(y: 80) //المسافة بين المستطيلات
-        
-            VStack { // المستطيلات
-                
+            .offset(y: 80)
+
+            // 9:00 PM
+            VStack {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         HStack(spacing: 5) {
-                            Image(systemName: "clock") //4
+                            Image(systemName: "clock")
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
-                            
                             Text("9:00 PM")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
                         Text("Atorvastatin | 1 pill")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(
-                                red: 96/255,
-                                green: 157/255,
-                                blue: 220/255
-                            ))
+                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                     }
-                    
                     Spacer()
-                    
                     Text("Later")
                         .font(.caption)
                         .foregroundColor(.white)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color.gray)
-                        )
+                        .background(Capsule().fill(Color.gray))
                 }
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            Color(red: 228/255,
-                                  green: 238/255,
-                                  blue: 248/255)
-                        )
-                )
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
-                
             }
-            .offset(y: 200) //المسافة بين المستطيلات
-            
-            Button {
-                
-            } label: {
+            .offset(y: 200)
+        }
+        // FLOATING PLUS BUTTON - RIGHT SIDE
+        // NOW NAVIGATES TO AddMed
+        .overlay(
+            NavigationLink(
+                destination: AddMed()
+                    .navigationTitle("New Medicine")
+                    .navigationBarTitleDisplayMode(.inline)
+            ) {
                 Image(systemName: "plus")
                     .font(.system(size: 30, weight: .medium))
                     .foregroundColor(.white)
                     .frame(width: 65, height: 65)
-                    .background(Color(
-                        red: 96/255,
-                        green: 157/255,
-                        blue: 220/255
-                    ))
+                    .background(Color(red: 96/255, green: 157/255, blue: 220/255))
                     .clipShape(Circle())
                     .shadow(radius: 5)
             }
-            .offset(x: -140, y: 300)
-        }
-        
-            
-        }
+            .padding(.trailing, 20)
+            .padding(.bottom, 60),
+            alignment: .bottomTrailing
+        )
     }
+}
+
 struct CustomProgressViewStyle: ProgressViewStyle {
     func makeBody(configuration: Configuration) -> some View {
-        
         GeometryReader { geometry in
-            
             ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(red: 190/255, green: 215/255, blue: 240/255))
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(red: 190/255,
-                                green: 215/255,
-                                blue: 240/255))
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(
-                        red: 120/255,
-                        green: 175/255,
-                        blue: 225/255
-                    ))
-                    .frame(
-                        width: geometry.size.width *
-                        CGFloat(configuration.fractionCompleted ?? 0)
-                    )
+                    .fill(Color(red: 120/255, green: 175/255, blue: 225/255))
+                    .frame(width: geometry.size.width * CGFloat(configuration.fractionCompleted ?? 0))
             }
         }
     }
 }
 
-
 #Preview {
-    MyMedicineView() }
+    NavigationView {
+        MyMedicineView()
+    }
+}

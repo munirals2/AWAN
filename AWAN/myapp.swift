@@ -23,7 +23,6 @@ struct myapp: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
 
-                    // ---- All your existing cards (unchanged) ----
                     // First Card - Welcome Message
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
@@ -35,9 +34,12 @@ struct myapp: View {
                                     .font(.title3)
                                     .bold()
                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+
                                 Text("You have 2 upcoming appointments")
                                     .foregroundColor(.gray)
+
                                 Spacer()
+
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                     .frame(height: 60)
@@ -46,18 +48,23 @@ struct myapp: View {
                                             Image(systemName: "calendar")
                                                 .font(.title2)
                                                 .foregroundColor(.white)
+
                                             VStack(alignment: .leading) {
                                                 Text("Next Appointment")
                                                     .font(.caption)
                                                     .foregroundColor(.white)
+
                                                 Text("Today, 10:00 AM")
                                                     .font(.headline)
                                                     .foregroundColor(.white)
+
                                                 Text("General Check-up")
                                                     .font(.caption2)
                                                     .foregroundColor(.white)
                                             }
+
                                             Spacer()
+
                                             Image(systemName: "chevron.right")
                                                 .foregroundColor(.white)
                                         }
@@ -74,12 +81,15 @@ struct myapp: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         .overlay(
                             HStack(spacing: 0) {
+                                // Date Section
                                 VStack(spacing: 5) {
                                     Text("May")
                                         .foregroundColor(.white)
+
                                     Text("21")
                                         .font(.system(size: 30, weight: .bold))
                                         .foregroundColor(.white)
+
                                     Text("Wed")
                                         .foregroundColor(.white)
                                 }
@@ -89,6 +99,8 @@ struct myapp: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                 )
+
+                                // Details Section
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
                                         Spacer()
@@ -110,18 +122,23 @@ struct myapp: View {
                                         }
                                         Spacer()
                                     }
+
                                     Text("General Check-up")
                                         .bold()
+
                                     Text("Al Habib Hospital")
                                         .foregroundColor(.gray)
+
                                     HStack {
                                         Image(systemName: "clock")
                                         Text("10:00 AM")
+
                                         Image(systemName: "location")
                                         Text("Clinic 2")
                                     }
                                     .font(.caption)
                                     .foregroundColor(.gray)
+
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(.white)
                                         .frame(height: 35)
@@ -129,10 +146,13 @@ struct myapp: View {
                                             HStack {
                                                 Image(systemName: "pills")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+
                                                 Text("Please bring your medications")
                                                     .font(.caption)
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+
                                                 Spacer()
+
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                                             }
@@ -150,12 +170,15 @@ struct myapp: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         .overlay(
                             HStack(spacing: 0) {
+                                // Date Section
                                 VStack(spacing: 5) {
                                     Text("May")
                                         .foregroundColor(.white)
+
                                     Text("28")
                                         .font(.system(size: 30, weight: .bold))
                                         .foregroundColor(.white)
+
                                     Text("Wed")
                                         .foregroundColor(.white)
                                 }
@@ -165,6 +188,8 @@ struct myapp: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                 )
+
+                                // Details Section
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
                                         Text("Upcoming")
@@ -176,18 +201,23 @@ struct myapp: View {
                                             .cornerRadius(10)
                                         Spacer()
                                     }
+
                                     Text("Heart Disease Follow-up")
                                         .bold()
+
                                     Text("Al Habib Hospital")
                                         .foregroundColor(.gray)
+
                                     HStack {
                                         Image(systemName: "clock")
                                         Text("2:30 PM")
+
                                         Image(systemName: "location")
                                         Text("Clinic 6")
                                     }
                                     .font(.caption)
                                     .foregroundColor(.gray)
+
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(.white)
                                         .frame(height: 35)
@@ -195,10 +225,13 @@ struct myapp: View {
                                             HStack {
                                                 Image(systemName: "heart.fill")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+
                                                 Text("Bring your medical reports")
                                                     .font(.caption)
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+
                                                 Spacer()
+
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                                             }
@@ -212,14 +245,12 @@ struct myapp: View {
                 .padding(.horizontal, 25)
                 .padding(.bottom, 20)
             }
-
-            // ---- NEW: Floating Plus Button ----
-            // We use an overlay to place it at the bottom‑right corner
         }
+        // Floating Plus Button - Overlay
         .overlay(
             NavigationLink(
                 destination: SchedulePage()
-                    .navigationTitle("New Appointment") // optional title
+                    .navigationTitle("New Appointment")
                     .navigationBarTitleDisplayMode(.inline)
             ) {
                 Image(systemName: "plus")
@@ -231,14 +262,14 @@ struct myapp: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 20)
-            .padding(.bottom, 30),
+            .padding(.bottom, 60), // Raised to avoid tab bar
             alignment: .bottomTrailing
         )
     }
 }
 
 #Preview {
-    NavigationView {   // add NavigationView for preview
+    NavigationView {
         myapp()
     }
 }
