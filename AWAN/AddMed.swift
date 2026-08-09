@@ -91,6 +91,9 @@ struct AddMed: View {
         .alert("Medicine saved ✓", isPresented: $showSaved){
             Button("OK"){ }
         }
+        // hides the empty system navigation bar so our custom header
+        // stays right at the top
+        .toolbar(.hidden, for: .navigationBar)
         .onChange(of: photoItem){ _, newItem in
             Task{
                 photoData = try? await newItem?.loadTransferable(type: Data.self)
@@ -115,9 +118,9 @@ struct AddMed: View {
 
                 Spacer()
 
-                Button(action: {
-                    print("back tapped")
-                }){
+                // NavigationLink = a button that pushes another screen.
+                // destination: the screen we want to open.
+                NavigationLink(destination: MyMedicineView()){
                     Image(systemName: "chevron.right")
                         .font(.system(size: 18))
                         .fontWeight(.semibold)
@@ -384,6 +387,9 @@ struct AddMed: View {
 }
 
 #Preview {
-    AddMed()
+    // NavigationStack is required for NavigationLink to work.
+    // Without it the arrow does nothing.
+    NavigationStack{
+        AddMed()
+    }
 }
-
