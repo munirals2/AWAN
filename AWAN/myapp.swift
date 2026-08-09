@@ -207,6 +207,90 @@ struct myapp: View {
                                 .padding()
                             }
                         )
+                    ForEach(store.appointments) { appointment in
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
+                            .frame(height: 170)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .overlay(
+                                HStack(spacing: 0) {
+                                    
+                                    VStack(spacing: 5) {
+                                        Text(appointment.date, format: .dateTime.month(.abbreviated))
+                                            .foregroundColor(.white)
+                                        
+                                        Text(appointment.date, format: .dateTime.day())
+                                            .font(.system(size: 30, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        Text(appointment.date, format: .dateTime.weekday(.abbreviated))
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(width: 90)
+                                    .frame(maxHeight: .infinity)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
+                                    )
+                                    
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        
+                                        Text("Upcoming")
+                                            .font(.caption)
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 4)
+                                            .background(
+                                                Color(red: 96/255, green: 157/255, blue: 220/255)
+                                            )
+                                            .cornerRadius(10)
+                                        
+                                        Text(appointment.visitReason)
+                                            .bold()
+                                        
+                                        Text(appointment.hospitalName)
+                                            .foregroundColor(.gray)
+                                        
+                                        HStack {
+                                            Image(systemName: "clock")
+                                            Text(appointment.time, style: .time)
+                                            
+                                            Image(systemName: "location")
+                                            Text("Clinic")
+                                        }
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                        
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(.white)
+                                            .frame(height: 35)
+                                            .overlay(
+                                                HStack {
+                                                    Image(systemName: "heart.fill")
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                    
+                                                    Text("Appointment reminder")
+                                                        .font(.caption)
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                    
+                                                    Spacer()
+                                                    
+                                                    Image(systemName: "chevron.right")
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                }
+                                                .padding(.horizontal)
+                                            )
+                                    }
+                                    .padding()
+                                }
+                            )
+                    }
                 }
                 .padding(.horizontal, 25)
                 .padding(.bottom, 20)
