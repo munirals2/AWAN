@@ -11,6 +11,8 @@ import PhotosUI
 
 struct AddMed: View {
 
+    @Environment(\.dismiss) var dismiss
+
     // App colors — same AWAN blue you used on the home page
     let mainBlue = Color(red: 96/255, green: 157/255, blue: 220/255)
     let cardBlue = Color(red: 222/255, green: 235/255, blue: 248/255)
@@ -60,26 +62,15 @@ struct AddMed: View {
                 .padding(.top, 4)
                 .padding(.bottom, 30)
             }
-            // makes the ScrollView take all the remaining height,
-            // otherwise it shrinks to its content and never scrolls
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollIndicators(.hidden)
-            // tap or scroll anywhere to close the keyboard
             .scrollDismissesKeyboard(.interactively)
         }
-        // IMPORTANT: the background goes here, not as a ZStack layer.
-        //
-        // If you put Image("back").ignoresSafeArea() inside a ZStack,
-        // the ZStack grows to match it and drags the rest of the content
-        // up under the Dynamic Island / camera.
-        // With .background() the image expands but the content stays
-        // safely inside the safe area.
         .background(
             Image("back")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-                // the background must not steal taps from the buttons above it
                 .allowsHitTesting(false)
         )
         .alert("Tablets per dose", isPresented: $showCustomAlert){
@@ -91,8 +82,6 @@ struct AddMed: View {
         .alert("Medicine saved ✓", isPresented: $showSaved){
             Button("OK"){ }
         }
-        // hides the empty system navigation bar so our custom header
-        // stays right at the top
         .toolbar(.hidden, for: .navigationBar)
         .onChange(of: photoItem){ _, newItem in
             Task{
@@ -102,10 +91,22 @@ struct AddMed: View {
     }
 
 
-    // ──────────── Header ────────────
+    // ──────────── Header (with back button, matching SchedulePage's position) ────────────
 
     var header: some View {
         VStack(alignment: .leading, spacing: 4){
+            HStack {
+                Button(action: {
+                    dismiss()
+                }){
+                    Image(systemName: "chevron.backward")
+                        .foregroundStyle(mainBlue).bold()
+                }
+                .buttonStyle(.plain)
+                Spacer()
+            }
+            .padding(.top, 20)
+
             HStack(spacing: 8){
                 Image(systemName: "pills.fill")
                     .font(.system(size: 22))
@@ -118,18 +119,6 @@ struct AddMed: View {
 
                 Spacer()
 
-                // NavigationLink = a button that pushes another screen.
-                // destination: the screen we want to open.
-                NavigationLink(destination: MyMedicineView()){
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 18))
-                        .fontWeight(.semibold)
-                        .foregroundColor(mainBlue)
-                        // enlarges the tap area — an icon alone is too small to hit
-                        .frame(width: 40, height: 40)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
             }
 
             Text("Add your medicine and set the dose and times that suit you.")
@@ -138,7 +127,6 @@ struct AddMed: View {
                 .lineLimit(2)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
         .padding(.bottom, 14)
     }
 
@@ -155,7 +143,6 @@ struct AddMed: View {
                     .fontWeight(.semibold)
                     .foregroundColor(mainBlue)
 
-                // $medName with the dollar sign = the value + permission to edit it
                 TextField("Type the medicine name", text: $medName)
                     .font(.system(size: 14))
             }
@@ -198,7 +185,6 @@ struct AddMed: View {
             .cornerRadius(18)
             .contentShape(Rectangle())
         }
-        // keeps the card looking like a card instead of turning blue like a link
         .buttonStyle(.plain)
     }
 
@@ -210,7 +196,6 @@ struct AddMed: View {
                 .foregroundColor(mainBlue)
 
             HStack(spacing: 8){
-                // ForEach repeats the same button for every option
                 ForEach(doseOptions.indices, id: \.self){ i in
                     Button(action: {
                         doseIndex = i
@@ -223,7 +208,6 @@ struct AddMed: View {
                             .frame(height: 38)
                             .background(doseIndex == i ? mainBlue : Color.white.opacity(0.7))
                             .cornerRadius(10)
-                            // the whole rectangle is tappable, not just the number
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
@@ -342,9 +326,7 @@ struct AddMed: View {
 
 
     // ──────────── Reusable pieces ────────────
-    // Written once instead of repeating the same lines in every card
 
-    /// The small white square that holds an icon
     func iconBox(_ name: String) -> some View {
         Image(systemName: name)
             .font(.system(size: 19))
@@ -354,7 +336,6 @@ struct AddMed: View {
             .cornerRadius(12)
     }
 
-    /// The small label above a group of cards
     func sectionTitle(_ text: String, _ icon: String) -> some View {
         HStack(spacing: 6){
             Image(systemName: icon)
@@ -371,11 +352,8 @@ struct AddMed: View {
     // ──────────── Saving ────────────
 
     func saveMedicine() {
-        // Real count: if "Other" was picked take the typed number, otherwise index + 1
         let count = doseIndex == 3 ? (Int(customDose) ?? 1) : doseIndex + 1
 
-        // For now we print the values to the Console to confirm they arrived correctly.
-        // This is where you would later connect real storage (SwiftData or a database).
         print("Name: \(medName)")
         print("Tablets per dose: \(count)")
         print("First time: \(firstTime.formatted(date: .omitted, time: .shortened))")
@@ -387,8 +365,6 @@ struct AddMed: View {
 }
 
 #Preview {
-    // NavigationStack is required for NavigationLink to work.
-    // Without it the arrow does nothing.
     NavigationStack{
         AddMed()
     }
