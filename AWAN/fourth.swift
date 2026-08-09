@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @State private var showMedicineDetails = false
+    
     var body: some View {
 
         ZStack {
@@ -80,6 +82,7 @@ struct HomeView: View {
                             alignment: .topTrailing
                         )
                     
+                    
                     VStack(spacing: 18) {
                         
                         HStack {
@@ -113,6 +116,8 @@ struct HomeView: View {
                         
                         
                         Button(action: {
+                            
+                            showMedicineDetails = true
                             
                         }) {
                             
@@ -253,6 +258,12 @@ struct HomeView: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
+            
+            .sheet(isPresented: $showMedicineDetails) {
+                MedicineDetailsView()
+                    .presentationDetents([.height(600)])
+                            .presentationDragIndicator(.hidden)
+            }
 
         }
     }
