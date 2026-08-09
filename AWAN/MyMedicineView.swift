@@ -43,7 +43,7 @@ struct MyMedicineView: View {
                 }
                 .padding(10)
             }
-            .padding(.top, -375)
+            .padding(.top, -350)
 
             // TIMELINE
             ZStack {
@@ -221,8 +221,9 @@ struct MyMedicineView: View {
             }
             .offset(y: 200)
         }
-        // FLOATING PLUS BUTTON - RIGHT SIDE
-        // NOW NAVIGATES TO AddMed
+        .navigationTitle("Medications")
+        .navigationBarTitleDisplayMode(.inline)
+        // Plus button raised higher
         .overlay(
             NavigationLink(
                 destination: AddMed()
@@ -238,7 +239,7 @@ struct MyMedicineView: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 20)
-            .padding(.bottom, 60),
+            .padding(.bottom, 110), // raised higher
             alignment: .bottomTrailing
         )
     }
@@ -259,8 +260,48 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     }
 }
 
+
 #Preview {
-    NavigationView {
-        MyMedicineView()
+    MedicinePreviewWrapper()
+}
+
+struct MedicinePreviewWrapper: View {
+    @State private var selectedTab = 2 // Medications tab selected
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            NavigationView {
+                HomeView()
+                    .navigationTitle("Home")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "square.stack.3d.up")
+                Text("List")
+            }
+            .tag(0)
+
+            NavigationView {
+                myapp()
+                    .navigationTitle("Appointments")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "calendar")
+                Text("Appointments")
+            }
+            .tag(1)
+
+            NavigationView {
+                MyMedicineView()
+                    .navigationTitle("Medications")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image(systemName: "pill")
+                Text("Medications")
+            }
+            .tag(2)
+        }
+        .accentColor(Color(red: 96/255, green: 157/255, blue: 220/255))
     }
 }
