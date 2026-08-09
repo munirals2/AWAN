@@ -54,7 +54,8 @@ struct MyMedicineView: View {
                 // Line
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
-                    .frame(width: 2, height: 467)
+                    .frame(width: 2, height: 460)
+                    .offset(x: 1.5, y: -16)
                 
                 // Circles
                 VStack(spacing: 95) {
@@ -66,6 +67,7 @@ struct MyMedicineView: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         )
+                        .offset(x: 1.5, y: 21)
                     
                     Circle()
                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
@@ -94,7 +96,7 @@ struct MyMedicineView: View {
                 }
             }
             .frame(width: 35, height: 450)
-            .offset(x: -170, y: 25)
+            .offset(x: -170, y: 35)
 
             // Medicine Cards
             // 8:00 AM
@@ -127,7 +129,7 @@ struct MyMedicineView: View {
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
             }
-            .offset(y: -160)
+            .offset(y: -140)
 
             // 10:00 AM
             VStack {
@@ -159,7 +161,7 @@ struct MyMedicineView: View {
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
             }
-            .offset(y: -40)
+            .offset(y: -28)
 
             // 6:00 PM
             VStack {
@@ -191,7 +193,7 @@ struct MyMedicineView: View {
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
             }
-            .offset(y: 80)
+            .offset(y: 101)
 
             // 9:00 PM
             VStack {
@@ -223,7 +225,7 @@ struct MyMedicineView: View {
                 .padding(.leading, 70)
                 .padding(.trailing, 20)
             }
-            .offset(y: 200)
+            .offset(y: 230)
         }
         .navigationTitle("Medications")
         .navigationBarTitleDisplayMode(.inline)
