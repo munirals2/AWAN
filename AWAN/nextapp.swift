@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConfirmView: View {
-    
+    @State private var showNextPage = false
     var body: some View {
         
         ZStack {
@@ -31,7 +31,7 @@ struct ConfirmView: View {
                               green: 153/255,
                               blue: 220/255)
                     )
-                    .offset(y: 120)
+                    .offset(y: 50)
                 
                 Spacer()
                     .frame(height: 35)
@@ -44,26 +44,26 @@ struct ConfirmView: View {
                         Text("Al Habib Hospital")
                             .font(.system(size: 30))
                             .foregroundColor(.gray)
-                            .offset(y: 100)
+                            .offset(y: 30)
                             .offset(x: 60)
                         
                         Text("Dr. Ahmed Ali")
                             .font(.system(size: 30))
                             .foregroundColor(.gray)
-                            .offset(y: 135)
+                            .offset(y: 30)
                             .offset(x: 80)
                         
                         Text("10 AM")
                             .font(.system(size: 30))
                             .foregroundColor(.gray)
-                            .offset(y: 140)
-                            .offset(x: 130)
+                            .offset(y: 65)
+                            .offset(x: 125)
                     }
                     
                     Text("Clinic 3")
                         .font(.system(size: 30))
                         .foregroundColor(.gray)
-                        .offset(y: 95)
+                        .offset(y: 70)
                         .offset(x: -130)
                 }
                 
@@ -78,7 +78,7 @@ struct ConfirmView: View {
                               green: 145/255,
                               blue: 225/255)
                     )
-                    .offset(y: 140)
+                    .offset(y: 70)
                 
                 Spacer()
                     .frame(height: 65)
@@ -98,7 +98,7 @@ struct ConfirmView: View {
                                   blue: 220/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 90)
+                        .offset(y: 30)
                 }
                 
                 Spacer()
@@ -123,7 +123,7 @@ struct ConfirmView: View {
                                   blue: 249/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 90)
+                        .offset(y: 30)
                 }
                 
                 Spacer()
@@ -144,7 +144,7 @@ struct ConfirmView: View {
                                   blue: 249/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 90)
+                        .offset(y: 30)
                 }
                 
                 Spacer()
