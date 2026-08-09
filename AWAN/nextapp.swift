@@ -43,17 +43,18 @@ struct ConfirmView: View {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         
-                        Text("Al Habib Hospital | Clinic 3")
-                            .font(.system(size: 30))
-                            .foregroundColor(.gray)
-                            .offset(y: 30)
-                            .offset(x: -0)
+                        Text("Al Habib Hospital - Clinic 3")
+                            .font(.title2)
                         
-                        Text("Dr. Ahmed Ali | 10 AM")
-                            .font(.system(size: 30))
                             .foregroundColor(.gray)
                             .offset(y: 30)
-                            .offset(x: 25)
+                            .offset(x: 5)
+                        
+                        Text("Dr. Ahmed Ali - 10 AM")
+                            .font(.title2)
+                            .foregroundColor(.gray)
+                            .offset(y: 30)
+                            .offset(x: 23)
                        
                     }
                     
@@ -65,13 +66,13 @@ struct ConfirmView: View {
                 
                 // Reminder
                 Text("Please bring your medications")
-                    .font(.system(size: 28))
+                    .font(.system(size: 25))
                     .foregroundColor(
                         Color(red: 50/255,
                               green: 145/255,
                               blue: 225/255)
                     )
-                    .offset(y: 60)
+                    .offset(y: 45)
                 
                 Spacer()
                     .frame(height: 65)
@@ -81,7 +82,9 @@ struct ConfirmView: View {
                     print("Confirmed")
                 }) {
                     Text("Yes, I went")
-                        .font(.system(size: 32, weight: .bold))
+                        .font(.title2 )
+                    
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 60)
@@ -110,7 +113,8 @@ struct ConfirmView: View {
                     dismiss()
                 }) {
                     Text("Remind me in 15 minutes")
-                        .font(.system(size: 30, weight: .semibold))
+                        .font(.title2)
+                        .fontWeight(.bold)
                         .foregroundColor(
                             Color(red: 91/255,
                                   green: 153/255,
@@ -130,13 +134,20 @@ struct ConfirmView: View {
                 Spacer()
                     .frame(height: 15)
                 
+                
+                
+                
+                
+                
+                
                 // Skip Button
                 Button(action: {
                    
                     dismiss()
                 }) {
                     Text("Skip")
-                        .font(.system(size: 30))
+                        .font(.title2)
+                        .fontWeight(.bold)
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)
                         .frame(height: 60)
@@ -151,7 +162,8 @@ struct ConfirmView: View {
                 
                 Spacer()
             }
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 30)
+            
         }
     }
 }
