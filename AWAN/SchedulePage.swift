@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct SchedulePage: View {
-    
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var store: AppointmentStore
     
     @State private var hospitalName: String = ""
@@ -244,6 +244,7 @@ struct SchedulePage: View {
                         )
 
                         store.saveAppointment(newAppointment)
+                        dismiss()
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
