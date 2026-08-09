@@ -2,7 +2,8 @@ import SwiftUI
 
 struct myapp: View {
     @State private var isConfirmed = true
-
+    @StateObject private var appointmentStore = AppointmentStore()
+    
     var body: some View {
         ZStack {
             // Background
@@ -10,7 +11,7 @@ struct myapp: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-
+            
             // Main content
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
@@ -18,11 +19,11 @@ struct myapp: View {
                         .font(.system(size: 35, weight: .bold))
                         .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                         .padding(.top, 50)
-
+                    
                     Text("Here are your upcoming appointments")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-
+                    
                     // First Card - Welcome Message
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
@@ -34,12 +35,12 @@ struct myapp: View {
                                     .font(.title3)
                                     .bold()
                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-
+                                
                                 Text("You have 2 upcoming appointments")
                                     .foregroundColor(.gray)
-
+                                
                                 Spacer()
-
+                                
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                     .frame(height: 60)
@@ -48,32 +49,32 @@ struct myapp: View {
                                             Image(systemName: "calendar")
                                                 .font(.title2)
                                                 .foregroundColor(.white)
-
+                                            
                                             VStack(alignment: .leading) {
                                                 Text("Next Appointment")
                                                     .font(.caption)
                                                     .foregroundColor(.white)
-
+                                                
                                                 Text("Today, 10:00 AM")
                                                     .font(.headline)
                                                     .foregroundColor(.white)
-
+                                                
                                                 Text("General Check-up")
                                                     .font(.caption2)
                                                     .foregroundColor(.white)
                                             }
-
+                                            
                                             Spacer()
-
+                                            
                                             Image(systemName: "chevron.right")
                                                 .foregroundColor(.white)
                                         }
-                                        .padding(.horizontal)
+                                            .padding(.horizontal)
                                     )
                             }
-                            .padding()
+                                .padding()
                         )
-
+                    
                     // Second Card - Appointment 1 (May 21)
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
@@ -85,11 +86,11 @@ struct myapp: View {
                                 VStack(spacing: 5) {
                                     Text("May")
                                         .foregroundColor(.white)
-
+                                    
                                     Text("21")
                                         .font(.system(size: 30, weight: .bold))
                                         .foregroundColor(.white)
-
+                                    
                                     Text("Wed")
                                         .foregroundColor(.white)
                                 }
@@ -99,7 +100,7 @@ struct myapp: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                 )
-
+                                
                                 // Details Section
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
@@ -122,23 +123,23 @@ struct myapp: View {
                                         }
                                         Spacer()
                                     }
-
+                                    
                                     Text("General Check-up")
                                         .bold()
-
+                                    
                                     Text("Al Habib Hospital")
                                         .foregroundColor(.gray)
-
+                                    
                                     HStack {
                                         Image(systemName: "clock")
                                         Text("10:00 AM")
-
+                                        
                                         Image(systemName: "location")
                                         Text("Clinic 2")
                                     }
                                     .font(.caption)
                                     .foregroundColor(.gray)
-
+                                    
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(.white)
                                         .frame(height: 35)
@@ -146,23 +147,23 @@ struct myapp: View {
                                             HStack {
                                                 Image(systemName: "pills")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-
+                                                
                                                 Text("Please bring your medications")
                                                     .font(.caption)
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-
+                                                
                                                 Spacer()
-
+                                                
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                                             }
-                                            .padding(.horizontal)
+                                                .padding(.horizontal)
                                         )
                                 }
                                 .padding()
                             }
                         )
-
+                    
                     // Third Card - Appointment 2 (May 28)
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
@@ -174,11 +175,11 @@ struct myapp: View {
                                 VStack(spacing: 5) {
                                     Text("May")
                                         .foregroundColor(.white)
-
+                                    
                                     Text("28")
                                         .font(.system(size: 30, weight: .bold))
                                         .foregroundColor(.white)
-
+                                    
                                     Text("Wed")
                                         .foregroundColor(.white)
                                 }
@@ -188,7 +189,7 @@ struct myapp: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
                                 )
-
+                                
                                 // Details Section
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
@@ -201,23 +202,23 @@ struct myapp: View {
                                             .cornerRadius(10)
                                         Spacer()
                                     }
-
+                                    
                                     Text("Heart Disease Follow-up")
                                         .bold()
-
+                                    
                                     Text("Al Habib Hospital")
                                         .foregroundColor(.gray)
-
+                                    
                                     HStack {
                                         Image(systemName: "clock")
                                         Text("2:30 PM")
-
+                                        
                                         Image(systemName: "location")
                                         Text("Clinic 6")
                                     }
                                     .font(.caption)
                                     .foregroundColor(.gray)
-
+                                    
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(.white)
                                         .frame(height: 35)
@@ -225,48 +226,136 @@ struct myapp: View {
                                             HStack {
                                                 Image(systemName: "heart.fill")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-
+                                                
                                                 Text("Bring your medical reports")
                                                     .font(.caption)
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-
+                                                
                                                 Spacer()
-
+                                                
                                                 Image(systemName: "chevron.right")
                                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
                                             }
-                                            .padding(.horizontal)
+                                                .padding(.horizontal)
                                         )
                                 }
                                 .padding()
                             }
                         )
+                    ForEach(appointmentStore.appointments) { appointment in
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
+                            .frame(height: 170)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .overlay(
+                                HStack(spacing: 0) {
+                                    
+                                    // Date Section
+                                    VStack(spacing: 5) {
+                                        Text(appointment.date, format: .dateTime.month(.abbreviated))
+                                            .foregroundColor(.white)
+                                        
+                                        Text(appointment.date, format: .dateTime.day())
+                                            .font(.system(size: 30, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        Text(appointment.date, format: .dateTime.weekday(.abbreviated))
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(width: 90)
+                                    .frame(maxHeight: .infinity)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
+                                    )
+                                    
+                                    // Details Section
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        HStack {
+                                            Text("Upcoming")
+                                                .font(.caption)
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 4)
+                                                .background(
+                                                    Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                )
+                                                .cornerRadius(10)
+                                            
+                                            Spacer()
+                                        }
+                                        
+                                        Text(appointment.visitReason)
+                                            .bold()
+                                        
+                                        Text(appointment.hospitalName)
+                                            .foregroundColor(.gray)
+                                        
+                                        HStack {
+                                            Image(systemName: "clock")
+                                            Text(appointment.time, style: .time)
+                                            
+                                            Image(systemName: "location")
+                                            Text("Clinic 2")
+                                        }
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                        
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(.white)
+                                            .frame(height: 35)
+                                            .overlay(
+                                                HStack {
+                                                    Image(systemName: "heart.fill")
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                    
+                                                    Text("Bring your medical reports")
+                                                        .font(.caption)
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                    
+                                                    Spacer()
+                                                    
+                                                    Image(systemName: "chevron.right")
+                                                        .foregroundColor(
+                                                            Color(red: 96/255, green: 157/255, blue: 220/255)
+                                                        )
+                                                }
+                                                .padding(.horizontal)
+                                            )
+                                    }
+                                    .padding()
+                                }
+                            )
+                    }               }
+                    .padding(.horizontal, 25)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 25)
-                .padding(.bottom, 20)
             }
+            // Floating Plus Button - Overlay
+            .overlay(
+                NavigationLink(
+                    destination: SchedulePage(store: appointmentStore)
+                        .navigationTitle("New Appointment")
+                        .navigationBarTitleDisplayMode(.inline)
+                ) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 30, weight: .medium))
+                        .foregroundColor(.white)
+                        .frame(width: 65, height: 65)
+                        .background(Color(red: 96/255, green: 157/255, blue: 220/255))
+                        .clipShape(Circle())
+                        .shadow(radius: 5)
+                }
+                    .padding(.trailing, 20)
+                    .padding(.bottom, 60), // Raised to avoid tab bar
+                alignment: .bottomTrailing
+            )
         }
-        // Floating Plus Button - Overlay
-        .overlay(
-            NavigationLink(
-                destination: SchedulePage()
-                    .navigationTitle("New Appointment")
-                    .navigationBarTitleDisplayMode(.inline)
-            ) {
-                Image(systemName: "plus")
-                    .font(.system(size: 30, weight: .medium))
-                    .foregroundColor(.white)
-                    .frame(width: 65, height: 65)
-                    .background(Color(red: 96/255, green: 157/255, blue: 220/255))
-                    .clipShape(Circle())
-                    .shadow(radius: 5)
-            }
-            .padding(.trailing, 20)
-            .padding(.bottom, 60), // Raised to avoid tab bar
-            alignment: .bottomTrailing
-        )
     }
-}
 
 #Preview {
     NavigationView {

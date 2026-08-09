@@ -6,6 +6,9 @@
 import SwiftUI
 
 struct SchedulePage: View {
+    
+    @ObservedObject var store: AppointmentStore
+    
     @State private var hospitalName: String = ""
     @State private var visitReason: String = ""
     @State private var reminderOn: Bool = true
@@ -228,7 +231,19 @@ struct SchedulePage: View {
 
                     // Save button
                     Button {
-                        // save action
+                        guard let date = selectedDate else {
+                            return
+                        }
+
+                        let newAppointment = Appointment(
+                            date: date,
+                            time: selectedTime,
+                            hospitalName: hospitalName,
+                            visitReason: visitReason,
+                            reminderOn: reminderOn
+                        )
+
+                        store.saveAppointment(newAppointment)
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
@@ -323,6 +338,6 @@ struct SchedulePage: View {
 
 #Preview {
     NavigationStack {
-        SchedulePage()
+        SchedulePage(store: AppointmentStore())
     }
 }
