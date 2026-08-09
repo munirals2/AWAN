@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
-
+import UserNotifications
 struct ConfirmView: View {
     @State private var showNextPage = false
+    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         
         ZStack {
@@ -41,30 +43,21 @@ struct ConfirmView: View {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         
-                        Text("Al Habib Hospital")
+                        Text("Al Habib Hospital | Clinic 3")
                             .font(.system(size: 30))
                             .foregroundColor(.gray)
                             .offset(y: 30)
-                            .offset(x: 60)
+                            .offset(x: -0)
                         
-                        Text("Dr. Ahmed Ali")
+                        Text("Dr. Ahmed Ali | 10 AM")
                             .font(.system(size: 30))
                             .foregroundColor(.gray)
                             .offset(y: 30)
-                            .offset(x: 80)
-                        
-                        Text("10 AM")
-                            .font(.system(size: 30))
-                            .foregroundColor(.gray)
-                            .offset(y: 65)
-                            .offset(x: 125)
+                            .offset(x: 25)
+                       
                     }
                     
-                    Text("Clinic 3")
-                        .font(.system(size: 30))
-                        .foregroundColor(.gray)
-                        .offset(y: 70)
-                        .offset(x: -130)
+                   
                 }
                 
                 Spacer()
@@ -78,7 +71,7 @@ struct ConfirmView: View {
                               green: 145/255,
                               blue: 225/255)
                     )
-                    .offset(y: 70)
+                    .offset(y: 60)
                 
                 Spacer()
                     .frame(height: 65)
@@ -91,14 +84,14 @@ struct ConfirmView: View {
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 70)
+                        .frame(height: 60)
                         .background(
                             Color(red: 91/255,
                                   green: 153/255,
                                   blue: 220/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 30)
+                     
                 }
                 
                 Spacer()
@@ -106,7 +99,15 @@ struct ConfirmView: View {
                 
                 // Remind Button
                 Button(action: {
-                    print("Remind me")
+                    UNUserNotificationCenter.current().requestAuthorization(
+                           options: [.alert, .sound, .badge]
+                       ) { granted, error in
+                           
+                           if granted {
+                               scheduleReminder()
+                           }
+                       }
+                    dismiss()
                 }) {
                     Text("Remind me in 15 minutes")
                         .font(.system(size: 30, weight: .semibold))
@@ -116,14 +117,14 @@ struct ConfirmView: View {
                                   blue: 220/255)
                         )
                         .frame(maxWidth: .infinity)
-                        .frame(height: 70)
+                        .frame(height: 60)
                         .background(
                             Color(red: 226/255,
                                   green: 238/255,
                                   blue: 249/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 30)
+                     
                 }
                 
                 Spacer()
@@ -131,20 +132,21 @@ struct ConfirmView: View {
                 
                 // Skip Button
                 Button(action: {
-                    print("Skipped")
+                   
+                    dismiss()
                 }) {
                     Text("Skip")
                         .font(.system(size: 30))
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 70)
+                        .frame(height: 60)
                         .background(
                             Color(red: 226/255,
                                   green: 238/255,
                                   blue: 249/255)
                         )
                         .cornerRadius(19)
-                        .offset(y: 30)
+                      
                 }
                 
                 Spacer()
@@ -153,7 +155,31 @@ struct ConfirmView: View {
         }
     }
 }
-
+private func scheduleReminder() {
+    
+    let content = UNMutableNotificationContent()
+    
+    content.title = "Appointment Reminder"
+    content.body = "Your appointment is coming up."
+    content.sound = .default
+    
+    let trigger = UNTimeIntervalNotificationTrigger(
+        timeInterval: 15 * 60,
+        repeats: false
+    )
+    
+    let request = UNNotificationRequest(
+        identifier: "appointmentReminder",
+        content: content,
+        trigger: trigger
+    )
+    
+    UNUserNotificationCenter.current().add(request) { error in
+        if let error = error {
+            print("Notification error: \(error)")
+        }
+    }
+}
 #Preview {
     ConfirmView()
 }
