@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var showMedicineDetails = false
-    
+    @State private var showConfirmView = false
     var body: some View {
 
         ZStack {
@@ -223,7 +223,7 @@ struct HomeView: View {
                         .padding(.top, 50)
                         
                         Button(action: {
-                            
+                            showConfirmView = true
                         }) {
                             
                             HStack(spacing: 8) {
@@ -263,6 +263,11 @@ struct HomeView: View {
                 MedicineDetailsView()
                     .presentationDetents([.height(600)])
                             .presentationDragIndicator(.hidden)
+            }
+            .sheet(isPresented: $showConfirmView) {
+                ConfirmView()
+                    .presentationDetents([.height(600)])
+                    .presentationDragIndicator(.hidden)
             }
 
         }
