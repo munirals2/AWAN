@@ -91,14 +91,12 @@ struct AddMed: View {
     }
 
 
-    // ──────────── Header (with back button, matching SchedulePage's position) ────────────
+    // ──────────── Header (back button navigates to MyMedicineView) ────────────
 
     var header: some View {
         VStack(alignment: .leading, spacing: 4){
             HStack {
-                Button(action: {
-                    dismiss()
-                }){
+                NavigationLink(destination: MyMedicineView()){
                     Image(systemName: "chevron.backward")
                         .foregroundStyle(mainBlue).bold()
                 }
