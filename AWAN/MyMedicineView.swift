@@ -13,25 +13,29 @@ struct MyMedicineView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color(red: 228/255, green: 238/255, blue: 248/255))
-                    .frame(height: 140)
-                    .padding(3)
+                    .frame(width: 376, height: 140)
                 
                 HStack {
+                    Spacer() // ← pushes everything to the right
+                    
                     VStack(alignment: .leading, spacing: 6) {
                         Text("My Medicines")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+                            .offset(x:25)
                         
                         Text("1 of 4 taken today")
-                            .font(.system(size: 14))
+                            .font(.system(size: 12))
                             .foregroundColor(.gray)
+                            .offset(x:25)
                         
                         ProgressView(value: 1, total: 4)
                             .progressViewStyle(LinearProgressViewStyle())
                             .frame(height: 6)
                             .background(Color.blue.opacity(0.15))
                             .cornerRadius(3)
+                            .offset(x:25, y: 5)
                     }
                     
                     Spacer()
@@ -50,7 +54,7 @@ struct MyMedicineView: View {
                 // Line
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
-                    .frame(width: 2, height: 450)
+                    .frame(width: 2, height: 467)
                 
                 // Circles
                 VStack(spacing: 95) {
