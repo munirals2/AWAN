@@ -58,10 +58,8 @@ struct AddMed: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 4)
-                .padding(.bottom, 24)
+                .padding(.bottom, 30)
             }
-
-            tabBar
         }
         // IMPORTANT: the background goes here, not as a ZStack layer.
         //
@@ -341,39 +339,6 @@ struct AddMed: View {
         .padding(.top, 4)
     }
 
-    /// Bottom tab bar: Medicines / Appointments / List
-    var tabBar: some View {
-        HStack{
-            tabItem("Medicines", "pills.fill", isSelected: true)
-            tabItem("Appointments", "calendar", isSelected: false)
-            tabItem("List", "square.3.layers.3d", isSelected: false)
-        }
-        .padding(5)
-        .background(Color.white)
-        .cornerRadius(32)
-        .shadow(color: .black.opacity(0.1), radius: 8, y: 3)
-        .padding(.horizontal, 20)
-        .padding(.top, 6)
-    }
-
-    func tabItem(_ title: String, _ icon: String, isSelected: Bool) -> some View {
-        VStack(spacing: 3){
-            Image(systemName: icon)
-                .font(.system(size: 19))
-            Text(title)
-                .font(.system(size: 11))
-                .lineLimit(1)
-                // shrinks the text instead of truncating it ("Appointments" is long)
-                .minimumScaleFactor(0.8)
-        }
-        .foregroundColor(mainBlue)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 9)
-        .background(isSelected ? Color.gray.opacity(0.18) : Color.clear)
-        .cornerRadius(24)
-    }
-
-
     // ──────────── Saving ────────────
 
     func saveMedicine() {
@@ -395,3 +360,4 @@ struct AddMed: View {
 #Preview {
     AddMed()
 }
+
