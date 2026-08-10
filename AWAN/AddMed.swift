@@ -98,10 +98,6 @@ struct AddMed: View {
 
             // Top row: circular back button + centered title
             ZStack {
-                Text("Add Medicine")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
 
                 HStack {
                     Button(action: {
