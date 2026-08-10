@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+//Appointment (existing)
 struct Appointment: Identifiable, Codable {
     var id = UUID()
     var date: Date
@@ -18,7 +19,6 @@ struct Appointment: Identifiable, Codable {
 }
 
 final class AppointmentStore: ObservableObject {
-    
     @Published var appointments: [Appointment] = []
     
     init() {
@@ -27,10 +27,7 @@ final class AppointmentStore: ObservableObject {
     
     func saveAppointment(_ appointment: Appointment) {
         appointments.append(appointment)
-        
-        if let data = try? JSONEncoder().encode(appointments) {
-            UserDefaults.standard.set(data, forKey: "appointments")
-        }
+        saveToDisk()
     }
     
     private func loadAppointments() {
@@ -39,11 +36,75 @@ final class AppointmentStore: ObservableObject {
             appointments = saved
         }
     }
+    
+    private func saveToDisk() {
+        if let data = try? JSONEncoder().encode(appointments) {
+            UserDefaults.standard.set(data, forKey: "appointments")
+        }
+    }
+}
+
+//Medicine Status Enum
+enum MedicineStatus: String, Codable {
+    case pending   // not taken yet
+    case taken     // user took it
+    case skipped   // user skipped
+}
+
+//Medicine with Status
+struct Medicine: Identifiable, Codable {
+    var id = UUID()
+    var name: String
+    var doseCount: Int
+    var firstTime: Date
+    var everyHours: Int
+    var afterFood: Bool
+    var imageData: Data?
+    var status: MedicineStatus = .pending  // ✅ Added status
+}
+
+//Medicine Store
+final class MedicineStore: ObservableObject {
+    @Published var medicines: [Medicine] = []
+    
+    init() {
+        loadMedicines()
+    }
+    
+    func saveMedicine(_ medicine: Medicine) {
+        medicines.append(medicine)
+        saveToDisk()
+    }
+    
+    func updateMedicineStatus(id: UUID, status: MedicineStatus) {
+        if let index = medicines.firstIndex(where: { $0.id == id }) {
+            medicines[index].status = status
+            saveToDisk()
+        }
+    }
+    
+    func deleteMedicine(at offsets: IndexSet) {
+        medicines.remove(atOffsets: offsets)
+        saveToDisk()
+    }
+    
+    private func loadMedicines() {
+        if let data = UserDefaults.standard.data(forKey: "medicines"),
+           let saved = try? JSONDecoder().decode([Medicine].self, from: data) {
+            medicines = saved
+        }
+    }
+    
+    private func saveToDisk() {
+        if let data = try? JSONEncoder().encode(medicines) {
+            UserDefaults.standard.set(data, forKey: "medicines")
+        }
+    }
 }
 
 struct save: View {
     var body: some View {
-        Text("Hello, World!")
+        Text("Data Store")
     }
 }
 
