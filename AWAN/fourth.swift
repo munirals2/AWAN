@@ -66,10 +66,22 @@ struct HomeView: View {
                                     
                                     Text("Next Medicine")
                                         .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(
+                                            Color(
+                                                red: 96/255,
+                                                green: 157/255,
+                                                blue: 220/255
+                                            )
+                                        )
                                     
                                     Image(systemName: "clock.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(
+                                            Color(
+                                                red: 96/255,
+                                                green: 157/255,
+                                                blue: 220/255
+                                            )
+                                        )
                                 }
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -93,7 +105,13 @@ struct HomeView: View {
                                 Text("Metformin")
                                     .font(.title2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(
+                                        Color(
+                                            red: 96/255,
+                                            green: 157/255,
+                                            blue: 220/255
+                                        )
+                                    )
                                     .offset(y: -55)
                                 
                                 Text("One tablet")
@@ -173,12 +191,24 @@ struct HomeView: View {
                                     
                                     Text("Next Appointment")
                                         .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(
+                                            Color(
+                                                red: 96/255,
+                                                green: 157/255,
+                                                blue: 220/255
+                                            )
+                                        )
                                     
                                  
                                     
                                     Image(systemName: "calendar")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(
+                                            Color(
+                                                red: 96/255,
+                                                green: 157/255,
+                                                blue: 220/255
+                                            )
+                                        )
                                     
                                 }
                                 .padding(.horizontal, 12)
@@ -202,7 +232,13 @@ struct HomeView: View {
                                 Text("22 August")
                                     .font(.title2)
                                     .fontWeight(.bold)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(
+                                        Color(
+                                            red: 96/255,
+                                            green: 157/255,
+                                            blue: 220/255
+                                        )
+                                    )
                                     .offset(y: -95)
                                 Text("Al-Habib Hospital")
                                     .font(.headline)
