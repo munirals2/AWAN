@@ -313,7 +313,7 @@ struct SchedulePage: View {
         }
     }
 
-    // ──────────── Header (fixed, doesn't scroll — includes back button + "Add an appointment" row) ────────────
+    // ──────────── Header
 
     var header: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -332,7 +332,6 @@ struct SchedulePage: View {
                 }
                 .buttonStyle(.plain)
 
-                Spacer()
             }
             .padding(.top, 20)
 
@@ -346,10 +345,11 @@ struct SchedulePage: View {
                     Text("Add your appointment details to remind you at the right time.")
                         .padding(.trailing).foregroundStyle(.gray).font(.caption)
                 }
-                Spacer()
+                
             }
         }
         .padding(.horizontal)
+        .offset(y: -10)
     }
 
     @ViewBuilder
