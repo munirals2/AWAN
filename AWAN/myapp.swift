@@ -296,8 +296,6 @@ struct myapp: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle("Appointments")
-        .navigationBarTitleDisplayMode(.inline)
         .overlay(
             NavigationLink(
                 destination: SchedulePage(store: store)  //  Pass the store

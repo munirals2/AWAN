@@ -91,47 +91,14 @@ struct SchedulePage: View {
     }
 
     var body: some View {
-        ZStack {
-            Image("back").resizable().scaledToFill().ignoresSafeArea()
+        // Header is OUTSIDE the ScrollView on purpose, same as AddMed:
+        // it stays fixed and the content scrolls underneath it.
+        VStack(spacing: 0) {
+
+            header
 
             ScrollView {
                 VStack {
-
-                    // Top row: circular back button + centered title
-                    ZStack {
-
-                        HStack {
-                            Button {
-                                dismiss()
-                            } label: {
-                                Image(systemName: "chevron.backward")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(accentColor)
-                                    .frame(width: 36, height: 36)
-                                    .background(Color.white)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
-                            }
-                            .buttonStyle(.plain)
-
-                            Spacer()
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 20)
-
-                    HStack {
-                        Image("schedulee").resizable().scaledToFit().frame(width: 50, height: 50).padding()
-
-                        VStack(alignment: .leading) {
-                            Text("Add an appointment")
-                                .padding(.trailing)
-                                .foregroundStyle(accentColor).bold()
-                            Text("Add your appointment details to remind you at the right time.")
-                                .padding(.trailing).foregroundStyle(.gray).font(.caption)
-                        }
-                        Spacer()
-                    }
 
                     // Calendar card
                     RoundedRectangle(cornerRadius: 20)
@@ -277,7 +244,16 @@ struct SchedulePage: View {
                     .padding(.bottom, 24)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden)
         }
+        .background(
+            Image("back")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+        )
         .sheet(isPresented: $showTimePicker) {
             VStack {
                 HStack {
@@ -333,6 +309,45 @@ struct SchedulePage: View {
             }
             .presentationDetents([.height(300)])
         }
+    }
+
+    // ──────────── Header (fixed, doesn't scroll — includes back button + "Add an appointment" row) ────────────
+
+    var header: some View {
+        VStack(alignment: .leading, spacing: 0) {
+
+            HStack {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(accentColor)
+                        .frame(width: 36, height: 36)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
+            }
+            .padding(.top, 20)
+
+            HStack {
+                Image("schedulee").resizable().scaledToFit().frame(width: 50, height: 50).padding()
+
+                VStack(alignment: .leading) {
+                    Text("Add an appointment")
+                        .padding(.trailing)
+                        .foregroundStyle(accentColor).bold()
+                    Text("Add your appointment details to remind you at the right time.")
+                        .padding(.trailing).foregroundStyle(.gray).font(.caption)
+                }
+                Spacer()
+            }
+        }
+        .padding(.horizontal)
     }
 
     @ViewBuilder
