@@ -4,6 +4,8 @@ import UserNotifications
 struct ConfirmView: View {
     
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var store: AppointmentStore
+    let appointmentID: UUID
     
     var body: some View {
         
@@ -63,7 +65,8 @@ struct ConfirmView: View {
                 
                 // Yes Button
                 Button {
-                    
+                    store.confirmAppointment(id: appointmentID)
+                    dismiss()
                 } label: {
                     Text("Yes, I went")
                         .font(.title2)
@@ -81,8 +84,6 @@ struct ConfirmView: View {
                         .cornerRadius(15)
                 }
                 .padding(.horizontal, 30)
-                
-                
                 
                 // Reminder Button
                 Button {
@@ -209,5 +210,8 @@ private func scheduleReminder() {
 
 
 #Preview {
-    ConfirmView()
+    ConfirmView(
+        store: AppointmentStore(),
+        appointmentID: UUID()
+    )
 }

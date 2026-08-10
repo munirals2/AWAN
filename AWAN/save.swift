@@ -16,6 +16,7 @@ struct Appointment: Identifiable, Codable {
     var hospitalName: String
     var visitReason: String
     var reminderOn: Bool
+    var isConfirmed: Bool = false
 }
 
 final class AppointmentStore: ObservableObject {
@@ -28,6 +29,15 @@ final class AppointmentStore: ObservableObject {
     func saveAppointment(_ appointment: Appointment) {
         appointments.append(appointment)
         saveToDisk()
+    }
+    func confirmAppointment(id: UUID) {
+        if let index = appointments.firstIndex(where: { $0.id == id }) {
+            appointments[index].isConfirmed = true
+            
+            if let data = try? JSONEncoder().encode(appointments) {
+                UserDefaults.standard.set(data, forKey: "appointments")
+            }
+        }
     }
     
     private func loadAppointments() {

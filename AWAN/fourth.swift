@@ -8,10 +8,29 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var store: AppointmentStore
+    
+    var nextAppointment: Appointment? {
+        let now = Date()
+        
+        return store.appointments
+            .filter {
+                let appointmentDate = Calendar.current.date(
+                    bySettingHour: Calendar.current.component(.hour, from: $0.time),
+                    minute: Calendar.current.component(.minute, from: $0.time),
+                    second: 0,
+                    of: $0.date
+                ) ?? $0.date
+                
+                return appointmentDate > now
+            }
+            .sorted { $0.date < $1.date }
+            .first
+    }
     
     @State private var showMedicineDetails = false
     @State private var showConfirmView = false
-
+    
     var body: some View {
 
         ZStack {
@@ -229,7 +248,7 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading, spacing: 6) {
                                 
-                                Text("22 August")
+                                Text(nextAppointment?.date.formatted(.dateTime.day().month(.wide)) ?? "No upcoming appointment")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(
@@ -240,7 +259,7 @@ struct HomeView: View {
                                         )
                                     )
                                     .offset(y: -95)
-                                Text("Al-Habib Hospital")
+                                Text(nextAppointment?.hospitalName ?? "No hospital")
                                     .font(.headline)
                                     .foregroundColor(.gray)
                                     .offset(y: -100)
@@ -302,15 +321,19 @@ struct HomeView: View {
                             .presentationDragIndicator(.hidden)
             }
             .sheet(isPresented: $showConfirmView) {
-                ConfirmView()
-                    .presentationDetents([.height(600)])
-                    .presentationDragIndicator(.hidden)
+                ConfirmView(
+                    store: store,
+                    appointmentID: nextAppointment?.id ?? UUID()
+                )
+                .presentationDetents([.height(600)])
+                .presentationDragIndicator(.hidden)
+                  }
             }
 
         }
     }
-}
+
 
 #Preview {
-    HomeView()
+    HomeView(store: AppointmentStore())
 }

@@ -3,7 +3,7 @@ import SwiftUI
 struct myapp: View {
     @State private var isConfirmed = true
     // Create a store instance for this view (or use a shared one)
-    @StateObject private var store = AppointmentStore()
+    @ObservedObject var store: AppointmentStore
 
     var body: some View {
         ZStack {
@@ -235,7 +235,7 @@ struct myapp: View {
                                     
                                     VStack(alignment: .leading, spacing: 8) {
                                         
-                                        Text("Upcoming")
+                                        Text(appointment.isConfirmed ? "Confirmed" : "Upcoming")
                                             .font(.caption)
                                             .foregroundColor(.white)
                                             .padding(.horizontal, 10)
@@ -323,10 +323,11 @@ struct myapp: View {
 
 struct PreviewWrapper: View {
     @State private var selectedTab = 1
+    @StateObject private var store = AppointmentStore()
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
-                HomeView()
+                HomeView(store: store)
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.inline)
             }
@@ -337,7 +338,7 @@ struct PreviewWrapper: View {
             .tag(0)
 
             NavigationView {
-                myapp()
+                myapp(store: store)
                     .navigationTitle("Appointments")
                     .navigationBarTitleDisplayMode(.inline)
             }
