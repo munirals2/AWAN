@@ -114,6 +114,7 @@ struct SchedulePage: View {
                                     } label: {
                                         Image(systemName: "chevron.backward").foregroundStyle(accentColor).bold()
                                     }
+                                    .offset(x: 15)
                                     Spacer()
                                     Text(monthTitle)
                                         .foregroundStyle(accentColor).bold()
@@ -128,6 +129,7 @@ struct SchedulePage: View {
                                     } label: {
                                         Image(systemName: "chevron.forward").foregroundStyle(accentColor).bold()
                                     }
+                                    .offset(x: -15)
                                 }
 
                                 HStack {
@@ -242,6 +244,8 @@ struct SchedulePage: View {
                     .padding(.horizontal)
                     .padding(.top, 16)
                     .padding(.bottom, 54)
+                    .disabled(selectedDate == nil || hospitalName.isEmpty || visitReason.isEmpty)
+                    .opacity((selectedDate == nil || hospitalName.isEmpty || visitReason.isEmpty) ? 0.5 : 1)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -311,7 +315,7 @@ struct SchedulePage: View {
         }
     }
 
-    // ──────────── Header (fixed, doesn't scroll — includes back button + "Add an appointment" row) ────────────
+    // ──────────── Header
 
     var header: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -330,7 +334,6 @@ struct SchedulePage: View {
                 }
                 .buttonStyle(.plain)
 
-                Spacer()
             }
             .padding(.top, 20)
 
@@ -344,10 +347,11 @@ struct SchedulePage: View {
                     Text("Add your appointment details to remind you at the right time.")
                         .padding(.trailing).foregroundStyle(.gray).font(.caption)
                 }
-                Spacer()
+                
             }
         }
         .padding(.horizontal)
+        .offset(y: -10)
     }
 
     @ViewBuilder
