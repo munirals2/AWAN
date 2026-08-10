@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @StateObject private var store = AppointmentStore()
     var body: some View {
         TabView {
             NavigationView {
-                HomeView()
+                HomeView(store: store)
             }
             .tabItem {
                 Image(systemName: "square.stack.3d.up")
@@ -12,7 +13,7 @@ struct MainTabView: View {
             }
 
             NavigationView {
-                myapp()
+                myapp(store: store)
             }
             .tabItem {
                 Image(systemName: "calendar")

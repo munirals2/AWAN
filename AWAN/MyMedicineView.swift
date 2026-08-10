@@ -272,11 +272,13 @@ struct CustomProgressViewStyle: ProgressViewStyle {
 }
 
 struct MedicinePreviewWrapper: View {
-    @State private var selectedTab = 2 // Medications tab selected
+    @State private var selectedTab = 2
+    @StateObject private var store = AppointmentStore()
+    // Medications tab selected
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
-                HomeView()
+                HomeView(store: store)
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.inline)
             }
@@ -287,7 +289,7 @@ struct MedicinePreviewWrapper: View {
             .tag(0)
 
             NavigationView {
-                myapp()
+                myapp(store: store)
                     .navigationTitle("Appointments")
                     .navigationBarTitleDisplayMode(.inline)
             }
