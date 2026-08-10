@@ -241,7 +241,7 @@ struct SchedulePage: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 16)
-                    .padding(.bottom, 24)
+                    .padding(.bottom, 54)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
