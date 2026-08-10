@@ -96,12 +96,29 @@ struct SchedulePage: View {
 
             ScrollView {
                 VStack {
-                    HStack {
-                        Image(systemName: "chevron.backward")
-                            .padding(.top, 20).padding()
-                            .foregroundStyle(accentColor).bold()
-                        Spacer()
+
+                    // Top row: circular back button + centered title
+                    ZStack {
+
+                        HStack {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Image(systemName: "chevron.backward")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(accentColor)
+                                    .frame(width: 36, height: 36)
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                            }
+                            .buttonStyle(.plain)
+
+                            Spacer()
+                        }
                     }
+                    .padding(.horizontal)
+                    .padding(.top, 20)
 
                     HStack {
                         Image("schedulee").resizable().scaledToFit().frame(width: 50, height: 50).padding()

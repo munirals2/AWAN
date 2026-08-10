@@ -91,52 +91,57 @@ struct AddMed: View {
     }
 
 
-    // ──────────── Header ────────────
-    // The back button uses dismiss() — NOT NavigationLink.
-    // dismiss() just closes AddMed and returns to whichever screen
-    // was already on the stack (e.g. the MyMedicineView you opened
-    // AddMed from). It does not create anything new.
-    //
-    // Using NavigationLink(destination: MyMedicineView()) here was
-    // the bug: it PUSHES a brand new MyMedicineView onto the stack
-    // every time you tap the back arrow. That new pushed screen has
-    // no idea it's a "duplicate" — SwiftUI automatically gives every
-    // pushed screen its own system back button, which is why a round
-    // "<" button was appearing on MyMedicineView even though you
-    // never added one there yourself.
+    // ──────────── Header (matches "New Appointment" style: circular back button + centered title) ────────────
 
     var header: some View {
-        VStack(alignment: .leading, spacing: 4){
-            HStack {
-                Button(action: {
-                    dismiss()
-                }){
-                    Image(systemName: "chevron.backward")
-                        .foregroundStyle(mainBlue).bold()
+        VStack(alignment: .leading, spacing: 12){
+
+            // Top row: circular back button + centered title
+            ZStack {
+                Text("Add Medicine")
+                    .font(.system(size: 20))
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }){
+                        Image(systemName: "chevron.backward")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(mainBlue)
+                            .frame(width: 36, height: 36)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                    }
+                    .buttonStyle(.plain)
+
+                    Spacer()
                 }
-                .buttonStyle(.plain)
-                Spacer()
             }
             .padding(.top, 20)
 
+            // Icon + description row
             HStack(spacing: 8){
                 Image(systemName: "pills.fill")
                     .font(.system(size: 22))
                     .foregroundColor(mainBlue)
 
-                Text("Add Medicine")
-                    .font(.system(size: 24))
-                    .fontWeight(.bold)
-                    .foregroundColor(mainBlue)
+                VStack(alignment: .leading, spacing: 4){
+                    Text("Add Medicine")
+                        .font(.system(size: 18))
+                        .fontWeight(.bold)
+                        .foregroundColor(mainBlue)
+
+                    Text("Add your medicine and set the dose and times that suit you.")
+                        .font(.system(size: 13))
+                        .foregroundColor(.gray)
+                        .lineLimit(2)
+                }
 
                 Spacer()
-
             }
-
-            Text("Add your medicine and set the dose and times that suit you.")
-                .font(.system(size: 13))
-                .foregroundColor(.gray)
-                .lineLimit(2)
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 14)

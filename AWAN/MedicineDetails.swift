@@ -1,11 +1,5 @@
-//
-//  MedicineDetails.swift
-//  AWAN
-//
-//  Created by Tumadhir Alyahya on 23/02/1448 AH.
-//
-
 import SwiftUI
+import UserNotifications
 
 struct MedicineDetailsView: View {
     
@@ -13,23 +7,131 @@ struct MedicineDetailsView: View {
     
     var body: some View {
         
-        ZStack(alignment: .topTrailing){
-        
-        VStack(spacing: 18) {
+        ZStack(alignment: .topTrailing) {
             
-            // Medicine Image
-            Circle()
-                .fill(
-                    Color(
-                        red: 235/255,
-                        green: 236/255,
-                        blue: 240/255
+            Image("background")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            
+            
+            VStack(spacing: 18) {
+                
+                Spacer()
+                
+                
+                // Medicine Image
+                Circle()
+                    .fill(
+                        Color(
+                            red: 235/255,
+                            green: 236/255,
+                            blue: 240/255
+                        )
                     )
-                )
-                .frame(width: 110, height: 110)
-                .overlay(
-                    Image(systemName: "photo")
-                        .font(.system(size: 40))
+                    .frame(width: 110, height: 110)
+                    .overlay(
+                        Image(systemName: "photo")
+                            .font(.system(size: 40))
+                            .foregroundColor(
+                                Color(
+                                    red: 96/255,
+                                    green: 157/255,
+                                    blue: 220/255
+                                )
+                            )
+                    )
+                    .padding(.top, 10)
+                
+                
+                
+                // Medicine Name
+                Text("Metformin")
+                    .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(
+                        Color(
+                            red: 96/255,
+                            green: 157/255,
+                            blue: 220/255
+                        )
+                    )
+                
+                
+                
+                Text("Dose time: 10:00 AM")
+                    .font(.title2)
+                    .foregroundColor(.gray)
+                
+                
+                
+                Text("One pill")
+                    .font(.title3)
+                    .foregroundColor(.gray)
+                
+                
+                
+                Text("Take after meal")
+                    .font(.title2)
+                    .foregroundColor(
+                        Color(
+                            red: 96/255,
+                            green: 157/255,
+                            blue: 220/255
+                        )
+                    )
+                
+                
+                
+                Spacer()
+                    .frame(height: 5)
+                
+                
+                
+                // Taken Button
+                Button {
+                    
+                } label: {
+                    Text("Yes, I took it")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(
+                            Color(
+                                red: 96/255,
+                                green: 157/255,
+                                blue: 220/255
+                            )
+                        )
+                        .cornerRadius(15)
+                }
+                .padding(.horizontal, 30)
+                
+                
+                
+                // Reminder Button
+                Button {
+                    
+                    UNUserNotificationCenter.current()
+                        .requestAuthorization(
+                            options: [.alert, .sound, .badge]
+                        ) { granted, error in
+                            
+                            if let error = error {
+                                print(error)
+                                return
+                            }
+                            
+                            if granted {
+                                scheduleMedicineReminder()
+                            }
+                        }
+                    
+                } label: {
+                    Text("Remind me after 15 minutes")
+                        .font(.title2)
+                        .fontWeight(.bold)
                         .foregroundColor(
                             Color(
                                 red: 96/255,
@@ -37,158 +139,101 @@ struct MedicineDetailsView: View {
                                 blue: 220/255
                             )
                         )
-                )
-                .padding(.top, 10)
-            
-            
-            
-            
-            // Medicine Name
-            Text("Metformin")
-                .font(.system(size: 32, weight: .bold))
-                .foregroundColor(
-                    Color(
-                        red: 96/255,
-                        green: 157/255,
-                        blue: 220/255
-                    )
-                )
-            
-            
-            // Dose Time
-            Text("Dose time: 10:00 AM")
-                .font(.title3)
-                .foregroundColor(.gray)
-            
-            
-            // Dose
-            Text("One pill")
-                .font(.title3)
-                .foregroundColor(.gray)
-            
-            
-            // Instructions
-            Text("Take after meal")
-                .font(.title3)
-                .foregroundColor(
-                    Color(
-                        red: 96/255,
-                        green: 157/255,
-                        blue: 220/255
-                    )
-                )
-            
-            
-            Spacer()
-                .frame(height: 5)
-            
-            
-            // Taken Button
-            Button {
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(
+                            Color(
+                                red: 228/255,
+                                green: 238/255,
+                                blue: 248/255
+                            )
+                        )
+                        .cornerRadius(15)
+                }
+                .padding(.horizontal, 30)
                 
-            } label: {
-                Text("Yes, I took it")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(
-                        Color(
-                            red: 96/255,
-                            green: 157/255,
-                            blue: 220/255
-                        )
-                    )
-                    .cornerRadius(15)
-            }
-            .padding(.horizontal, 30)
-            
-            
-            // Reminder Button
-            Button {
                 
-            } label: {
-                Text("Remind me after 15 minutes")
-                    .font(.title3)
-                    .foregroundColor(
-                        Color(
-                            red: 96/255,
-                            green: 157/255,
-                            blue: 220/255
-                        )
-                    )
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(
-                        Color(
-                            red: 228/255,
-                            green: 238/255,
-                            blue: 248/255
-                        )
-                    )
-                    .cornerRadius(15)
-            }
-            .padding(.horizontal, 30)
-            
-            
-            // Skip Button
-            Button {
                 
-            } label: {
-                Text("Skip this dose")
-                    .font(.title3)
-                    .foregroundColor(
-                        Color(
-                            red: 96/255,
-                            green: 157/255,
-                            blue: 220/255
+                // Skip Button
+                Button {
+                    
+                } label: {
+                    Text("Skip this dose")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(
+                            Color(
+                                red: 228/255,
+                                green: 238/255,
+                                blue: 248/255
+                            )
                         )
-                    )
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(
-                        Color(
-                            red: 228/255,
-                            green: 238/255,
-                            blue: 248/255
-                        )
-                    )
-                    .cornerRadius(15)
+                        .cornerRadius(15)
+                }
+                .padding(.horizontal, 30)
+                
+                
+                
+                Spacer()
             }
-            .padding(.horizontal, 30)
+            .padding(.top, 20)
+            .frame(maxWidth: .infinity)
             
-            Spacer()
-          
             
-        }
-        .padding(.top, 20)
-        .frame(maxWidth: .infinity)
-        .background(
-            Image("background")
-                .resizable()
-                .scaledToFill()
-        )
             
-        .clipShape(
-            RoundedRectangle(cornerRadius: 30)
-        )
-            
+            // Close Button
             Button {
                 dismiss()
+                
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(.gray)
-                    .padding(20)
+                    .frame(width: 40, height: 40)
             }
-
-            }
-            
-           
-               
-           }
+            .padding(.top, 160)
+            .padding(.trailing, 20)
+            .zIndex(10)
+        }
     }
+}
+
+
+
+// Medicine Notification
+private func scheduleMedicineReminder() {
+    
+    let content = UNMutableNotificationContent()
+    
+    content.title = "Medicine Reminder"
+    content.body = "Time to take your Metformin."
+    content.sound = .default
+    
+    
+    let trigger = UNTimeIntervalNotificationTrigger(
+        timeInterval: 15 * 60,
+        repeats: false
+    )
+    
+    
+    let request = UNNotificationRequest(
+        identifier: "medicineReminder",
+        content: content,
+        trigger: trigger
+    )
+    
+    
+    UNUserNotificationCenter.current()
+        .add(request) { error in
+            
+            if let error = error {
+                print("Notification error: \(error)")
+            }
+        }
+}
 
 
 

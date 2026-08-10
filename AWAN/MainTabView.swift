@@ -27,7 +27,6 @@ struct MainTabView: View {
                 Text("Medications")
             }
         }
-        .navigationViewStyle(.stack) // optional but recommended for iPad
     }
 }
 
