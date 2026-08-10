@@ -99,10 +99,6 @@ struct SchedulePage: View {
 
                     // Top row: circular back button + centered title
                     ZStack {
-                        Text("New Appointment")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
 
                         HStack {
                             Button {
