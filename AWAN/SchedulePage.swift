@@ -114,6 +114,7 @@ struct SchedulePage: View {
                                     } label: {
                                         Image(systemName: "chevron.backward").foregroundStyle(accentColor).bold()
                                     }
+                                    .offset(x: 15)
                                     Spacer()
                                     Text(monthTitle)
                                         .foregroundStyle(accentColor).bold()
@@ -128,6 +129,7 @@ struct SchedulePage: View {
                                     } label: {
                                         Image(systemName: "chevron.forward").foregroundStyle(accentColor).bold()
                                     }
+                                    .offset(x: -15)
                                 }
 
                                 HStack {
