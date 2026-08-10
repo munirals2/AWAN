@@ -2,6 +2,8 @@ import SwiftUI
 
 struct MainTabView: View {
     @StateObject private var store = AppointmentStore()
+    @StateObject private var medicineStore = MedicineStore()
+
     var body: some View {
         TabView {
             NavigationView {
@@ -21,7 +23,7 @@ struct MainTabView: View {
             }
 
             NavigationView {
-                MyMedicineView()
+                MyMedicineView(store: medicineStore)
             }
             .tabItem {
                 Image(systemName: "pill")

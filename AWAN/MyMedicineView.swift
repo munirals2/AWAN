@@ -1,6 +1,54 @@
 import SwiftUI
 
 struct MyMedicineView: View {
+    @ObservedObject var store: MedicineStore
+
+    private let blue = Color(red: 96/255, green: 157/255, blue: 220/255)
+    private let cardBg = Color(red: 228/255, green: 238/255, blue: 248/255)
+
+    // Medicines sorted by their first dose time, earliest first
+    private var sortedMedicines: [Medicine] {
+        store.medicines.sorted { $0.firstTime < $1.firstTime }
+    }
+
+    private var takenCount: Int {
+        store.medicines.filter { $0.status == .taken }.count
+    }
+
+    private var totalCount: Int {
+        max(store.medicines.count, 1) // avoid divide-by-zero in ProgressView
+    }
+
+    // The earliest still-pending medicine is treated as "Now"
+    private var nextPendingID: UUID? {
+        sortedMedicines.first(where: { $0.status == .pending })?.id
+    }
+
+    private func badge(for medicine: Medicine) -> (text: String, color: Color) {
+        switch medicine.status {
+        case .taken:
+            return ("Taken", Color(red: 120/255, green: 200/255, blue: 130/255))
+        case .skipped:
+            return ("Skipped", Color.gray)
+        case .pending:
+            if medicine.id == nextPendingID {
+                return ("Now", blue)
+            }
+            // within the next 3 hours counts as "Soon", otherwise "Later"
+            let hoursAway = medicine.firstTime.timeIntervalSinceNow / 3600
+            if hoursAway >= 0 && hoursAway <= 3 {
+                return ("Soon", Color(red: 255/255, green: 180/255, blue: 90/255))
+            }
+            return ("Later", Color.gray)
+        }
+    }
+
+    private func timeString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: date)
+    }
+
     var body: some View {
         ZStack {
             // Background
@@ -9,230 +57,102 @@ struct MyMedicineView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
 
-            // Header Card
-            ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(Color(red: 228/255, green: 238/255, blue: 248/255))
-                    .frame(width: 376, height: 140)
-                
-                HStack {
-                    Spacer() // ← pushes everything to the right
-                    
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("My Medicines")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                            .offset(x:25)
-                        
-                        Text("1 of 4 taken today")
-                            .font(.system(size: 12))
+            VStack(spacing: 0) {
+
+                // Header Card
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(cardBg)
+                        .frame(height: 140)
+
+                    HStack {
+                        Spacer()
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("My Medicines")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(blue)
+
+                            Text("\(takenCount) of \(store.medicines.count) taken today")
+                                .font(.system(size: 12))
+                                .foregroundColor(.gray)
+
+                            ProgressView(value: Double(takenCount), total: Double(totalCount))
+                                .progressViewStyle(LinearProgressViewStyle())
+                                .frame(height: 6)
+                                .background(Color.blue.opacity(0.15))
+                                .cornerRadius(3)
+                        }
+
+                        Spacer()
+
+                        Image("CALENDER")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 100)
+                    }
+                    .padding(20)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 20)
+
+                // Empty state
+                if store.medicines.isEmpty {
+                    Spacer()
+                    VStack(spacing: 10) {
+                        Image(systemName: "pills")
+                            .font(.system(size: 40))
+                            .foregroundColor(.gray.opacity(0.5))
+                        Text("No medicines yet")
                             .foregroundColor(.gray)
-                            .offset(x:25)
-                        
-                        ProgressView(value: 1, total: 4)
-                            .progressViewStyle(LinearProgressViewStyle())
-                            .frame(height: 6)
-                            .background(Color.blue.opacity(0.15))
-                            .cornerRadius(3)
-                            .offset(x:25, y: 5)
+                        Text("Tap the + button to add your first medicine")
+                            .font(.caption)
+                            .foregroundColor(.gray.opacity(0.7))
                     }
-                    
                     Spacer()
-                    
-                    Image("CALENDER")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 100)
-                }
-                .padding(10)
-            }
-            .padding(.top, -350)
+                } else {
+                    // Timeline + Cards
+                    ScrollView {
+                        HStack(alignment: .top, spacing: 0) {
 
-            // TIMELINE
-            ZStack {
-                // Line
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 2, height: 460)
-                    .offset(x: 1.5, y: -16)
-                
-                // Circles
-                VStack(spacing: 95) {
-                    Circle()
-                        .fill(Color(red: 120/255, green: 200/255, blue: 130/255))
-                        .frame(width: 35, height: 35)
-                        .overlay(
-                            Image(systemName: "checkmark")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.white)
-                        )
-                        .offset(x: 1.5, y: 21)
-                    
-                    Circle()
-                        .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
-                        .frame(width: 35, height: 35)
-                        .overlay(
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 10, height: 10)
-                        )
-                    
-                    Circle()
-                        .fill(Color.white)
-                        .overlay(
-                            Circle()
-                                .stroke(Color.gray, lineWidth: 2)
-                        )
-                        .frame(width: 35, height: 35)
-                    
-                    Circle()
-                        .fill(Color.white)
-                        .overlay(
-                            Circle()
-                                .stroke(Color.gray, lineWidth: 2)
-                        )
-                        .frame(width: 35, height: 35)
-                }
-            }
-            .frame(width: 35, height: 450)
-            .offset(x: -170, y: 35)
+                            // Timeline column
+                            ZStack {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(width: 2)
+                                    .padding(.vertical, 25)
 
-            // Medicine Cards
-            // 8:00 AM
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
-                            Text("8:00 AM")
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                                VStack(spacing: 0) {
+                                    ForEach(sortedMedicines) { medicine in
+                                        timelineDot(for: medicine)
+                                            .frame(height: 96)
+                                    }
+                                }
+                            }
+                            .frame(width: 35)
+                            .padding(.leading, 20)
+
+                            // Cards column
+                            VStack(spacing: 16) {
+                                ForEach(sortedMedicines) { medicine in
+                                    medicineCard(medicine)
+                                }
+                            }
+                            .padding(.horizontal, 20)
                         }
-                        Text("Metformin | 1 pill")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+                        .padding(.top, 25)
+                        .padding(.bottom, 140)
                     }
-                    Spacer()
-                    Text("Taken")
-                        .font(.caption)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 6)
-                        .background(Capsule().fill(Color(red: 120/255, green: 200/255, blue: 130/255)))
                 }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
-                .padding(.leading, 70)
-                .padding(.trailing, 20)
             }
-            .offset(y: -140)
-
-            // 10:00 AM
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
-                            Text("10:00 AM")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                        Text("Lisinopril | 1 pill")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                    }
-                    Spacer()
-                    Text("Now")
-                        .font(.caption)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 6)
-                        .background(Capsule().fill(Color(red: 96/255, green: 157/255, blue: 220/255)))
-                }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
-                .padding(.leading, 70)
-                .padding(.trailing, 20)
-            }
-            .offset(y: -28)
-
-            // 6:00 PM
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
-                            Text("6:00 PM")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                        Text("Vitamin D | 2 pill")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                    }
-                    Spacer()
-                    Text("Soon")
-                        .font(.caption)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 6)
-                        .background(Capsule().fill(Color(red: 255/255, green: 180/255, blue: 90/255)))
-                }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
-                .padding(.leading, 70)
-                .padding(.trailing, 20)
-            }
-            .offset(y: 101)
-
-            // 9:00 PM
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
-                            Text("9:00 PM")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                        Text("Atorvastatin | 1 pill")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                    }
-                    Spacer()
-                    Text("Later")
-                        .font(.caption)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 6)
-                        .background(Capsule().fill(Color.gray))
-                }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color(red: 228/255, green: 238/255, blue: 248/255)))
-                .padding(.leading, 70)
-                .padding(.trailing, 20)
-            }
-            .offset(y: 230)
         }
         .navigationTitle("Medications")
         .navigationBarTitleDisplayMode(.inline)
         // Plus button raised higher
         .overlay(
             NavigationLink(
-                destination: AddMed()
+                destination: AddMed(store: store)
                     .navigationTitle("New Medicine")
                     .navigationBarTitleDisplayMode(.inline)
             ) {
@@ -240,14 +160,82 @@ struct MyMedicineView: View {
                     .font(.system(size: 30, weight: .medium))
                     .foregroundColor(.white)
                     .frame(width: 65, height: 65)
-                    .background(Color(red: 96/255, green: 157/255, blue: 220/255))
+                    .background(blue)
                     .clipShape(Circle())
                     .shadow(radius: 5)
             }
             .padding(.trailing, 20)
-            .padding(.bottom, 110), // raised higher
+            .padding(.bottom, 30),
             alignment: .bottomTrailing
         )
+    }
+
+    // ──────────── Timeline dot ────────────
+
+    @ViewBuilder
+    private func timelineDot(for medicine: Medicine) -> some View {
+        switch medicine.status {
+        case .taken:
+            Circle()
+                .fill(Color(red: 120/255, green: 200/255, blue: 130/255))
+                .frame(width: 35, height: 35)
+                .overlay(
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                )
+        case .pending where medicine.id == nextPendingID:
+            Circle()
+                .fill(blue)
+                .frame(width: 35, height: 35)
+                .overlay(
+                    Circle().fill(Color.white).frame(width: 10, height: 10)
+                )
+        default:
+            Circle()
+                .fill(Color.white)
+                .overlay(Circle().stroke(Color.gray, lineWidth: 2))
+                .frame(width: 35, height: 35)
+        }
+    }
+
+    // ──────────── Medicine card ────────────
+
+    private func medicineCard(_ medicine: Medicine) -> some View {
+        let badgeInfo = badge(for: medicine)
+
+        return HStack {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 5) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 14))
+                        .foregroundColor(.gray)
+                    Text(timeString(medicine.firstTime))
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+                Text("\(medicine.name) | \(medicine.doseCount) pill\(medicine.doseCount > 1 ? "s" : "")")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(blue)
+            }
+            Spacer()
+            Text(badgeInfo.text)
+                .font(.caption)
+                .foregroundColor(.white)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 6)
+                .background(Capsule().fill(badgeInfo.color))
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 20).fill(cardBg))
+        .onTapGesture {
+            // Toggle taken/pending for now — tapping a card marks it taken
+            store.updateMedicineStatus(
+                id: medicine.id,
+                status: medicine.status == .taken ? .pending : .taken
+            )
+        }
     }
 }
 
@@ -257,7 +245,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(red: 190/255, green: 215/255, blue: 240/255))
-                
+
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color(red: 120/255, green: 175/255, blue: 225/255))
                     .frame(width: geometry.size.width * CGFloat(configuration.fractionCompleted ?? 0))
@@ -274,7 +262,8 @@ struct CustomProgressViewStyle: ProgressViewStyle {
 struct MedicinePreviewWrapper: View {
     @State private var selectedTab = 2
     @StateObject private var store = AppointmentStore()
-    // Medications tab selected
+    @StateObject private var medicineStore = MedicineStore()
+
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
@@ -300,7 +289,7 @@ struct MedicinePreviewWrapper: View {
             .tag(1)
 
             NavigationView {
-                MyMedicineView()
+                MyMedicineView(store: medicineStore)
                     .navigationTitle("Medications")
                     .navigationBarTitleDisplayMode(.inline)
             }
@@ -310,6 +299,10 @@ struct MedicinePreviewWrapper: View {
             }
             .tag(2)
         }
-        .accentColor(Color(red: 96/255, green: 157/255, blue: 220/255))
+        .accentColor(blueColor)
+    }
+
+    private var blueColor: Color {
+        Color(red: 96/255, green: 157/255, blue: 220/255)
     }
 }

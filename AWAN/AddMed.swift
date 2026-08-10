@@ -12,6 +12,7 @@ import PhotosUI
 struct AddMed: View {
 
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var store: MedicineStore
 
     // App colors — same AWAN blue you used on the home page
     let mainBlue = Color(red: 96/255, green: 157/255, blue: 220/255)
@@ -80,7 +81,7 @@ struct AddMed: View {
             Button("Cancel", role: .cancel){ doseIndex = 0 }
         }
         .alert("Medicine saved ✓", isPresented: $showSaved){
-            Button("OK"){ }
+            Button("OK"){ dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
         .onChange(of: photoItem){ _, newItem in
@@ -98,6 +99,10 @@ struct AddMed: View {
 
             // Top row: circular back button + centered title
             ZStack {
+                Text("Add Medicine")
+                    .font(.system(size: 20))
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
 
                 HStack {
                     Button(action: {
@@ -365,20 +370,25 @@ struct AddMed: View {
     // ──────────── Saving ────────────
 
     func saveMedicine() {
+        // Real count: if "Other" was picked take the typed number, otherwise index + 1
         let count = doseIndex == 3 ? (Int(customDose) ?? 1) : doseIndex + 1
 
-        print("Name: \(medName)")
-        print("Tablets per dose: \(count)")
-        print("First time: \(firstTime.formatted(date: .omitted, time: .shortened))")
-        print("Every: \(everyHours) hours")
-        print("After food: \(afterFood)")
+        let newMedicine = Medicine(
+            name: medName,
+            doseCount: count,
+            firstTime: firstTime,
+            everyHours: everyHours,
+            afterFood: afterFood,
+            imageData: photoData
+        )
 
+        store.saveMedicine(newMedicine)
         showSaved = true
     }
 }
 
 #Preview {
     NavigationStack{
-        AddMed()
+        AddMed(store: MedicineStore())
     }
 }

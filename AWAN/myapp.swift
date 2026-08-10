@@ -324,6 +324,8 @@ struct myapp: View {
 struct PreviewWrapper: View {
     @State private var selectedTab = 1
     @StateObject private var store = AppointmentStore()
+    @StateObject private var medicineStore = MedicineStore()
+
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
@@ -349,7 +351,7 @@ struct PreviewWrapper: View {
             .tag(1)
 
             NavigationView {
-                MyMedicineView()
+                MyMedicineView(store: medicineStore)
                     .navigationTitle("Medications")
                     .navigationBarTitleDisplayMode(.inline)
             }
