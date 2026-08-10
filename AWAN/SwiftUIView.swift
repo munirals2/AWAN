@@ -86,34 +86,31 @@ struct SwiftUIView: View {
                 }
                 .padding(.top, 60)
                 .offset(y: -20)
-                VStack{
-                    HStack{
+                VStack {
+                    HStack {
                         Spacer()
-                        
-                        Button(action: {
-                            
-                        }){
+
+                        NavigationLink(destination: swiftUIView()) {
                             Text("Skip")
                                 .font(.headline)
                                 .foregroundColor(.gray)
                         }
                     }
                     .padding(.horizontal, 25)
-                    .padding(.top, 50)
-                    
+                    .padding(.top, 20)
+
                     Spacer()
+                }
+                    
+                    
                     
                 }
-                
-                
-                
-                
+                .toolbar(.hidden, for: .navigationBar)
             }
-            .toolbar(.hidden, for: .navigationBar)
+            
         }
-        
     }
-}
+
 #Preview {
     SwiftUIView()
 }

@@ -301,7 +301,7 @@ struct myapp: View {
         .overlay(
             NavigationLink(
                 destination: SchedulePage(store: store)  //  Pass the store
-                    .navigationTitle("New Appointment")
+                    .navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
             ) {
                 Image(systemName: "plus")
