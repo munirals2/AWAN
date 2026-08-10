@@ -1,9 +1,10 @@
 import SwiftUI
+import UserNotifications
 
 struct MedicineDetailsView: View {
-
+    
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         
         ZStack(alignment: .topTrailing) {
@@ -17,6 +18,7 @@ struct MedicineDetailsView: View {
             VStack(spacing: 18) {
                 
                 Spacer()
+                
                 
                 // Medicine Image
                 Circle()
@@ -42,6 +44,7 @@ struct MedicineDetailsView: View {
                     .padding(.top, 10)
                 
                 
+                
                 // Medicine Name
                 Text("Metformin")
                     .font(.system(size: 32, weight: .bold))
@@ -54,14 +57,17 @@ struct MedicineDetailsView: View {
                     )
                 
                 
+                
                 Text("Dose time: 10:00 AM")
                     .font(.title2)
                     .foregroundColor(.gray)
                 
                 
+                
                 Text("One pill")
                     .font(.title3)
                     .foregroundColor(.gray)
+                
                 
                 
                 Text("Take after meal")
@@ -75,10 +81,13 @@ struct MedicineDetailsView: View {
                     )
                 
                 
+                
                 Spacer()
                     .frame(height: 5)
                 
                 
+                
+                // Taken Button
                 Button {
                     
                 } label: {
@@ -100,7 +109,24 @@ struct MedicineDetailsView: View {
                 .padding(.horizontal, 30)
                 
                 
+                
+                // Reminder Button
                 Button {
+                    
+                    UNUserNotificationCenter.current()
+                        .requestAuthorization(
+                            options: [.alert, .sound, .badge]
+                        ) { granted, error in
+                            
+                            if let error = error {
+                                print(error)
+                                return
+                            }
+                            
+                            if granted {
+                                scheduleMedicineReminder()
+                            }
+                        }
                     
                 } label: {
                     Text("Remind me after 15 minutes")
@@ -127,6 +153,8 @@ struct MedicineDetailsView: View {
                 .padding(.horizontal, 30)
                 
                 
+                
+                // Skip Button
                 Button {
                     
                 } label: {
@@ -148,31 +176,65 @@ struct MedicineDetailsView: View {
                 .padding(.horizontal, 30)
                 
                 
+                
                 Spacer()
             }
             .padding(.top, 20)
             .frame(maxWidth: .infinity)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 30)
-            )
+            
+            
             
             // Close Button
-            .overlay(alignment: .topTrailing) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.gray)
-                        .frame(width: 40, height: 40)
-                }
-                .padding(.top, 160)
-                .padding(.trailing, 20)
-                .zIndex(10)
+            Button {
+                dismiss()
+                
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.gray)
+                    .frame(width: 40, height: 40)
             }
+            .padding(.top, 160)
+            .padding(.trailing, 20)
+            .zIndex(10)
         }
     }
 }
+
+
+
+// Medicine Notification
+private func scheduleMedicineReminder() {
+    
+    let content = UNMutableNotificationContent()
+    
+    content.title = "Medicine Reminder"
+    content.body = "Time to take your Metformin."
+    content.sound = .default
+    
+    
+    let trigger = UNTimeIntervalNotificationTrigger(
+        timeInterval: 15 * 60,
+        repeats: false
+    )
+    
+    
+    let request = UNNotificationRequest(
+        identifier: "medicineReminder",
+        content: content,
+        trigger: trigger
+    )
+    
+    
+    UNUserNotificationCenter.current()
+        .add(request) { error in
+            
+            if let error = error {
+                print("Notification error: \(error)")
+            }
+        }
+}
+
 
 
 #Preview {
