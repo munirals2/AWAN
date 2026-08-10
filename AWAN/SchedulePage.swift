@@ -244,6 +244,8 @@ struct SchedulePage: View {
                     .padding(.horizontal)
                     .padding(.top, 16)
                     .padding(.bottom, 54)
+                    .disabled(selectedDate == nil || hospitalName.isEmpty || visitReason.isEmpty)
+                    .opacity((selectedDate == nil || hospitalName.isEmpty || visitReason.isEmpty) ? 0.5 : 1)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
