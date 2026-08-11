@@ -498,7 +498,8 @@ struct PreviewWrapper: View {
             // MARK: List
             
             NavigationView {
-                HomeView(store: store)
+                HomeView(store: store,
+                         medicineStore: medicineStore)
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.inline)
             }

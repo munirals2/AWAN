@@ -74,7 +74,7 @@ struct HomeView: View {
         WidgetCenter.shared.reloadAllTimelines()
     }
     @ObservedObject var store: AppointmentStore
-    
+    @ObservedObject var medicineStore: MedicineStore
     var nextAppointment: Appointment? {
         let now = Date()
         
@@ -90,6 +90,30 @@ struct HomeView: View {
                 return appointmentDate > now
             }
             .sorted { $0.date < $1.date }
+            .first
+    }
+    var nextMedicine: Medicine? {
+        let now = Date()
+        
+        return medicineStore.medicines
+            .filter { $0.status == .pending }
+            .sorted { medicine1, medicine2 in
+                let date1 = Calendar.current.date(
+                    bySettingHour: Calendar.current.component(.hour, from: medicine1.firstTime),
+                    minute: Calendar.current.component(.minute, from: medicine1.firstTime),
+                    second: 0,
+                    of: now
+                ) ?? medicine1.firstTime
+                
+                let date2 = Calendar.current.date(
+                    bySettingHour: Calendar.current.component(.hour, from: medicine2.firstTime),
+                    minute: Calendar.current.component(.minute, from: medicine2.firstTime),
+                    second: 0,
+                    of: now
+                ) ?? medicine2.firstTime
+                
+                return date1 < date2
+            }
             .first
     }
     
@@ -186,7 +210,7 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading, spacing: 6) {
                                 
-                                Text("Metformin")
+                                Text(nextMedicine?.name ?? "No upcoming medicine")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(
@@ -198,7 +222,7 @@ struct HomeView: View {
                                     )
                                     .offset(y: -55)
                                 
-                                Text("One tablet")
+                                Text("\(nextMedicine?.doseCount ?? 0) tablet")
                                     .font(.headline)
                                     .foregroundColor(.gray)
                                     .offset(y: -60)
@@ -404,5 +428,8 @@ struct HomeView: View {
 
 
 #Preview {
-    HomeView(store: AppointmentStore())
+    HomeView(
+        store: AppointmentStore(),
+        medicineStore: MedicineStore()
+    )
 }

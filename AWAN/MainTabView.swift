@@ -7,7 +7,9 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             NavigationView {
-                HomeView(store: store)
+                HomeView(store: store,
+                         medicineStore: medicineStore
+                )
             }
             .tabItem {
                 Image(systemName: "square.stack.3d.up")

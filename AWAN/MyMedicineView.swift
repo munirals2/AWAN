@@ -305,7 +305,8 @@ struct MedicinePreviewWrapper: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
-                HomeView(store: store)
+                HomeView(store: store,
+                         medicineStore: medicineStore)
             }
             .tabItem {
                 Image(systemName: "square.stack.3d.up")

@@ -8,6 +8,7 @@
  import SwiftUI
 struct swiftUIView: View {
     @StateObject private var store = AppointmentStore()
+    @StateObject private var medicineStore = MedicineStore()
     var body: some View {
         NavigationStack {
             ZStack{
@@ -31,7 +32,8 @@ struct swiftUIView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 420, height: 420)
-                    NavigationLink(destination: HomeView(store: store)){
+                    NavigationLink(destination: HomeView(store: store,
+                                                         medicineStore: medicineStore)){
                         Text("Next")
                             .font(.title)
                             .fontWeight(.bold)
