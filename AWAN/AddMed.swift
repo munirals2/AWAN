@@ -28,12 +28,19 @@ struct AddMed: View {
     @State private var showCustomAlert = false
 
     @State private var firstTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date()) ?? Date()
+
+    @State private var frequencyType: FrequencyType = .daily
     @State private var everyHours = 8
+    @State private var selectedWeekdays: Set<Int> = []   // 1=Sun ... 7=Sat
+
     @State private var afterFood = true
 
     @State private var showSaved = false
 
     let doseOptions = ["1", "2", "3", "Other"]
+
+    // Weekday buttons shown Sun...Sat, matching Calendar's 1-7 weekday numbering
+    let weekdaySymbols = ["S", "M", "T", "W", "T", "F", "S"]
 
     var body: some View {
         // The header is OUTSIDE the ScrollView on purpose:
@@ -49,11 +56,18 @@ struct AddMed: View {
                     imageCard
                     doseCard
 
-                    sectionTitle("Dose Times", "clock")
+                    sectionTitle("First Dose Time", "clock")
                     timeCard
 
-                    sectionTitle("Every How Many Hours", "clock.arrow.circlepath")
-                    hoursCard
+                    sectionTitle("Repeats", "repeat")
+                    frequencyPicker
+
+                    // Only one of these shows, depending on the picked frequency
+                    if frequencyType == .hourly {
+                        hoursCard
+                    } else if frequencyType == .weekly {
+                        weekdayCard
+                    }
 
                     afterFoodCard
                     saveButton
@@ -258,38 +272,112 @@ struct AddMed: View {
         .cornerRadius(18)
     }
 
-    var hoursCard: some View {
-        HStack{
-            Button(action: {
-                if everyHours > 1 { everyHours -= 1 }
-            }){
-                Image(systemName: "minus.circle")
-                    .font(.system(size: 28))
-                    .foregroundColor(mainBlue)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
+    // Daily / Weekly / Hourly segmented picker
+    var frequencyPicker: some View {
+        HStack(spacing: 8){
+            ForEach(FrequencyType.allCases, id: \.self){ type in
+                Button(action: {
+                    frequencyType = type
+                }){
+                    Text(type.label)
+                        .font(.system(size: 15))
+                        .foregroundColor(frequencyType == type ? .white : mainBlue)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 38)
+                        .background(frequencyType == type ? mainBlue : Color.white.opacity(0.7))
+                        .cornerRadius(10)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(cardBlue)
+        .cornerRadius(18)
+    }
 
-            Spacer()
-
-            Text("\(everyHours) hours")
-                .font(.system(size: 17))
+    // Shown only when frequencyType == .weekly
+    var weekdayCard: some View {
+        VStack(alignment: .leading, spacing: 10){
+            Text("Which Days")
+                .font(.system(size: 15))
                 .fontWeight(.semibold)
                 .foregroundColor(mainBlue)
 
-            Spacer()
-
-            Button(action: {
-                if everyHours < 24 { everyHours += 1 }
-            }){
-                Image(systemName: "plus.circle")
-                    .font(.system(size: 28))
-                    .foregroundColor(mainBlue)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
+            HStack(spacing: 6){
+                ForEach(1...7, id: \.self){ weekday in
+                    let isSelected = selectedWeekdays.contains(weekday)
+                    Button(action: {
+                        if isSelected {
+                            selectedWeekdays.remove(weekday)
+                        } else {
+                            selectedWeekdays.insert(weekday)
+                        }
+                    }){
+                        Text(weekdaySymbols[weekday - 1])
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(isSelected ? .white : mainBlue)
+                            .frame(width: 36, height: 36)
+                            .background(isSelected ? mainBlue : Color.white.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                    .buttonStyle(.plain)
+                }
             }
-            .buttonStyle(.plain)
+
+            if selectedWeekdays.isEmpty {
+                Text("Pick at least one day")
+                    .font(.system(size: 12))
+                    .foregroundColor(.red.opacity(0.7))
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(cardBlue)
+        .cornerRadius(18)
+    }
+
+    // Shown only when frequencyType == .hourly
+    var hoursCard: some View {
+        VStack(alignment: .leading, spacing: 10){
+            Text("Every How Many Hours")
+                .font(.system(size: 15))
+                .fontWeight(.semibold)
+                .foregroundColor(mainBlue)
+
+            HStack{
+                Button(action: {
+                    if everyHours > 1 { everyHours -= 1 }
+                }){
+                    Image(systemName: "minus.circle")
+                        .font(.system(size: 28))
+                        .foregroundColor(mainBlue)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
+
+                Text("\(everyHours) hours")
+                    .font(.system(size: 17))
+                    .fontWeight(.semibold)
+                    .foregroundColor(mainBlue)
+
+                Spacer()
+
+                Button(action: {
+                    if everyHours < 24 { everyHours += 1 }
+                }){
+                    Image(systemName: "plus.circle")
+                        .font(.system(size: 28))
+                        .foregroundColor(mainBlue)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
@@ -338,8 +426,15 @@ struct AddMed: View {
         }
         .buttonStyle(.plain)
         .padding(.top, 6)
-        .disabled(medName.isEmpty)
-        .opacity(medName.isEmpty ? 0.5 : 1)
+        .disabled(isSaveDisabled)
+        .opacity(isSaveDisabled ? 0.5 : 1)
+    }
+
+    // Save button is disabled if name is empty, or weekly with no days picked
+    private var isSaveDisabled: Bool {
+        if medName.isEmpty { return true }
+        if frequencyType == .weekly && selectedWeekdays.isEmpty { return true }
+        return false
     }
 
 
@@ -377,7 +472,9 @@ struct AddMed: View {
             name: medName,
             doseCount: count,
             firstTime: firstTime,
+            frequencyType: frequencyType,
             everyHours: everyHours,
+            weeklyDays: Array(selectedWeekdays).sorted(),
             afterFood: afterFood,
             imageData: photoData
         )

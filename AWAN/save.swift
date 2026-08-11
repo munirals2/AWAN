@@ -72,16 +72,77 @@ enum MedicineStatus: String, Codable {
     case skipped   // user skipped
 }
 
+// How often the medicine repeats
+enum FrequencyType: String, Codable, CaseIterable {
+    case daily    // once every day, at firstTime
+    case weekly   // on specific days of the week, at firstTime
+    case hourly   // repeats every X hours starting at firstTime
+
+    var label: String {
+        switch self {
+        case .daily: return "Daily"
+        case .weekly: return "Weekly"
+        case .hourly: return "Hourly"
+        }
+    }
+}
+
 //Medicine with Status
 struct Medicine: Identifiable, Codable {
     var id = UUID()
     var name: String
     var doseCount: Int
     var firstTime: Date
-    var everyHours: Int
+    var frequencyType: FrequencyType = .daily
+    var everyHours: Int = 8            // only used when frequencyType == .hourly
+    var weeklyDays: [Int] = []         // Calendar weekday ints: 1=Sun ... 7=Sat, only used when .weekly
     var afterFood: Bool
     var imageData: Data?
-    var status: MedicineStatus = .pending  // ✅ Added status
+    var status: MedicineStatus = .pending
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        doseCount: Int,
+        firstTime: Date,
+        frequencyType: FrequencyType = .daily,
+        everyHours: Int = 8,
+        weeklyDays: [Int] = [],
+        afterFood: Bool,
+        imageData: Data? = nil,
+        status: MedicineStatus = .pending
+    ) {
+        self.id = id
+        self.name = name
+        self.doseCount = doseCount
+        self.firstTime = firstTime
+        self.frequencyType = frequencyType
+        self.everyHours = everyHours
+        self.weeklyDays = weeklyDays
+        self.afterFood = afterFood
+        self.imageData = imageData
+        self.status = status
+    }
+
+    // Custom decoding so medicines saved before frequencyType existed
+    // still load fine, defaulting to .daily instead of crashing.
+    enum CodingKeys: String, CodingKey {
+        case id, name, doseCount, firstTime, frequencyType, everyHours, weeklyDays, afterFood, imageData, status
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        name = try container.decode(String.self, forKey: .name)
+        doseCount = try container.decode(Int.self, forKey: .doseCount)
+        firstTime = try container.decode(Date.self, forKey: .firstTime)
+        frequencyType = try container.decodeIfPresent(FrequencyType.self, forKey: .frequencyType) ?? .daily
+        everyHours = try container.decodeIfPresent(Int.self, forKey: .everyHours) ?? 8
+        weeklyDays = try container.decodeIfPresent([Int].self, forKey: .weeklyDays) ?? []
+        afterFood = try container.decode(Bool.self, forKey: .afterFood)
+        imageData = try container.decodeIfPresent(Data.self, forKey: .imageData)
+        status = try container.decodeIfPresent(MedicineStatus.self, forKey: .status) ?? .pending
+    }
 }
 
 //Medicine Store

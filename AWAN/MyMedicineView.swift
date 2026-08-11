@@ -14,6 +14,8 @@ struct MyMedicineView: View {
     private let scrollTopPadding: CGFloat = 0             // Gap under header (0 = no gap)
     private let pullUpAmount: CGFloat = 0                  // Pull everything up (negative = up)
 
+    private let weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
     // Medicines sorted by their first dose time, earliest first
     private var sortedMedicines: [Medicine] {
         store.medicines.sorted { $0.firstTime < $1.firstTime }
@@ -53,6 +55,27 @@ struct MyMedicineView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: date)
+    }
+
+    // Human-readable frequency line under the medicine name
+    private func frequencyString(for medicine: Medicine) -> String {
+        switch medicine.frequencyType {
+        case .daily:
+            return "Daily"
+        case .hourly:
+            return "Every \(medicine.everyHours)h"
+        case .weekly:
+            if medicine.weeklyDays.isEmpty {
+                return "Weekly"
+            }
+            let names = medicine.weeklyDays
+                .sorted()
+                .compactMap { day -> String? in
+                    guard day >= 1 && day <= 7 else { return nil }
+                    return weekdayNames[day - 1]
+                }
+            return names.joined(separator: ", ")
+        }
     }
 
     var body: some View {
@@ -220,6 +243,14 @@ struct MyMedicineView: View {
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                     Text(timeString(medicine.firstTime))
+                        .font(.caption)
+                        .foregroundColor(.gray)
+
+                    Text("•")
+                        .font(.caption)
+                        .foregroundColor(.gray.opacity(0.5))
+
+                    Text(frequencyString(for: medicine))
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
