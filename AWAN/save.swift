@@ -30,6 +30,17 @@ final class AppointmentStore: ObservableObject {
         appointments.append(appointment)
         saveToDisk()
     }
+    func updateAppointment(_ appointment: Appointment) {
+        if let index = appointments.firstIndex(where: { $0.id == appointment.id }) {
+            appointments[index] = appointment
+            saveToDisk()
+        }
+    }
+
+    func deleteAppointment(id: UUID) {
+        appointments.removeAll { $0.id == id }
+        saveToDisk()
+    }
     func confirmAppointment(id: UUID) {
         if let index = appointments.firstIndex(where: { $0.id == id }) {
             appointments[index].isConfirmed = true

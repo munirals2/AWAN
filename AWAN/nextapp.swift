@@ -6,6 +6,9 @@ struct ConfirmView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var store: AppointmentStore
     let appointmentID: UUID
+    private var appointment: Appointment? {
+        store.appointments.first { $0.id == appointmentID }
+    }
     
     var body: some View {
         
@@ -23,7 +26,11 @@ struct ConfirmView: View {
                 
                 
                 // Date
-                Text("22 August")
+                Text(
+                    appointment?.date.formatted(
+                        .dateTime.day().month(.wide)
+                    ) ?? ""
+                )
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(
@@ -36,19 +43,24 @@ struct ConfirmView: View {
                 
                 
                 // Hospital
-                Text("Al Habib Hospital | Clinic 3")
+                Text(appointment?.hospitalName ?? "")
                     .font(.title2)
                     .foregroundColor(.gray)
                 
                 
                 // Doctor
-                Text("Dr. Ahmed Ali | 10 AM")
+                Text(
+                    appointment?.time.formatted(
+                        .dateTime.hour().minute()
+                    ) ?? ""
+                )
+                
                     .font(.title2)
                     .foregroundColor(.gray)
                 
                 
                 // Reminder
-                Text("Please bring your medications")
+                Text(appointment?.visitReason ?? "")
                     .font(.title2)
                     .foregroundColor(
                         Color(

@@ -4,6 +4,9 @@ struct myapp: View {
     @State private var isConfirmed = true
     // Create a store instance for this view (or use a shared one)
     @ObservedObject var store: AppointmentStore
+    @State private var editingAppointment: Appointment?
+    @State private var showDeleteAlert = false
+    @State private var appointmentToDelete: Appointment?
 
     var body: some View {
         ZStack {
@@ -30,7 +33,7 @@ struct myapp: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         .overlay(
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Good morning, Fatimah")
+                                Text("Good morning,")
                                     .font(.title3)
                                     .bold()
                                     .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
@@ -67,147 +70,9 @@ struct myapp: View {
                         )
 
                     // Second Card - Appointment 1 (May 21)
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
-                        .frame(height: 170)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        .overlay(
-                            HStack(spacing: 0) {
-                                VStack(spacing: 5) {
-                                    Text("May")
-                                        .foregroundColor(.white)
-                                    Text("21")
-                                        .font(.system(size: 30, weight: .bold))
-                                        .foregroundColor(.white)
-                                    Text("Wed")
-                                        .foregroundColor(.white)
-                                }
-                                .frame(width: 90)
-                                .frame(maxHeight: .infinity)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                )
-                                VStack(alignment: .leading, spacing: 8) {
-                                    HStack {
-                                        Spacer()
-                                        Button {
-                                            isConfirmed.toggle()
-                                        } label: {
-                                            Text(isConfirmed ? "Confirmed" : "Not Confirmed")
-                                                .font(.system(size: 11, weight: .semibold))
-                                                .foregroundColor(.white)
-                                                .padding(.horizontal, 12)
-                                                .padding(.vertical, 6)
-                                                .frame(minWidth: 95)
-                                                .background(
-                                                    isConfirmed
-                                                    ? Color(red: 96/255, green: 157/255, blue: 220/255)
-                                                    : Color.red
-                                                )
-                                                .cornerRadius(12)
-                                        }
-                                        Spacer()
-                                    }
-                                    Text("General Check-up")
-                                        .bold()
-                                    Text("Al Habib Hospital")
-                                        .foregroundColor(.gray)
-                                    HStack {
-                                        Image(systemName: "clock")
-                                        Text("10:00 AM")
-                                        Image(systemName: "location")
-                                        Text("Clinic 2")
-                                    }
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(.white)
-                                        .frame(height: 35)
-                                        .overlay(
-                                            HStack {
-                                                Image(systemName: "pills")
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                                Text("Please bring your medications")
-                                                    .font(.caption)
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                                Spacer()
-                                                Image(systemName: "chevron.right")
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                            }
-                                            .padding(.horizontal)
-                                        )
-                                }
-                                .padding()
-                            }
-                        )
-
+                    
                     // Third Card - Appointment 2 (May 28)
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
-                        .frame(height: 170)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        .overlay(
-                            HStack(spacing: 0) {
-                                VStack(spacing: 5) {
-                                    Text("May")
-                                        .foregroundColor(.white)
-                                    Text("28")
-                                        .font(.system(size: 30, weight: .bold))
-                                        .foregroundColor(.white)
-                                    Text("Wed")
-                                        .foregroundColor(.white)
-                                }
-                                .frame(width: 90)
-                                .frame(maxHeight: .infinity)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                )
-                                VStack(alignment: .leading, spacing: 8) {
-                                    HStack {
-                                        Text("Upcoming")
-                                            .font(.caption)
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, 10)
-                                            .padding(.vertical, 4)
-                                            .background(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                            .cornerRadius(10)
-                                        Spacer()
-                                    }
-                                    Text("Heart Disease Follow-up")
-                                        .bold()
-                                    Text("Al Habib Hospital")
-                                        .foregroundColor(.gray)
-                                    HStack {
-                                        Image(systemName: "clock")
-                                        Text("2:30 PM")
-                                        Image(systemName: "location")
-                                        Text("Clinic 6")
-                                    }
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(.white)
-                                        .frame(height: 35)
-                                        .overlay(
-                                            HStack {
-                                                Image(systemName: "heart.fill")
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                                Text("Bring your medical reports")
-                                                    .font(.caption)
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                                Spacer()
-                                                Image(systemName: "chevron.right")
-                                                    .foregroundColor(Color(red: 96/255, green: 157/255, blue: 220/255))
-                                            }
-                                            .padding(.horizontal)
-                                        )
-                                }
-                                .padding()
-                            }
-                        )
-                    ForEach(store.appointments) { appointment in
+                                        ForEach(store.appointments) { appointment in
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color(red: 235/255, green: 243/255, blue: 252/255))
                             .frame(height: 170)
@@ -234,6 +99,31 @@ struct myapp: View {
                                     )
                                     
                                     VStack(alignment: .leading, spacing: 8) {
+                                        
+                                        HStack {
+                                                Spacer()
+
+                                                Menu {
+                                                Button {
+                                                                       editingAppointment = appointment
+                                                                   } label: {
+                                                                       Label("Edit", systemImage: "pencil")
+                                                                   }
+
+                                                                   Button(role: .destructive) {
+                                                                       appointmentToDelete = appointment
+                                                                       showDeleteAlert = true
+                                                                   } label: {
+                                                                       Label("Delete", systemImage: "trash")
+                                                                   }
+
+                                                               } label: {
+                                                                   Image(systemName: "ellipsis")
+                                                                       .font(.title3)
+                                                                       .foregroundColor(.gray)
+                                                                       .padding(5)
+                                                               }
+                                                           }
                                         
                                         Text(appointment.isConfirmed ? "Confirmed" : "Upcoming")
                                             .font(.caption)
@@ -314,6 +204,28 @@ struct myapp: View {
             .padding(.bottom, 110),
             alignment: .bottomTrailing
         )
+        .alert("Delete Appointment?", isPresented: $showDeleteAlert) {
+            
+            Button("Delete", role: .destructive) {
+                if let appointment = appointmentToDelete {
+                    store.deleteAppointment(id: appointment.id)
+                    appointmentToDelete = nil
+                }
+            }
+            
+            Button("Cancel", role: .cancel) {
+                appointmentToDelete = nil
+            }
+            
+        } message: {
+            Text("Are you sure you want to delete this appointment?")
+        }
+        .sheet(item: $editingAppointment) { appointment in
+            SchedulePage(
+                store: store,
+                appointmentToEdit: appointment
+            )
+        }
     }
 }
 

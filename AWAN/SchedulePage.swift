@@ -8,6 +8,7 @@ import SwiftUI
 struct SchedulePage: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var store: AppointmentStore
+    var appointmentToEdit: Appointment?
     
     @State private var hospitalName: String = ""
     @State private var visitReason: String = ""
@@ -221,16 +222,34 @@ struct SchedulePage: View {
                             return
                         }
 
-                        let newAppointment = Appointment(
-                            date: date,
-                            time: selectedTime,
-                            hospitalName: hospitalName,
-                            visitReason: visitReason,
-                            reminderOn: reminderOn
-                        )
+                        if let existingAppointment = appointmentToEdit {
+                                
+                                let updatedAppointment = Appointment(
+                                    id: existingAppointment.id,
+                                    date: date,
+                                    time: selectedTime,
+                                    hospitalName: hospitalName,
+                                    visitReason: visitReason,
+                                    reminderOn: reminderOn,
+                                    isConfirmed: existingAppointment.isConfirmed
+                                )
+                                
+                                store.updateAppointment(updatedAppointment)
+                                
+                            } else {
+                                
+                                let newAppointment = Appointment(
+                                    date: date,
+                                    time: selectedTime,
+                                    hospitalName: hospitalName,
+                                    visitReason: visitReason,
+                                    reminderOn: reminderOn
+                                )
+                                
+                                store.saveAppointment(newAppointment)
+                            }
 
-                        store.saveAppointment(newAppointment)
-                        dismiss()
+                            dismiss()
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
@@ -258,7 +277,17 @@ struct SchedulePage: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         )
+        .onAppear {
+            if let appointment = appointmentToEdit {
+                hospitalName = appointment.hospitalName
+                visitReason = appointment.visitReason
+                selectedDate = appointment.date
+                selectedTime = appointment.time
+                reminderOn = appointment.reminderOn
+            }
+        }
         .sheet(isPresented: $showTimePicker) {
+            
             VStack {
                 HStack {
                     Spacer()
