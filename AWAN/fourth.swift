@@ -6,8 +6,73 @@
 //
 
 import SwiftUI
-
+import WidgetKit
 struct HomeView: View {
+    func updateWidget() {
+        
+        let defaults = UserDefaults(suiteName: "group.com.awan.shared")
+        
+        // Next Appointment
+        if let appointment = nextAppointment {
+            
+            let appointmentDate = appointment.date.formatted(
+                .dateTime
+                    .day()
+                    .month(.wide)
+            )
+            
+            defaults?.set(
+                appointmentDate,
+                forKey: "widgetAppointmentDate"
+            )
+            
+            defaults?.set(
+                appointment.hospitalName,
+                forKey: "widgetAppointmentHospital"
+            )
+            
+            let time = appointment.time.formatted(
+                date: .omitted,
+                time: .shortened
+            )
+            
+            defaults?.set(
+                time,
+                forKey: "widgetAppointmentTime"
+            )
+            
+        } else {
+            
+            defaults?.set(
+                "No upcoming appointment",
+                forKey: "widgetAppointmentDate"
+            )
+            
+            defaults?.set(
+                "No hospital",
+                forKey: "widgetAppointmentHospital"
+            )
+            
+            defaults?.set(
+                "",
+                forKey: "widgetAppointmentTime"
+            )
+        }
+        
+        // Next Medicine
+        defaults?.set(
+            "Metformin",
+            forKey: "widgetMedicineName"
+        )
+        
+        defaults?.set(
+            "11:30 AM",
+            forKey: "widgetMedicineTime"
+        )
+        
+        // Tell WidgetKit to refresh the widget
+        WidgetCenter.shared.reloadAllTimelines()
+    }
     @ObservedObject var store: AppointmentStore
     
     var nextAppointment: Appointment? {
@@ -314,12 +379,12 @@ struct HomeView: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
-            
             .sheet(isPresented: $showMedicineDetails) {
                 MedicineDetailsView()
                     .presentationDetents([.height(600)])
-                            .presentationDragIndicator(.hidden)
+                    .presentationDragIndicator(.hidden)
             }
+
             .sheet(isPresented: $showConfirmView) {
                 ConfirmView(
                     store: store,
@@ -327,7 +392,11 @@ struct HomeView: View {
                 )
                 .presentationDetents([.height(600)])
                 .presentationDragIndicator(.hidden)
-                  }
+            }
+
+            .onAppear {
+                updateWidget()
+            }
             }
 
         }

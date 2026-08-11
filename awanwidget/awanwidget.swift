@@ -1,84 +1,207 @@
-//
-//  awanwidget.swift
-//  awanwidget
-//
-//  Created by rataj abdullah aldebeebi on 28/02/1448 AH.
-//
-
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+// MARK: - Entry
+
+struct AwanEntry: TimelineEntry {
+    let date: Date
+    
+    let medicineName: String
+    let medicineTime: String
+    
+    let appointmentDate: String
+    let appointmentHospital: String
+}
+
+// MARK: - Provider
+
+struct AwanProvider: TimelineProvider {
+    
+    // Placeholder
+    func placeholder(in context: Context) -> AwanEntry {
+        AwanEntry(
+            date: Date(),
+            medicineName: "Metformin",
+            medicineTime: "11:30 AM",
+            appointmentDate: "22 August",
+            appointmentHospital: "Al Habib Hospital"
+        )
     }
-
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
-        completion(entry)
+    
+    // Snapshot
+    func getSnapshot(
+        in context: Context,
+        completion: @escaping (AwanEntry) -> Void
+    ) {
+        completion(loadEntry())
     }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+    
+    // Timeline
+    func getTimeline(
+        in context: Context,
+        completion: @escaping (Timeline<AwanEntry>) -> Void
+    ) {
+        
+        let entry = loadEntry()
+        
+        let nextUpdate = Calendar.current.date(
+            byAdding: .minute,
+            value: 15,
+            to: Date()
+        )!
+        
+        let timeline = Timeline(
+            entries: [entry],
+            policy: .after(nextUpdate)
+        )
+        
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
-}
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let emoji: String
-}
-
-struct awanwidgetEntryView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
-        }
+    
+    // MARK: - Load Data From App Group
+    
+    private func loadEntry() -> AwanEntry {
+        
+        let defaults = UserDefaults(
+            suiteName: "group.com.awan.shared"
+        )
+        
+        let medicineName =
+            defaults?.string(forKey: "widgetMedicineName")
+            ?? "Metformin"
+        
+        let medicineTime =
+            defaults?.string(forKey: "widgetMedicineTime")
+            ?? "11:30 AM"
+        
+        let appointmentDate =
+            defaults?.string(forKey: "widgetAppointmentDate")
+            ?? "No upcoming appointment"
+        
+        let appointmentHospital =
+            defaults?.string(forKey: "widgetAppointmentHospital")
+            ?? "No hospital"
+        
+        return AwanEntry(
+            date: Date(),
+            medicineName: medicineName,
+            medicineTime: medicineTime,
+            appointmentDate: appointmentDate,
+            appointmentHospital: appointmentHospital
+        )
     }
 }
 
-struct awanwidget: Widget {
-    let kind: String = "awanwidget"
 
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                awanwidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                awanwidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
+// MARK: - Widget View
+
+struct AwanWidgetEntryView: View {
+    
+    var entry: AwanProvider.Entry
+    
+    var body: some View {
+        
+        HStack(spacing: 20) {
+            
+            // MARK: Next Medicine
+            
+            VStack(alignment: .leading, spacing: 4) {
+                
+                Text("Next Medicine")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.9))
+                
+                Text(entry.medicineName)
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                Text(entry.medicineTime)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.white.opacity(0.9))
+            }
+            
+            // Divider
+            
+            Rectangle()
+                .fill(Color.white.opacity(0.3))
+                .frame(width: 1)
+            
+            // MARK: Next Appointment
+            
+            VStack(alignment: .leading, spacing: 4) {
+                
+                Text("Next Appointment")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.9))
+                
+                Text(entry.appointmentDate)
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                Text(entry.appointmentHospital)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.white.opacity(0.9))
+                    .lineLimit(1)
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .leading
+        )
+        .padding(.horizontal, 20)
+        .padding(.vertical, 15)
+        .containerBackground(
+            Color(
+                red: 150 / 255,
+                green: 201 / 255,
+                blue: 246 / 255
+            ),
+            for: .widget
+        )
     }
 }
 
-#Preview(as: .systemSmall) {
+
+// MARK: - Widget
+
+struct awanwidget: Widget {
+    
+    let kind: String = "awanwidget"
+    
+    var body: some WidgetConfiguration {
+        
+        StaticConfiguration(
+            kind: kind,
+            provider: AwanProvider()
+        ) { entry in
+            
+            AwanWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("AWAN")
+        .description(
+            "Shows your next medicine and appointment."
+        )
+        .supportedFamilies([
+            .systemMedium
+        ])
+    }
+}
+
+
+// MARK: - Preview
+
+#Preview(as: .systemMedium) {
     awanwidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    
+    AwanEntry(
+        date: .now,
+        medicineName: "Metformin",
+        medicineTime: "11:30 AM",
+        appointmentDate: "22 August",
+        appointmentHospital: "Al Habib Hospital"
+    )
 }

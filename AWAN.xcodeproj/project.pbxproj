@@ -6,11 +6,63 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BC6B32BC302AF50B00CCCF78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6B32BB302AF50B00CCCF78 /* WidgetKit.framework */; };
+		BC6B32BE302AF50B00CCCF78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6B32BD302AF50B00CCCF78 /* SwiftUI.framework */; };
+		BC6B32CD302AF50C00CCCF78 /* awanwidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC6B32CB302AF50C00CCCF78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E693BC4630207DC300E72D3E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC6B32B8302AF50B00CCCF78;
+			remoteInfo = awanwidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BC6B32D2302AF50D00CCCF78 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BC6B32CD302AF50C00CCCF78 /* awanwidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = awanwidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC6B32BB302AF50B00CCCF78 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		BC6B32BD302AF50B00CCCF78 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		BC6B32D4302AFB6900CCCF78 /* awanwidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = awanwidgetExtension.entitlements; sourceTree = "<group>"; };
 		E693BC4E30207DC300E72D3E /* AWAN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BC6B32CE302AF50D00CCCF78 /* Exceptions for "awanwidget" folder in "awanwidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BC6B32B8302AF50B00CCCF78 /* awanwidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		BC6B32BF302AF50B00CCCF78 /* awanwidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BC6B32CE302AF50D00CCCF78 /* Exceptions for "awanwidget" folder in "awanwidgetExtension" target */,
+			);
+			path = awanwidget;
+			sourceTree = "<group>";
+		};
 		E693BC5030207DC300E72D3E /* AWAN */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AWAN;
@@ -19,6 +71,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BC6B32B6302AF50B00CCCF78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6B32BE302AF50B00CCCF78 /* SwiftUI.framework in Frameworks */,
+				BC6B32BC302AF50B00CCCF78 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E693BC4B30207DC300E72D3E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -29,10 +90,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC6B32BA302AF50B00CCCF78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC6B32BB302AF50B00CCCF78 /* WidgetKit.framework */,
+				BC6B32BD302AF50B00CCCF78 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E693BC4530207DC300E72D3E = {
 			isa = PBXGroup;
 			children = (
+				BC6B32D4302AFB6900CCCF78 /* awanwidgetExtension.entitlements */,
 				E693BC5030207DC300E72D3E /* AWAN */,
+				BC6B32BF302AF50B00CCCF78 /* awanwidget */,
+				BC6B32BA302AF50B00CCCF78 /* Frameworks */,
 				E693BC4F30207DC300E72D3E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				E693BC4E30207DC300E72D3E /* AWAN.app */,
+				BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +122,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BC6B32B8302AF50B00CCCF78 /* awanwidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC6B32CF302AF50D00CCCF78 /* Build configuration list for PBXNativeTarget "awanwidgetExtension" */;
+			buildPhases = (
+				BC6B32B5302AF50B00CCCF78 /* Sources */,
+				BC6B32B6302AF50B00CCCF78 /* Frameworks */,
+				BC6B32B7302AF50B00CCCF78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BC6B32BF302AF50B00CCCF78 /* awanwidget */,
+			);
+			name = awanwidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = awanwidgetExtension;
+			productReference = BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E693BC4D30207DC300E72D3E /* AWAN */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E693BC5930207DC400E72D3E /* Build configuration list for PBXNativeTarget "AWAN" */;
@@ -55,10 +151,12 @@
 				E693BC4A30207DC300E72D3E /* Sources */,
 				E693BC4B30207DC300E72D3E /* Frameworks */,
 				E693BC4C30207DC300E72D3E /* Resources */,
+				BC6B32D2302AF50D00CCCF78 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BC6B32CC302AF50C00CCCF78 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				E693BC5030207DC300E72D3E /* AWAN */,
@@ -80,6 +178,9 @@
 				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
+					BC6B32B8302AF50B00CCCF78 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 					E693BC4D30207DC300E72D3E = {
 						CreatedOnToolsVersion = 26.6;
 					};
@@ -100,11 +201,19 @@
 			projectRoot = "";
 			targets = (
 				E693BC4D30207DC300E72D3E /* AWAN */,
+				BC6B32B8302AF50B00CCCF78 /* awanwidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BC6B32B7302AF50B00CCCF78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E693BC4C30207DC300E72D3E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +224,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BC6B32B5302AF50B00CCCF78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E693BC4A30207DC300E72D3E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +240,77 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		BC6B32CC302AF50C00CCCF78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC6B32B8302AF50B00CCCF78 /* awanwidgetExtension */;
+			targetProxy = BC6B32CB302AF50C00CCCF78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		BC6B32D0302AF50D00CCCF78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = awanwidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZDTJ587M84;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = awanwidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = awanwidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN.awanwidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BC6B32D1302AF50D00CCCF78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = awanwidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZDTJ587M84;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = awanwidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = awanwidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN.awanwidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E693BC5730207DC400E72D3E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -249,8 +435,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AWAN/AWAN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZDTJ587M84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -280,8 +468,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AWAN/AWAN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZDTJ587M84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -309,6 +499,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BC6B32CF302AF50D00CCCF78 /* Build configuration list for PBXNativeTarget "awanwidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC6B32D0302AF50D00CCCF78 /* Debug */,
+				BC6B32D1302AF50D00CCCF78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E693BC4930207DC300E72D3E /* Build configuration list for PBXProject "AWAN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
