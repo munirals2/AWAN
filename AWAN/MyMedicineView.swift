@@ -95,7 +95,7 @@ struct MyMedicineView: View {
                     .padding(20)
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 20)
+                .padding(.top, 97)
 
                 // Empty state
                 if store.medicines.isEmpty {
@@ -147,8 +147,6 @@ struct MyMedicineView: View {
                 }
             }
         }
-        .navigationTitle("Medications")
-        .navigationBarTitleDisplayMode(.inline)
         // Plus button raised higher
         .overlay(
             NavigationLink(
@@ -164,8 +162,8 @@ struct MyMedicineView: View {
                     .clipShape(Circle())
                     .shadow(radius: 5)
             }
-            .padding(.trailing, 20)
-            .padding(.bottom, 30),
+            .padding(.trailing, 30)
+            .padding(.bottom, 90),
             alignment: .bottomTrailing
         )
     }
@@ -268,8 +266,6 @@ struct MedicinePreviewWrapper: View {
         TabView(selection: $selectedTab) {
             NavigationView {
                 HomeView(store: store)
-                    .navigationTitle("Home")
-                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image(systemName: "square.stack.3d.up")
@@ -279,8 +275,6 @@ struct MedicinePreviewWrapper: View {
 
             NavigationView {
                 myapp(store: store)
-                    .navigationTitle("Appointments")
-                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image(systemName: "calendar")
@@ -290,8 +284,6 @@ struct MedicinePreviewWrapper: View {
 
             NavigationView {
                 MyMedicineView(store: medicineStore)
-                    .navigationTitle("Medications")
-                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image(systemName: "pill")
