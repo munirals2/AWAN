@@ -6,6 +6,10 @@ struct MyMedicineView: View {
     private let blue = Color(red: 96/255, green: 157/255, blue: 220/255)
     private let cardBg = Color(red: 228/255, green: 238/255, blue: 248/255)
 
+    // ⭐ GROUP OFFSET – Change this to move ALL cards together
+    // Positive = down, Negative = up
+    private let cardsVerticalOffset: CGFloat = 10  // ← ADJUST THIS VALUE
+
     // Medicines sorted by their first dose time, earliest first
     private var sortedMedicines: [Medicine] {
         store.medicines.sorted { $0.firstTime < $1.firstTime }
@@ -16,7 +20,7 @@ struct MyMedicineView: View {
     }
 
     private var totalCount: Int {
-        max(store.medicines.count, 1) // avoid divide-by-zero in ProgressView
+        max(store.medicines.count, 1)
     }
 
     // The earliest still-pending medicine is treated as "Now"
@@ -34,7 +38,6 @@ struct MyMedicineView: View {
             if medicine.id == nextPendingID {
                 return ("Now", blue)
             }
-            // within the next 3 hours counts as "Soon", otherwise "Later"
             let hoursAway = medicine.firstTime.timeIntervalSinceNow / 3600
             if hoursAway >= 0 && hoursAway <= 3 {
                 return ("Soon", Color(red: 255/255, green: 180/255, blue: 90/255))
@@ -58,7 +61,6 @@ struct MyMedicineView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-
                 // Header Card
                 ZStack {
                     RoundedRectangle(cornerRadius: 25)
@@ -112,16 +114,14 @@ struct MyMedicineView: View {
                     }
                     Spacer()
                 } else {
-                    // Timeline + Cards
                     ScrollView {
                         HStack(alignment: .top, spacing: 0) {
-
                             // Timeline column
                             ZStack {
                                 Rectangle()
                                     .fill(Color.gray.opacity(0.3))
                                     .frame(width: 2)
-                                    .padding(.vertical, 25)
+                                    .padding(.vertical, 5)
 
                                 VStack(spacing: 0) {
                                     ForEach(sortedMedicines) { medicine in
@@ -133,21 +133,24 @@ struct MyMedicineView: View {
                             .frame(width: 35)
                             .padding(.leading, 20)
 
-                            // Cards column
+                            // ─── CARDS COLUMN ───
+                            // ⭐ GROUP OFFSET APPLIED HERE – moves ALL cards together
                             VStack(spacing: 16) {
                                 ForEach(sortedMedicines) { medicine in
                                     medicineCard(medicine)
                                 }
                             }
                             .padding(.horizontal, 20)
+                            .offset(y: cardsVerticalOffset) // ← ALL CARDS MOVE TOGETHER
                         }
-                        .padding(.top, 25)
+                        .padding(.top, 15)
                         .padding(.bottom, 140)
                     }
                 }
             }
         }
-        // Plus button raised higher
+        .navigationTitle("Medications")
+        .navigationBarTitleDisplayMode(.inline)
         .overlay(
             NavigationLink(
                 destination: AddMed(store: store)
@@ -163,7 +166,7 @@ struct MyMedicineView: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 30)
-            .padding(.bottom, 90),
+            .padding(.bottom, 120),
             alignment: .bottomTrailing
         )
     }
@@ -228,7 +231,6 @@ struct MyMedicineView: View {
         .padding()
         .background(RoundedRectangle(cornerRadius: 20).fill(cardBg))
         .onTapGesture {
-            // Toggle taken/pending for now — tapping a card marks it taken
             store.updateMedicineStatus(
                 id: medicine.id,
                 status: medicine.status == .taken ? .pending : .taken
@@ -251,7 +253,6 @@ struct CustomProgressViewStyle: ProgressViewStyle {
         }
     }
 }
-
 
 #Preview {
     MedicinePreviewWrapper()
@@ -291,10 +292,6 @@ struct MedicinePreviewWrapper: View {
             }
             .tag(2)
         }
-        .accentColor(blueColor)
-    }
-
-    private var blueColor: Color {
-        Color(red: 96/255, green: 157/255, blue: 220/255)
+        .accentColor(Color(red: 96/255, green: 157/255, blue: 220/255))
     }
 }
