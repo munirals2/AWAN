@@ -6,9 +6,13 @@ struct MyMedicineView: View {
     private let blue = Color(red: 96/255, green: 157/255, blue: 220/255)
     private let cardBg = Color(red: 228/255, green: 238/255, blue: 248/255)
 
-    // ⭐ GROUP OFFSET – Change this to move ALL cards together
-    // Positive = down, Negative = up
-    private let cardsVerticalOffset: CGFloat = 10  // ← ADJUST THIS VALUE
+    // ⭐ POSITION CONTROLS – Adjust these to fine-tune
+    private let cardsVerticalOffset: CGFloat = 15          // Cards up/down
+    private let timelineVerticalOffset: CGFloat = -50       // Timeline up/down (negative = up)
+    private let lineTopPadding: CGFloat = 20              // Line extends above first dot
+    private let lineBottomPadding: CGFloat = 5            // Line extends below last dot
+    private let scrollTopPadding: CGFloat = 0             // Gap under header (0 = no gap)
+    private let pullUpAmount: CGFloat = 0                  // Pull everything up (negative = up)
 
     // Medicines sorted by their first dose time, earliest first
     private var sortedMedicines: [Medicine] {
@@ -23,7 +27,6 @@ struct MyMedicineView: View {
         max(store.medicines.count, 1)
     }
 
-    // The earliest still-pending medicine is treated as "Now"
     private var nextPendingID: UUID? {
         sortedMedicines.first(where: { $0.status == .pending })?.id
     }
@@ -99,7 +102,7 @@ struct MyMedicineView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 97)
 
-                // Empty state
+                // ⭐ SCROLLVIEW WITH GAP REMOVED
                 if store.medicines.isEmpty {
                     Spacer()
                     VStack(spacing: 10) {
@@ -116,13 +119,17 @@ struct MyMedicineView: View {
                 } else {
                     ScrollView {
                         HStack(alignment: .top, spacing: 0) {
-                            // Timeline column
-                            ZStack {
+                            // ─── TIMELINE COLUMN ───
+                            ZStack(alignment: .top) {
+                                // Gray line
                                 Rectangle()
                                     .fill(Color.gray.opacity(0.3))
                                     .frame(width: 2)
-                                    .padding(.vertical, 5)
+                                    .padding(.top, lineTopPadding)
+                                    .padding(.bottom, lineBottomPadding)
+                                    .offset(y: timelineVerticalOffset)
 
+                                // Dots
                                 VStack(spacing: 0) {
                                     ForEach(sortedMedicines) { medicine in
                                         timelineDot(for: medicine)
@@ -134,18 +141,19 @@ struct MyMedicineView: View {
                             .padding(.leading, 20)
 
                             // ─── CARDS COLUMN ───
-                            // ⭐ GROUP OFFSET APPLIED HERE – moves ALL cards together
                             VStack(spacing: 16) {
                                 ForEach(sortedMedicines) { medicine in
                                     medicineCard(medicine)
                                 }
                             }
                             .padding(.horizontal, 20)
-                            .offset(y: cardsVerticalOffset) // ← ALL CARDS MOVE TOGETHER
+                            .offset(y: cardsVerticalOffset)
                         }
-                        .padding(.top, 15)
+                        .padding(.top, scrollTopPadding)
                         .padding(.bottom, 140)
+                        .offset(y: pullUpAmount) // ⭐ Pull everything up to connect
                     }
+                    .background(Color.clear)
                 }
             }
         }
