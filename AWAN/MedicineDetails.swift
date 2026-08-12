@@ -201,7 +201,7 @@ struct MedicineDetailsView: View {
                     .foregroundColor(.gray)
                     .frame(width: 40, height: 40)
             }
-            .padding(.top, 160)
+            .padding(.top, 200)
             .padding(.trailing, 20)
             .zIndex(10)
         }
