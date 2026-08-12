@@ -180,8 +180,7 @@ struct MyMedicineView: View {
                 }
             }
         }
-        .navigationTitle("Medications")
-        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
         .overlay(
             NavigationLink(
                 destination: AddMed(store: store)
