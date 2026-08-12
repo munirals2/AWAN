@@ -60,15 +60,35 @@ struct HomeView: View {
         }
         
         // Next Medicine
-        defaults?.set(
-            "Metformin",
-            forKey: "widgetMedicineName"
-        )
-        
-        defaults?.set(
-            "11:30 AM",
-            forKey: "widgetMedicineTime"
-        )
+        if let medicine = nextMedicine {
+            
+            defaults?.set(
+                medicine.name,
+                forKey: "widgetMedicineName"
+            )
+            
+            let medicineTime = medicine.firstTime.formatted(
+                date: .omitted,
+                time: .shortened
+            )
+            
+            defaults?.set(
+                medicineTime,
+                forKey: "widgetMedicineTime"
+            )
+            
+        } else {
+            
+            defaults?.set(
+                "No upcoming medicine",
+                forKey: "widgetMedicineName"
+            )
+            
+            defaults?.set(
+                "",
+                forKey: "widgetMedicineTime"
+            )
+        }
         
         // Tell WidgetKit to refresh the widget
         WidgetCenter.shared.reloadAllTimelines()
@@ -137,7 +157,7 @@ struct HomeView: View {
                         .font(.headline)
                         .foregroundColor(.gray)
 
-                    Text("Good Morning")
+                    Text("Welcome")
                         .font(.system(size: 30, weight: .bold))
                         .foregroundColor(
                             Color(red: 96/255,
@@ -210,7 +230,8 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading, spacing: 6) {
                                 
-                                Text(nextMedicine?.name ?? "No upcoming medicine")
+                                
+                                Text(nextAppointment?.date.formatted(.dateTime.day().month(.wide)) ?? "No upcoming medicine")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundColor(
@@ -220,7 +241,7 @@ struct HomeView: View {
                                             blue: 220/255
                                         )
                                     )
-                                    .offset(y: -55)
+                                    .offset(y: -50)
                                 
                                 Text("\(nextMedicine?.doseCount ?? 0) tablet")
                                     .font(.headline)
@@ -347,11 +368,11 @@ struct HomeView: View {
                                             blue: 220/255
                                         )
                                     )
-                                    .offset(y: -95)
+                                    .offset(y: -90)
                                 Text(nextAppointment?.hospitalName ?? "No hospital")
                                     .font(.headline)
                                     .foregroundColor(.gray)
-                                    .offset(y: -100)
+                                    .offset(y: -99)
                             }
                             
                             Spacer()
@@ -394,7 +415,7 @@ struct HomeView: View {
                             
                         }
                         .padding(.horizontal, 30)
-                        .offset(y: -170)
+                        .offset(y: -165)
                         
                         Spacer(minLength: 25)
                     }
