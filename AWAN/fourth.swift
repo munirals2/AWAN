@@ -153,7 +153,7 @@ struct HomeView: View {
             VStack(spacing: 30) {
                 VStack(alignment: .leading, spacing: 4) {
 
-                    Text("Tuesday, 28 July")
+                    Text(Date(), format: .dateTime.weekday(.wide).day().month(.wide))
                         .font(.headline)
                         .foregroundColor(.gray)
 
@@ -231,22 +231,20 @@ struct HomeView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 
                                 
-                                Text(nextAppointment?.date.formatted(.dateTime.day().month(.wide)) ?? "No upcoming medicine")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(
-                                        Color(
-                                            red: 96/255,
-                                            green: 157/255,
-                                            blue: 220/255
-                                        )
+                                Text(
+                                    nextMedicine?.name ?? "No upcoming medicine"
+                                )
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(
+                                    Color(
+                                        red: 96/255,
+                                        green: 157/255,
+                                        blue: 220/255
                                     )
-                                    .offset(y: -50)
-                                
-                                Text("\(nextMedicine?.doseCount ?? 0) tablet")
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                    .offset(y: -60)
+                                )
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.9)
+                                .offset(y: -50)
                                 
                             }
                             
@@ -358,21 +356,24 @@ struct HomeView: View {
                             
                             VStack(alignment: .leading, spacing: 6) {
                                 
-                                Text(nextAppointment?.date.formatted(.dateTime.day().month(.wide)) ?? "No upcoming appointment")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(
-                                        Color(
-                                            red: 96/255,
-                                            green: 157/255,
-                                            blue: 220/255
-                                        )
+                                Text(
+                                    nextAppointment?.date.formatted(
+                                        .dateTime.day().month(.wide)
+                                    ) ?? "No upcoming appointment"
+                                )
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(
+                                    Color(
+                                        red: 96/255,
+                                        green: 157/255,
+                                        blue: 220/255
                                     )
+                                )
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.9)
+                                .fixedSize(horizontal: false, vertical: true)
                                     .offset(y: -90)
-                                Text(nextAppointment?.hospitalName ?? "No hospital")
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                    .offset(y: -99)
+                                
                             }
                             
                             Spacer()
