@@ -196,7 +196,7 @@ struct MyMedicineView: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 30)
-            .padding(.bottom, 120),
+            .padding(.bottom, 90),
             alignment: .bottomTrailing
         )
     }
