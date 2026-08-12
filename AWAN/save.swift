@@ -24,6 +24,7 @@ final class AppointmentStore: ObservableObject {
     
     init() {
         loadAppointments()
+        removeFinishedAppointments()
     }
     
     func saveAppointment(_ appointment: Appointment) {
@@ -39,6 +40,16 @@ final class AppointmentStore: ObservableObject {
 
     func deleteAppointment(id: UUID) {
         appointments.removeAll { $0.id == id }
+        saveToDisk()
+    }
+    func removeFinishedAppointments() {
+        let today = Calendar.current.startOfDay(for: Date())
+
+        appointments.removeAll { appointment in
+            let appointmentDay = Calendar.current.startOfDay(for: appointment.date)
+            return appointmentDay < today
+        }
+
         saveToDisk()
     }
     func confirmAppointment(id: UUID) {
@@ -151,8 +162,8 @@ final class MedicineStore: ObservableObject {
     
     init() {
         loadMedicines()
+        removeFinishedMedicines()
     }
-    
     func saveMedicine(_ medicine: Medicine) {
         medicines.append(medicine)
         saveToDisk()
@@ -167,6 +178,16 @@ final class MedicineStore: ObservableObject {
     
     func deleteMedicine(at offsets: IndexSet) {
         medicines.remove(atOffsets: offsets)
+        saveToDisk()
+    }
+    func removeFinishedMedicines() {
+        let today = Calendar.current.startOfDay(for: Date())
+
+        medicines.removeAll { medicine in
+            let medicineDay = Calendar.current.startOfDay(for: medicine.firstTime)
+            return medicineDay < today
+        }
+
         saveToDisk()
     }
     
