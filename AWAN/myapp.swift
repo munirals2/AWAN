@@ -332,9 +332,7 @@ struct myapp: View {
                                                     style: .time
                                                 )
                                                 
-                                                Image(systemName: "location")
-                                                
-                                                Text("Clinic")
+                                              
                                             }
                                             .font(.caption)
                                             .foregroundColor(.gray)
