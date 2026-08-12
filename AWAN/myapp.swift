@@ -340,44 +340,6 @@ struct myapp: View {
                                             .font(.caption)
                                             .foregroundColor(.gray)
                                             
-                                            
-                                            // Reminder
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .fill(.white)
-                                                .frame(height: 35)
-                                                .overlay(
-                                                    HStack {
-                                                        
-                                                        Image(
-                                                            systemName: "heart.fill"
-                                                        )
-                                                        .foregroundColor(
-                                                            Color(
-                                                                red: 96/255,
-                                                                green: 157/255,
-                                                                blue: 220/255
-                                                            )
-                                                        )
-                                                        
-                                                        Text(
-                                                            "Appointment reminder"
-                                                        )
-                                                        .font(.caption)
-                                                        .foregroundColor(
-                                                            Color(
-                                                                red: 96/255,
-                                                                green: 157/255,
-                                                                blue: 220/255
-                                                            )
-                                                        )
-                                                        
-                                                        Spacer()
-                                                        
-                                                        
-                                                        
-                                                    }
-                                                    .padding(.horizontal)
-                                                )
                                         }
                                         .padding()
                                     }
@@ -546,3 +508,4 @@ struct PreviewWrapper: View {
         )
     }
 }
+
