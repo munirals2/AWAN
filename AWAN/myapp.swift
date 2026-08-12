@@ -47,8 +47,8 @@ struct myapp: View {
             ScrollView {
                 
                 VStack(alignment: .leading, spacing: 15) {
-                    
-                    // MARK: - Title
+
+                    //Title
                     
                     Text("My Appointments")
                         .font(.system(size: 35, weight: .bold))
@@ -65,8 +65,8 @@ struct myapp: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     
-                    
-                    // MARK: - Welcome Card
+
+                        //Welcome Card
                     
                     RoundedRectangle(cornerRadius: 20)
                         .fill(
@@ -156,8 +156,7 @@ struct myapp: View {
                             .padding()
                         )
                     
-                    
-                    // MARK: - Appointments
+//Appointments
                     
                     if store.appointments.isEmpty {
                         
@@ -351,8 +350,8 @@ struct myapp: View {
                 .padding(.bottom, 140)
             }
             
-            
-            // MARK: - Add Appointment Button
+
+            //Add Appointment Button
             
             NavigationLink(
                 destination:
@@ -379,8 +378,8 @@ struct myapp: View {
                     .clipShape(Circle())
                     .shadow(radius: 5)
             }
-            .padding(.trailing, 20)
-            .padding(.bottom, 110)
+            .padding(.trailing, 30)
+            .padding(.bottom, 90)
             .frame(
                 maxWidth: .infinity,
                 maxHeight: .infinity,
@@ -388,8 +387,8 @@ struct myapp: View {
             )
         }
         
-        
-        // MARK: - Delete Alert
+
+        //Delete Alert
         
         .alert(
             "Delete Appointment?",
@@ -424,7 +423,7 @@ struct myapp: View {
         }
         
         
-        // MARK: - Edit Appointment
+//Edit Appointment
         
         .sheet(item: $editingAppointment) { appointment in
             
@@ -433,11 +432,12 @@ struct myapp: View {
                 appointmentToEdit: appointment
             )
         }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
 
-// MARK: - Preview
+//Preview
 
 #Preview {
     PreviewWrapper()
@@ -508,4 +508,3 @@ struct PreviewWrapper: View {
         )
     }
 }
-
