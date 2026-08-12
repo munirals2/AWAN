@@ -379,7 +379,7 @@ struct myapp: View {
                     .shadow(radius: 5)
             }
             .padding(.trailing, 30)
-            .padding(.bottom, 114)
+            .padding(.bottom, 90)
             .frame(
                 maxWidth: .infinity,
                 maxHeight: .infinity,
@@ -432,6 +432,7 @@ struct myapp: View {
                 appointmentToEdit: appointment
             )
         }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -507,4 +508,3 @@ struct PreviewWrapper: View {
         )
     }
 }
-
