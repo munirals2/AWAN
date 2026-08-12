@@ -277,6 +277,7 @@ struct SchedulePage: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         )
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             if let appointment = appointmentToEdit {
                 hospitalName = appointment.hospitalName
