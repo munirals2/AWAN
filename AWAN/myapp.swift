@@ -386,7 +386,7 @@ struct myapp: View {
                     }
                 }
                 .padding(.horizontal, 25)
-                .padding(.bottom, 20)
+                .padding(.bottom, 140)
             }
             
             
