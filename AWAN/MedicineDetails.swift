@@ -55,26 +55,38 @@ struct MedicineDetailsView: View {
 
                     Spacer()
 
-                    Circle()
-                        .fill(
-                            Color(
-                                red: 235/255,
-                                green: 236/255,
-                                blue: 240/255
-                            )
-                        )
-                        .frame(width: 110, height: 110)
-                        .overlay(
-                            Image(systemName: "pills")
-                                .font(.system(size: 40))
-                                .foregroundColor(
-                                    Color(
-                                        red: 96/255,
-                                        green: 157/255,
-                                        blue: 220/255
-                                    )
+                    if let imageData = medicine?.imageData,
+                       let uiImage = UIImage(data: imageData) {
+
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 110, height: 110)
+                            .clipShape(Circle())
+
+                    } else {
+
+                        Circle()
+                            .fill(
+                                Color(
+                                    red: 235/255,
+                                    green: 236/255,
+                                    blue: 240/255
                                 )
-                        )
+                            )
+                            .frame(width: 110, height: 110)
+                            .overlay(
+                                Image(systemName: "pills")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(
+                                        Color(
+                                            red: 96/255,
+                                            green: 157/255,
+                                            blue: 220/255
+                                        )
+                                    )
+                            )
+                    }
 
                     Text(medicine?.name ?? "")
                         .font(.system(size: 32, weight: .bold))
