@@ -426,14 +426,13 @@ struct HomeView: View {
             }
             .padding(.horizontal, 20)
             .sheet(isPresented: $showMedicineDetails) {
-                if let medicine = nextMedicine {
-                    MedicineDetailsView(
-                        medicineStore: medicineStore,
-                        medicine: medicine
-                    )
-                    .presentationDetents([.height(600)])
-                    .presentationDragIndicator(.hidden)
-                }
+                MedicineDetailsView(
+                    medicineStore: medicineStore,
+                    medicineID: nextMedicine?.id ?? UUID()
+                )
+                .presentationDetents([.height(600)])
+                .presentationDragIndicator(.hidden)
+            }
             }
 
             .sheet(isPresented: $showConfirmView) {
@@ -451,7 +450,7 @@ struct HomeView: View {
             }
 
         }
-    }
+    
 
 
 #Preview {
