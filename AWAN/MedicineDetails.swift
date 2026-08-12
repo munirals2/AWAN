@@ -4,7 +4,8 @@ import UserNotifications
 struct MedicineDetailsView: View {
     
     @Environment(\.dismiss) var dismiss
-    
+    @ObservedObject var medicineStore: MedicineStore
+    let medicine: Medicine
     var body: some View {
         
         ZStack(alignment: .topTrailing) {
@@ -46,7 +47,7 @@ struct MedicineDetailsView: View {
                 
                 
                 // Medicine Name
-                Text("Metformin")
+                Text(medicine.name)
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(
                         Color(
@@ -58,19 +59,19 @@ struct MedicineDetailsView: View {
                 
                 
                 
-                Text("Dose time: 10:00 AM")
+                Text("Dose time: \(medicine.firstTime.formatted(date: .omitted, time: .shortened))")
                     .font(.title2)
                     .foregroundColor(.gray)
                 
                 
                 
-                Text("One pill")
+                Text("\(medicine.doseCount) pill")
                     .font(.title3)
                     .foregroundColor(.gray)
                 
                 
                 
-                Text("Take after meal")
+                Text(medicine.afterFood ? "Take after meal" : "Take before meal")
                     .font(.title2)
                     .foregroundColor(
                         Color(
@@ -89,6 +90,12 @@ struct MedicineDetailsView: View {
                 
                 // Taken Button
                 Button {
+                    medicineStore.updateMedicineStatus(
+                        id: medicine.id,
+                        status: .taken
+                    )
+                    
+                    dismiss()
                     
                 } label: {
                     Text("Yes, I took it")
@@ -238,5 +245,13 @@ private func scheduleMedicineReminder() {
 
 
 #Preview {
-    MedicineDetailsView()
+    MedicineDetailsView(
+        medicineStore: MedicineStore(),
+        medicine: Medicine(
+            name: "Metformin",
+            doseCount: 1,
+            firstTime: Date(),
+            afterFood: true
+        )
+    )
 }
