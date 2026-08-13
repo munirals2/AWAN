@@ -86,7 +86,7 @@ struct myapp: View {
                         .overlay(
                             VStack(alignment: .leading, spacing: 10) {
                                 
-                                Text("Welcome,")
+                                Text("Welcome")
                                     .font(.title3)
                                     .bold()
                                     .foregroundColor(

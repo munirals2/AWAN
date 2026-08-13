@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SchedulePage: View {
     @Environment(\.dismiss) var dismiss
@@ -90,6 +91,34 @@ struct SchedulePage: View {
             currentMonth = newMonth
         }
     }
+    private func scheduleReminder() {
+
+        let content = UNMutableNotificationContent()
+
+        content.title = "Appointment Reminder"
+        content.body = "Your appointment is coming up."
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 15 * 60,
+            repeats: false
+        )
+
+        let request = UNNotificationRequest(
+            identifier: "appointmentReminder",
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current()
+            .add(request) { error in
+
+                if let error = error {
+                    print("Notification error: \(error)")
+                }
+            }
+    }
+
 
     var body: some View {
         // Header is OUTSIDE the ScrollView on purpose, same as AddMed:
@@ -223,33 +252,38 @@ struct SchedulePage: View {
                         }
 
                         if let existingAppointment = appointmentToEdit {
-                                
-                                let updatedAppointment = Appointment(
-                                    id: existingAppointment.id,
-                                    date: date,
-                                    time: selectedTime,
-                                    hospitalName: hospitalName,
-                                    visitReason: visitReason,
-                                    reminderOn: reminderOn,
-                                    isConfirmed: existingAppointment.isConfirmed
-                                )
-                                
-                                store.updateAppointment(updatedAppointment)
-                                
-                            } else {
-                                
-                                let newAppointment = Appointment(
-                                    date: date,
-                                    time: selectedTime,
-                                    hospitalName: hospitalName,
-                                    visitReason: visitReason,
-                                    reminderOn: reminderOn
-                                )
-                                
-                                store.saveAppointment(newAppointment)
-                            }
+                            
+                            let updatedAppointment = Appointment(
+                                id: existingAppointment.id,
+                                date: date,
+                                time: selectedTime,
+                                hospitalName: hospitalName,
+                                visitReason: visitReason,
+                                reminderOn: reminderOn,
+                                isConfirmed: existingAppointment.isConfirmed
+                            )
+                            
+                            store.updateAppointment(updatedAppointment)
+                            
+                        } else {
+                            
+                            let newAppointment = Appointment(
+                                date: date,
+                                time: selectedTime,
+                                hospitalName: hospitalName,
+                                visitReason: visitReason,
+                                reminderOn: reminderOn
+                            )
+                            
+                            store.saveAppointment(newAppointment)
+                        }
 
-                            dismiss()
+                     
+                        if reminderOn {
+                            scheduleReminder()
+                        }
+
+                        dismiss()
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
