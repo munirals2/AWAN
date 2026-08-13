@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54770E0D302D9BAA00DED951 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 54770E0C302D9BAA00DED951 /* Localizable.xcstrings */; };
 		BC6B32BC302AF50B00CCCF78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6B32BB302AF50B00CCCF78 /* WidgetKit.framework */; };
 		BC6B32BE302AF50B00CCCF78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6B32BD302AF50B00CCCF78 /* SwiftUI.framework */; };
 		BC6B32CD302AF50C00CCCF78 /* awanwidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -37,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		54770E0C302D9BAA00DED951 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BC6B32B9302AF50B00CCCF78 /* awanwidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = awanwidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6B32BB302AF50B00CCCF78 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		BC6B32BD302AF50B00CCCF78 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -102,6 +104,7 @@
 		E693BC4530207DC300E72D3E = {
 			isa = PBXGroup;
 			children = (
+				54770E0C302D9BAA00DED951 /* Localizable.xcstrings */,
 				BC6B32D4302AFB6900CCCF78 /* awanwidgetExtension.entitlements */,
 				E693BC5030207DC300E72D3E /* AWAN */,
 				BC6B32BF302AF50B00CCCF78 /* awanwidget */,
@@ -192,6 +195,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = E693BC4530207DC300E72D3E;
 			minimizedProjectReferenceProxies = 1;
@@ -218,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54770E0D302D9BAA00DED951 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +375,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -426,6 +432,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
