@@ -34,6 +34,7 @@ struct HomeView: View {
             let time = appointment.time.formatted(
                 date: .omitted,
                 time: .shortened
+                
             )
             
             defaults?.set(

@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SchedulePage: View {
     @Environment(\.dismiss) var dismiss
@@ -88,6 +89,82 @@ struct SchedulePage: View {
             currentMonth = newMonth
         }
     }
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .sound, .badge]
+        ) { granted, error in
+            
+            if let error = error {
+                print("Notification permission error: \(error)")
+            }
+            
+            print("Notification permission granted: \(granted)")
+        }
+    }
+    private func scheduleReminder() {
+        
+        guard let appointmentDate = selectedDate else {
+            return
+        }
+        
+        let calendar = Calendar.current
+        
+        var components = calendar.dateComponents(
+            [.year, .month, .day],
+            from: appointmentDate
+        )
+        
+        let timeComponents = calendar.dateComponents(
+            [.hour, .minute],
+            from: selectedTime
+        )
+        
+        components.hour = timeComponents.hour
+        components.minute = timeComponents.minute
+        components.second = 0
+        
+        guard let appointmentDateTime = calendar.date(from: components) else {
+            return
+        }
+        
+        // 15 minutes before the appointment
+        let reminderDate = appointmentDateTime.addingTimeInterval(-15 * 60)
+        
+        // Don't schedule if reminder time has already passed
+        guard reminderDate > Date() else {
+            return
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Appointment Reminder"
+        content.body = "Your appointment is in 15 minutes."
+        content.sound = .default
+        
+        let triggerDate = calendar.dateComponents(
+            [.year, .month, .day, .hour, .minute],
+            from: reminderDate
+        )
+        
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: triggerDate,
+            repeats: false
+        )
+        
+        let request = UNNotificationRequest(
+            identifier: "appointmentReminder",
+            content: content,
+            trigger: trigger
+        )
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Notification error: \(error)")
+            } else {
+                print("Appointment reminder scheduled successfully.")
+            }
+        }
+    }
+
 
     var body: some View {
         // Header is OUTSIDE the ScrollView on purpose, same as AddMed:
@@ -221,33 +298,38 @@ struct SchedulePage: View {
                         }
 
                         if let existingAppointment = appointmentToEdit {
-                                
-                                let updatedAppointment = Appointment(
-                                    id: existingAppointment.id,
-                                    date: date,
-                                    time: selectedTime,
-                                    hospitalName: hospitalName,
-                                    visitReason: visitReason,
-                                    reminderOn: reminderOn,
-                                    isConfirmed: existingAppointment.isConfirmed
-                                )
-                                
-                                store.updateAppointment(updatedAppointment)
-                                
-                            } else {
-                                
-                                let newAppointment = Appointment(
-                                    date: date,
-                                    time: selectedTime,
-                                    hospitalName: hospitalName,
-                                    visitReason: visitReason,
-                                    reminderOn: reminderOn
-                                )
-                                
-                                store.saveAppointment(newAppointment)
-                            }
+                            
+                            let updatedAppointment = Appointment(
+                                id: existingAppointment.id,
+                                date: date,
+                                time: selectedTime,
+                                hospitalName: hospitalName,
+                                visitReason: visitReason,
+                                reminderOn: reminderOn,
+                                isConfirmed: existingAppointment.isConfirmed
+                            )
+                            
+                            store.updateAppointment(updatedAppointment)
+                            
+                        } else {
+                            
+                            let newAppointment = Appointment(
+                                date: date,
+                                time: selectedTime,
+                                hospitalName: hospitalName,
+                                visitReason: visitReason,
+                                reminderOn: reminderOn
+                            )
+                            
+                            store.saveAppointment(newAppointment)
+                        }
 
-                            dismiss()
+                     
+                        if reminderOn {
+                            scheduleReminder()
+                        }
+
+                        dismiss()
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
@@ -277,6 +359,8 @@ struct SchedulePage: View {
         )
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
+            requestNotificationPermission()
+
             if let appointment = appointmentToEdit {
                 hospitalName = appointment.hospitalName
                 visitReason = appointment.visitReason
