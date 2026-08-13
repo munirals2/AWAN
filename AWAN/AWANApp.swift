@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct AWANApp: App {
+
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            // RootView = شاشة الشعار فوق التطبيق (انظر SplashView.swift)
+            RootView()
         }
     }
 }

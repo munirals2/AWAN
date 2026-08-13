@@ -104,7 +104,7 @@ struct MedicineDetailsView: View {
                     .font(.title2)
                     .foregroundColor(.gray)
 
-                    Text("\(medicine?.doseCount ?? 0) pill")
+                    Text("\(medicine?.doseCount ?? 0) tablet")
                         .font(.title3)
                         .foregroundColor(.gray)
 

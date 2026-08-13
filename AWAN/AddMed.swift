@@ -56,7 +56,7 @@ struct AddMed: View {
                     imageCard
                     doseCard
 
-                    sectionTitle("First Dose Time", "clock")
+                    sectionTitle("First dose time", "clock")
                     timeCard
 
                     sectionTitle("Repeats", "repeat")
@@ -94,7 +94,7 @@ struct AddMed: View {
             Button("Done"){ }
             Button("Cancel", role: .cancel){ doseIndex = 0 }
         }
-        .alert("Medicine saved ✓", isPresented: $showSaved){
+        .alert("Medicine saved", isPresented: $showSaved){
             Button("OK"){ dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -170,7 +170,7 @@ struct AddMed: View {
             iconBox("cross.vial.fill")
 
             VStack(alignment: .leading, spacing: 4){
-                Text("Medicine Name")
+                Text("Medicine name")
                     .font(.system(size: 16))
                     .fontWeight(.semibold)
                     .foregroundColor(mainBlue)
@@ -192,7 +192,7 @@ struct AddMed: View {
                 iconBox("photo")
 
                 VStack(alignment: .leading, spacing: 4){
-                    Text("Medicine Image")
+                    Text("Medicine image")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
                         .foregroundColor(mainBlue)
@@ -256,7 +256,7 @@ struct AddMed: View {
         HStack(spacing: 12){
             iconBox("clock.fill")
 
-            Text("First Time")
+            Text("First time")
                 .font(.system(size: 16))
                 .fontWeight(.semibold)
                 .foregroundColor(mainBlue)
@@ -300,7 +300,7 @@ struct AddMed: View {
     // Shown only when frequencyType == .weekly
     var weekdayCard: some View {
         VStack(alignment: .leading, spacing: 10){
-            Text("Which Days")
+            Text("Which days")
                 .font(.system(size: 15))
                 .fontWeight(.semibold)
                 .foregroundColor(mainBlue)
@@ -341,7 +341,7 @@ struct AddMed: View {
     // Shown only when frequencyType == .hourly
     var hoursCard: some View {
         VStack(alignment: .leading, spacing: 10){
-            Text("Every How Many Hours")
+            Text("Every how many hours")
                 .font(.system(size: 15))
                 .fontWeight(.semibold)
                 .foregroundColor(mainBlue)
@@ -389,7 +389,7 @@ struct AddMed: View {
         HStack(spacing: 12){
             iconBox("fork.knife")
 
-            Text("Take After Food")
+            Text("Take after meal")
                 .font(.system(size: 16))
                 .fontWeight(.semibold)
                 .foregroundColor(mainBlue)
@@ -413,7 +413,7 @@ struct AddMed: View {
             HStack(spacing: 8){
                 Image(systemName: "checkmark")
                     .font(.system(size: 16, weight: .bold))
-                Text("Save Medicine")
+                Text("Save medicine")
                     .font(.system(size: 18))
                     .fontWeight(.bold)
             }

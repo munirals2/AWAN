@@ -31,7 +31,7 @@ struct Second: View {
                     Image("OLD2")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 420, height: 420)
+                        .frame(width: 300, height: 300)
                     
                     NavigationLink(destination: swiftUIView()){
                         Text("Next")

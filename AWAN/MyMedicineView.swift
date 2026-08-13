@@ -253,7 +253,7 @@ struct MyMedicineView: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
-                Text("\(medicine.name) | \(medicine.doseCount) pill\(medicine.doseCount > 1 ? "s" : "")")
+                Text("\(medicine.name) | \(medicine.doseCount) tablet\(medicine.doseCount > 1 ? "s" : "")")
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(blue)
