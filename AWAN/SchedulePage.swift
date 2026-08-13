@@ -23,16 +23,14 @@ struct SchedulePage: View {
     @State private var showTimePicker: Bool = false
 
     @State private var currentMonth: Date = {
-        var comps = DateComponents()
-        comps.year = 2026
-        comps.month = 5
-        comps.day = 1
-        return Calendar.current.date(from: comps) ?? Date()
+        let calendar = Calendar.current
+        let today = Date()
+        return calendar.date(from: calendar.dateComponents([.year, .month], from: today)) ?? today
     }()
-
+    
     @State private var showMonthPicker: Bool = false
-    @State private var pickerMonth: Int = 5
-    @State private var pickerYear: Int = 2026
+    @State private var pickerMonth: Int = Calendar.current.component(.month, from: Date())
+    @State private var pickerYear: Int = Calendar.current.component(.year, from: Date())
 
     let accentColor = Color(red: 0.38, green: 0.62, blue: 0.86)
     let fieldBackground = Color(red: 0.90, green: 0.93, blue: 0.98)
