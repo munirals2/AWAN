@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import AVFoundation
 struct HomeView: View {
     func updateWidget() {
         
@@ -140,7 +141,95 @@ struct HomeView: View {
     
     @State private var showMedicineDetails = false
     @State private var showConfirmView = false
+    @State private var speechSynthesizer = AVSpeechSynthesizer()
     
+    func speakHomePage() {
+
+        speechSynthesizer.stopSpeaking(at: .immediate)
+
+        let dateText = Date().formatted(
+            .dateTime
+                .weekday(.wide)
+                .day()
+                .month(.wide)
+        )
+
+        speakText(dateText)
+
+        speakText("Welcome")
+
+        if let medicine = nextMedicine {
+
+            let medicineTime = medicine.firstTime.formatted(
+                date: .omitted,
+                time: .shortened
+            )
+
+            speakText("Next medicine")
+
+            speakText(medicine.name)
+
+            speakText("At \(medicineTime)")
+
+        } else {
+
+            speakText("Next medicine. No upcoming medicine")
+        }
+
+        if let appointment = nextAppointment {
+
+            let appointmentDate = appointment.date.formatted(
+                .dateTime
+                    .day()
+                    .month(.wide)
+            )
+
+            let appointmentTime = appointment.time.formatted(
+                date: .omitted,
+                time: .shortened
+            )
+
+            speakText("Next appointment")
+
+            speakText(appointmentDate)
+
+            speakText("At \(appointmentTime)")
+
+            speakText("Hospital")
+
+            speakText(appointment.hospitalName)
+
+        } else {
+
+            speakText("Next appointment. No upcoming appointment")
+        }
+    }
+    func speakText(_ text: String) {
+
+        let utterance = AVSpeechUtterance(string: text)
+
+        if text.range(
+            of: "[\\u0600-\\u06FF]",
+            options: .regularExpression
+        ) != nil {
+
+            utterance.voice = AVSpeechSynthesisVoice(
+                language: "ar-SA"
+            )
+
+        } else {
+
+            utterance.voice = AVSpeechSynthesisVoice(
+                language: "en-US"
+            )
+        }
+
+        utterance.rate = 0.42
+        utterance.pitchMultiplier = 1.0
+        utterance.volume = 1.0
+
+        speechSynthesizer.speak(utterance)
+    }
     var body: some View {
 
         ZStack {
@@ -152,20 +241,31 @@ struct HomeView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 30) {
-                VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        
+                        Text(Date(), format: .dateTime.weekday(.wide).day().month(.wide))
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                        
+                        Text("Welcome")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(
+                                Color(red: 96/255,
+                                      green: 157/255,
+                                      blue: 220/255)
+                            )
+                    }
 
-                    Text(Date(), format: .dateTime.weekday(.wide).day().month(.wide))
-                        .font(.headline)
-                        .foregroundColor(.gray)
-
-                    Text("Welcome")
-                        .font(.system(size: 30, weight: .bold))
-                        .foregroundColor(
-                            Color(red: 96/255,
-                                  green: 157/255,
-                                  blue: 220/255)
-                        )
-                }
+                    Spacer()
+                    Button {
+                        speakHomePage()
+                    } label: {
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.system(size: 24))
+                    }
+                    }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 20)
                 .padding(.top, 70)
