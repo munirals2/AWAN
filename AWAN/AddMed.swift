@@ -37,10 +37,22 @@ struct AddMed: View {
 
     @State private var showSaved = false
 
-    let doseOptions = ["1", "2", "3", "Other"]
-
+    let doseOptions = [
+        "1",
+        "2",
+        "3",
+        String(localized: "Other")
+    ]
     // Weekday buttons shown Sun...Sat, matching Calendar's 1-7 weekday numbering
-    let weekdaySymbols = ["S", "M", "T", "W", "T", "F", "S"]
+    let weekdaySymbols = [
+        String(localized: "SunLetter"),
+        String(localized: "MonLetter"),
+        String(localized: "TueLetter"),
+        String(localized: "WedLetter"),
+        String(localized: "ThuLetter"),
+        String(localized: "FriLetter"),
+        String(localized: "SatLetter")
+    ]
 
     var body: some View {
         // The header is OUTSIDE the ScrollView on purpose:
@@ -113,10 +125,7 @@ struct AddMed: View {
 
             // Top row: circular back button + centered title
             ZStack {
-                Text("Add Medicine")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
+        
 
                 HStack {
                     Button(action: {
