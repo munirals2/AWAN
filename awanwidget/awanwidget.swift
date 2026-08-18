@@ -95,6 +95,8 @@ struct AwanProvider: TimelineProvider {
 
 // MARK: - Widget View
 
+// MARK: - Widget View
+
 struct AwanWidgetEntryView: View {
     
     var entry: AwanProvider.Entry
@@ -107,7 +109,7 @@ struct AwanWidgetEntryView: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 
-                Text("Next Medicine")
+                Text(LocalizedStringKey("Next Medicine"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.white.opacity(0.9))
                 
@@ -131,7 +133,7 @@ struct AwanWidgetEntryView: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 
-                Text("Next Appointment")
+                Text(LocalizedStringKey("Next Appointment"))
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.white.opacity(0.9))
                 
@@ -163,7 +165,6 @@ struct AwanWidgetEntryView: View {
         )
     }
 }
-
 
 // MARK: - Widget
 

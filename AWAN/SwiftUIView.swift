@@ -28,8 +28,8 @@ let onboardPages: [OnboardPage] = [
 
     OnboardPage(
         image: "OLD",
-        title: "Never Miss\nYour Medication",
-        subtitle: "We'll remind you at the right time so you never forget your medicine."
+        title: String(localized: "Never Miss\nYour Medication"),
+        subtitle: String(localized: "We'll remind you at the right time so you never forget your medicine.")
     ),
 
     OnboardPage(

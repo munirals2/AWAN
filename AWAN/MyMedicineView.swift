@@ -35,22 +35,42 @@ struct MyMedicineView: View {
 
     private func badge(for medicine: Medicine) -> (text: String, color: Color) {
         switch medicine.status {
+
         case .taken:
-            return ("Taken", Color(red: 120/255, green: 200/255, blue: 130/255))
+            return (
+                NSLocalizedString("Taken", comment: ""),
+                Color(red: 120/255, green: 200/255, blue: 130/255)
+            )
+
         case .skipped:
-            return ("Skipped", Color.gray)
+            return (
+                NSLocalizedString("Skipped", comment: ""),
+                Color.gray
+            )
+
         case .pending:
             if medicine.id == nextPendingID {
-                return ("Now", blue)
+                return (
+                    NSLocalizedString("Now", comment: ""),
+                    blue
+                )
             }
+
             let hoursAway = medicine.firstTime.timeIntervalSinceNow / 3600
+
             if hoursAway >= 0 && hoursAway <= 3 {
-                return ("Soon", Color(red: 255/255, green: 180/255, blue: 90/255))
+                return (
+                    NSLocalizedString("Soon", comment: ""),
+                    Color(red: 255/255, green: 180/255, blue: 90/255)
+                )
             }
-            return ("Later", Color.gray)
+
+            return (
+                NSLocalizedString("Later", comment: ""),
+                Color.gray
+            )
         }
     }
-
     private func timeString(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"

@@ -89,14 +89,16 @@ enum FrequencyType: String, Codable, CaseIterable {
     case weekly   // on specific days of the week, at firstTime
     case hourly   // repeats every X hours starting at firstTime
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .hourly: return "Hourly"
+        case .daily:
+            return "Daily"
+        case .weekly:
+            return "Weekly"
+        case .hourly:
+            return "Hourly"
         }
-    }
-}
+    }}
 
 //Medicine with Status
 struct Medicine: Identifiable, Codable {

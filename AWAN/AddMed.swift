@@ -1,4 +1,4 @@
-//
+
 //  AddMed.swift
 //  AWAN
 //
@@ -70,8 +70,9 @@ struct AddMed: View {
 
                     sectionTitle("First dose time", "clock")
                     timeCard
-
+                    
                     sectionTitle("Repeats", "repeat")
+                    
                     frequencyPicker
 
                     // Only one of these shows, depending on the picked frequency
@@ -458,10 +459,11 @@ struct AddMed: View {
             .cornerRadius(12)
     }
 
-    func sectionTitle(_ text: String, _ icon: String) -> some View {
+    func sectionTitle(_ text: LocalizedStringKey, _ icon: String) -> some View {
         HStack(spacing: 6){
             Image(systemName: icon)
                 .font(.system(size: 14))
+
             Text(text)
                 .font(.system(size: 15))
                 .fontWeight(.semibold)
@@ -498,3 +500,4 @@ struct AddMed: View {
         AddMed(store: MedicineStore())
     }
 }
+

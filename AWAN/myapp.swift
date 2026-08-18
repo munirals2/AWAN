@@ -26,11 +26,11 @@ struct myapp: View {
         let count = upcomingAppointments.count
 
         if count == 0 {
-            return "You have no upcoming appointments"
+            return String(localized: "You have no upcoming appointments")
         } else if count == 1 {
-            return "You have 1 upcoming appointment"
+            return String(localized: "You have 1 upcoming appointment")
         } else {
-            return "You have \(count) upcoming appointments"
+            return String(localized: "You have \(count) upcoming appointments")
         }
     }
     

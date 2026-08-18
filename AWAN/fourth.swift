@@ -333,7 +333,7 @@ struct HomeView: View {
                                 
                                 
                                 Text(
-                                    nextMedicine?.name ?? "No upcoming medicine"
+                                    nextMedicine?.name ?? String(localized: "No upcoming medicine")
                                 )
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundColor(
@@ -459,8 +459,11 @@ struct HomeView: View {
                                 
                                 Text(
                                     nextAppointment?.date.formatted(
-                                        .dateTime.day().month(.wide)
-                                    ) ?? "No upcoming appointment"
+                                        .dateTime
+                                            .day()
+                                            .month(.wide)
+                                            .locale(Locale.current)
+                                    ) ?? String(localized: "No upcoming appointment")
                                 )
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundColor(

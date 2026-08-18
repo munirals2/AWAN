@@ -209,8 +209,21 @@ struct SchedulePage: View {
                                 }
 
                                 HStack {
-                                    ForEach(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], id: \.self) { day in
-                                        Text(day).frame(maxWidth: .infinity).foregroundStyle(accentColor)
+                                    ForEach(
+                                        [
+                                            String(localized: "Sun"),
+                                            String(localized: "Mon"),
+                                            String(localized: "Tue"),
+                                            String(localized: "Wed"),
+                                            String(localized: "Thu"),
+                                            String(localized: "Fri"),
+                                            String(localized: "Sat")
+                                        ],
+                                        id: \.self
+                                    ) { day in
+                                        Text(day)
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(accentColor)
                                     }
                                 }
                                 .font(.caption)
@@ -243,7 +256,12 @@ struct SchedulePage: View {
                         )
 
                     // Hospital name field
-                    appointmentField(placeholder: "Enter hospital name", label: "Hospital name", icon: "building.2.fill", text: $hospitalName)
+                    appointmentField(
+                     placeholder: String(localized: "Enter hospital name"),
+                     label: String(localized: "Hospital name"),
+                     icon: "building.2.fill",
+                     text: $hospitalName
+                    )
 
                     // Time field
                     HStack {
@@ -268,7 +286,12 @@ struct SchedulePage: View {
                     }
 
                     // Reason field
-                    appointmentField(placeholder: "Enter visit reason", label: "Visit reason", icon: "clipboard.fill", text: $visitReason)
+                    appointmentField(
+                     placeholder: String(localized: "Enter visit reason"),
+                     label: String(localized: "Visit reason"),
+                     icon: "clipboard.fill",
+                     text: $visitReason
+                    )
 
                     // Reminder toggle
                     HStack {
