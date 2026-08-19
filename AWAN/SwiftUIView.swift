@@ -34,14 +34,14 @@ let onboardPages: [OnboardPage] = [
 
     OnboardPage(
         image: "OLD2",
-        title: "Organize Your\nMedical Appointments",
-        subtitle: "Keep all your medical appointments in one place for easy tracking."
+        title: String(localized: "Organize Your\nMedical Appointments"),
+        subtitle: String(localized: "Keep all your medical appointments in one place for easy tracking.")
     ),
 
     OnboardPage(
         image: "grand",
-        title: "Welcome",
-        subtitle: "We help you easily remember your medications and appointments."
+        title: String(localized: "Welcome"),
+        subtitle: String(localized: "We help you easily remember your medications and appointments.")
     )
 ]
 

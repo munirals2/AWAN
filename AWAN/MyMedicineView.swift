@@ -80,24 +80,29 @@ struct MyMedicineView: View {
     // Human-readable frequency line under the medicine name
     private func frequencyString(for medicine: Medicine) -> String {
         switch medicine.frequencyType {
+
         case .daily:
-            return "Daily"
+            return String(localized: "Daily")
+
         case .hourly:
-            return "Every \(medicine.everyHours)h"
+            return String(localized: "Every \(medicine.everyHours)h")
+
         case .weekly:
             if medicine.weeklyDays.isEmpty {
-                return "Weekly"
+                return String(localized: "Weekly")
             }
+
             let names = medicine.weeklyDays
                 .sorted()
                 .compactMap { day -> String? in
                     guard day >= 1 && day <= 7 else { return nil }
+
                     return weekdayNames[day - 1]
                 }
+
             return names.joined(separator: ", ")
         }
     }
-
     var body: some View {
         ZStack {
             // Background

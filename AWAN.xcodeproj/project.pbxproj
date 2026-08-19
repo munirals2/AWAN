@@ -264,7 +264,7 @@
 				CODE_SIGN_ENTITLEMENTS = awanwidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZDTJ587M84;
+				DEVELOPMENT_TEAM = N27BL3SH37;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = awanwidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = awanwidget;
@@ -275,7 +275,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN.awanwidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tumadhir.AWAN.awanwidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -295,7 +295,7 @@
 				CODE_SIGN_ENTITLEMENTS = awanwidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZDTJ587M84;
+				DEVELOPMENT_TEAM = N27BL3SH37;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = awanwidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = awanwidget;
@@ -306,7 +306,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN.awanwidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tumadhir.AWAN.awanwidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -447,7 +447,7 @@
 				CODE_SIGN_ENTITLEMENTS = AWAN/AWAN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZDTJ587M84;
+				DEVELOPMENT_TEAM = N27BL3SH37;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -460,7 +460,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tumadhir.AWAN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -480,7 +480,7 @@
 				CODE_SIGN_ENTITLEMENTS = AWAN/AWAN.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZDTJ587M84;
+				DEVELOPMENT_TEAM = N27BL3SH37;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -493,7 +493,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.munira.AWAN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tumadhir.AWAN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
